@@ -1,10 +1,11 @@
-// Load in dependencies
-var assert = require('assert');
-var googleMusic = require('../');
+var By = require('selenium-webdriver').By;
+var until = require('selenium-webdriver').until;
+var firefox = require('selenium-webdriver/firefox');
 
-// Start our tests
-describe('google-music', function () {
-  it('returns awesome', function () {
-    assert.strictEqual(googleMusic(), 'awesome');
-  });
-});
+var driver = new firefox.Driver();
+
+driver.get('http://www.google.com/ncr');
+driver.findElement(By.name('q')).sendKeys('webdriver');
+driver.findElement(By.name('btnG')).click();
+driver.wait(until.titleIs('webdriver - Google Search'), 1000);
+driver.quit();
