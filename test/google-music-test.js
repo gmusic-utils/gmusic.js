@@ -1,16 +1,23 @@
+// Load in our dependencies
 var assert = require('assert');
-var webdriver = require('selenium-webdriver');
+var browser = require('wd').remote();
 
-describe('Google Search', function() {
-  it('should work', function() {
-    var driver = new webdriver.Builder().build();
-
-    var searchBox = driver.findElement(webdriver.By.name('q'));
-    searchBox.sendKeys('webdriver');
-    searchBox.getAttribute('value').then(function(value) {
-      assert.equal(value, 'webdriver');
+// Control a browser
+browser.init({browserName: 'chrome'}, function() {
+  browser.get("http://admc.io/wd/test-pages/guinea-pig.html", function() {
+    browser.title(function handleTitle (err, title) {
+      // title.should.include('WD');
+      console.log(title);
+      browser.elementById('i am a link', function handleLink (err, el) {
+        browser.clickElement(el, function() {
+          /* jshint evil: true */
+          browser.eval("window.location.href", function handleEval (err, href) {
+            console.log(href);
+            // href.should.include('guinea-pig2');
+            browser.quit();
+          });
+        });
+      });
     });
-
-    driver.quit();
   });
 });

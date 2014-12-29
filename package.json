@@ -37,8 +37,8 @@
     "jshint": "~2.5.10",
     "mocha": "~1.11.0",
     "protractor": "~1.5.0",
-    "selenium-webdriver": "~2.44.0",
-    "twolfson-style": "~1.6.0"
+    "twolfson-style": "~1.6.0",
+    "wd": "~0.3.11"
   },
   "keywords": [
     "google music",
