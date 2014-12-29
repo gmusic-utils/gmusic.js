@@ -1,57 +1,23 @@
-[Radiant Player for Google Play Music™][1]
-=========================
+# google-music.js
 
-![](https://raw.github.com/kbhomes/radiant-player-mac/gh-pages/images/application.png)
+Browser-side JS library for controlling [Google Music][].
 
-Turn Google Play Music into a separate, beautiful application that integrates with your Mac.
+[Google Music]: https://play.google.com/music/
 
-Developed by [Sajid Anwar][2]. Originally created by [James Fator][3] at [JamesFator/GoogleMusicMac][4]. 
+This was built as part of [google-music-webkit][], a [node-webkit][] wrapper around [Google Music][]. It was forked from [radiant-player-mac@v1.3.1][], developed and created by [Sajid Anwar][] and [James Fator][] to make it reusable and well tested.
 
-No affiliation with Google. Google Play is a trademark of Google Inc.
+[google-music-webkit]: https://github.com/twolfson/google-music-webkit
+[node-webkit]: https://github.com/rogerwang/node-webkit
+[radiant-player-mac@v1.3.1]: https://github.com/kbhomes/radiant-player-mac/tree/v1.3.1
+[Sajid Anwar]: https://github.com/kbhomes/
+[James Fator]: http://jamesfator.com/
 
-[1]: http://kbhomes.github.io/radiant-player-mac/
-[2]: https://github.com/kbhomes/
-[3]: http://jamesfator.com/
-[4]: https://github.com/JamesFator/GoogleMusicMac
+## License
+All files were originally licensed at `5ccfa7b3c7bc5231284f8e42c6a2f2e7fe1e1532` under the MIT license. This can be viewed its [`LICENSE.md`][]. It has been renamed to [LICENSE-MIT][] for ease of disambiguity.
 
-Requirements
-------------
+[`LICENSE.md`]: https://github.com/twolfson/google-music.js/blob/5ccfa7b3c7bc5231284f8e42c6a2f2e7fe1e1532/LICENSE.md
+[LICENSE-MIT]: LICENSE-MIT
 
-* Mac OS X 10.8 or later
-* [Adobe Flash Player for Mac OS X][5]
+After this commit, all alterations made by Todd Wolfson and future contributors are released to the Public Domain under the [UNLICENSE][].
 
-[5]: http://get.adobe.com/flashplayer/
-
-Development
------------
-
-This project uses [CocoaPods][6] to handle its dependencies, though it may be cloned 
-and developed without having CocoaPods installed. Just be sure to open 
-`radiant-player-mac.xcworkspace` instead of `radiant-player-mac.xcodeproj` in order to 
-correctly pull in the dependencies into Xcode.
-
-[6]: http://cocoapods.org/
-
-License
--------
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Sajid Anwar
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+[UNLICENSE]: UNLICENSE
