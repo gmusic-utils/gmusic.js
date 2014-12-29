@@ -1,11 +1,16 @@
-var By = require('selenium-webdriver').By;
-var until = require('selenium-webdriver').until;
-var firefox = require('selenium-webdriver/firefox');
+var assert = require('assert');
+var webdriver = require('selenium-webdriver');
 
-var driver = new firefox.Driver();
+describe('Google Search', function() {
+  it('should work', function() {
+    var driver = new webdriver.Builder().build();
 
-driver.get('http://www.google.com/ncr');
-driver.findElement(By.name('q')).sendKeys('webdriver');
-driver.findElement(By.name('btnG')).click();
-driver.wait(until.titleIs('webdriver - Google Search'), 1000);
-driver.quit();
+    var searchBox = driver.findElement(webdriver.By.name('q'));
+    searchBox.sendKeys('webdriver');
+    searchBox.getAttribute('value').then(function(value) {
+      assert.equal(value, 'webdriver');
+    });
+
+    driver.quit();
+  });
+});
