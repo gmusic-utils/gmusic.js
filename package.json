@@ -28,7 +28,7 @@
   "scripts": {
     "precheck": "twolfson-style precheck lib/ test/",
     "lint": "twolfson-style lint lib/ test/",
-    "pretest": "twolfson-style install",
+    "_pretest": "twolfson-style install",
     "test": "npm run precheck && mocha --reporter dot && npm run lint"
   },
   "dependencies": {},
