@@ -27,8 +27,16 @@ browser.init({browserName: 'chrome'}, function () {
       browser.get('https://play.google.com/music/listen', function () {
         // Load in the scripts in order
         // https://github.com/kbhomes/radiant-player-mac/blob/83f3622977f7b4b3f451422f9b025b03fb385ad6/radiant-player-mac/AppDelegate.m#L874-L894
-        var scripts = ['main.js', 'keyboard.js', 'mouse.js', 'navigation.js', 'appbar.js'];
-        async.map(scripts, fs.readFile, function handleScriptContents (err, scriptContents) {
+        var scripts = [
+          __dirname + '/../lib/main.js',
+          __dirname + '/../lib/keyboard.js',
+          __dirname + '/../lib/mouse.js',
+          __dirname + '/../lib/navigation.js',
+          __dirname + '/../lib/appbar.js'
+        ];
+        async.map(scripts, function loadScript (filepath, cb) {
+          fs.readFile(filepath, 'utf8', cb);
+        }, function handleScriptContents (err, scriptContents) {
           // If there was an error, throw it
           if (err) {
             throw err;
