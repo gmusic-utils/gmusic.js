@@ -25,15 +25,30 @@ describe('A new session with Google Music', function () {
         }
       };
     });
-    browserUtils.execute(function playMusic () {
+    before(function playMusic (done) {
+      // Find and click the I'm Feeling Lucky mix
+      var browser = this.browser;
+      browser.elementByCssSelector('[data-type=imfl]', function handleElement (err, el) {
+        // If there was an error, callback with it
+        if (err) {
+          return done(err);
+        }
 
+        // Otherwise, click our element
+        browser.click(el, done);
+      });
+    });
+    // TODO: Should we wait for playback to start?
+    browserUtils.execute(function playMusic () {
+      return window.playbackMode;
     });
 
     it('lists the music as playing', function () {
-
+      console.log(this.result);
+      expect(this.result).to.equal(2 /* PLAYING */);
     });
 
-    describe('and pause it', function () {
+    describe.skip('and pause it', function () {
       it('lists the music as paused', function () {
 
       });
