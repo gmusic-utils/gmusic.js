@@ -22,6 +22,9 @@ browser.allCookies(function (err, cookies) { console.log(JSON.stringify(cookies,
 // https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-492/
 // Credentials: musopen@mt2014.com / password
 
+// Music cannot be uploaded via webdriver instance nor incognito window
+// If you don't want to contaminate your personal account, try a new Google account and profile in Chrome
+
 var cookies = require('./cookies');
 
 // Open Google Music
