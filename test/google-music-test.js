@@ -24,16 +24,24 @@ var cookies = require('./cookies');
 browser.init({browserName: 'chrome'}, function () {
   browser.get('https://play.google.com/music/listen', function () {
     async.forEach(cookies, function setCookies (cookie, cb) {
-      browser.setCookie(cookie, cb);
+      // If the cookie is not for .google.com, skip it
+      if (cookie.domain !== '.google.com') {
+        process.nextTick(cb);
+      // Otherwise, set it
+      } else {
+        browser.setCookie(cookie, cb);
+      }
     }, function handleSetCookies (err) {
       // If there was an error, throw it
       if (err) {
         throw err;
       }
 
-      // Otherwise, continue
-      browser.title(function handleTitle (err, title) {
-        console.log(title);
+      // Otherwise, navigate back to Google Music
+      browser.get('https://play.google.com/music/listen', function () {
+        browser.title(function handleTitle (err, title) {
+          console.log(title);
+        });
       });
     });
       // // title.should.include('WD');
