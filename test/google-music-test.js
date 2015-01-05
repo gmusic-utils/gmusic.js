@@ -30,9 +30,7 @@ browser.init({browserName: 'chrome'}, function () {
         var scripts = [
           __dirname + '/../lib/main.js',
           __dirname + '/../lib/keyboard.js',
-          __dirname + '/../lib/mouse.js',
-          __dirname + '/../lib/navigation.js',
-          __dirname + '/../lib/appbar.js'
+          __dirname + '/../lib/mouse.js'
         ];
         async.map(scripts, function loadScript (filepath, cb) {
           fs.readFile(filepath, 'utf8', cb);
