@@ -25,6 +25,9 @@ describe('A new session with Google Music', function () {
         }
       };
     });
+    // before(function waitForABit (done) {
+    //   setTimeout(done, 5000);
+    // });
     before(function playMusic (done) {
       // Find and click the I'm Feeling Lucky mix
       var browser = this.browser;
@@ -35,7 +38,7 @@ describe('A new session with Google Music', function () {
         }
 
         // Otherwise, click our element
-        browser.click(el, done);
+        browser.click(el[0], done);
       });
     });
     // TODO: Should we wait for playback to start?
