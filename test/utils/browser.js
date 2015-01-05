@@ -96,6 +96,7 @@ exports.execute = function () {
   // Run the mocha bindings
   exports.assertBrowser();
   before(function runExecute (done) {
+    console.log(args);
     // Add on a callback to the arguments
     var that = this;
     args.push(function handleResult (err, result) {
