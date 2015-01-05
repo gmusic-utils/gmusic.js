@@ -18,9 +18,9 @@ var cookies = JSON.parse(cookiesJson);
 // https://github.com/kbhomes/radiant-player-mac/blob/83f3622977f7b4b3f451422f9b025b03fb385ad6/radiant-player-mac/AppDelegate.m#L874-L894
 // TODO: Use bundled script instead of these one-offs
 var scripts = [
-  fs.readFileSync(__dirname + '/../lib/main.js', 'utf8'),
-  fs.readFileSync(__dirname + '/../lib/keyboard.js', 'utf8'),
-  fs.readFileSync(__dirname + '/../lib/mouse.js', 'utf8')
+  fs.readFileSync(__dirname + '/../../lib/main.js', 'utf8'),
+  fs.readFileSync(__dirname + '/../../lib/keyboard.js', 'utf8'),
+  fs.readFileSync(__dirname + '/../../lib/mouse.js', 'utf8')
 ];
 
 // Define helpers for interacting with the browser

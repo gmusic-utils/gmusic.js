@@ -1,4 +1,10 @@
+// Load in dependencies
+var browserUtils = require('./utils/browser');
+
+// Start our tests
 describe('A new session with Google Music', function () {
+  browserUtils.openMusic();
+
   it('is not playing any music', function () {
 
   });
