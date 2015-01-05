@@ -23,6 +23,13 @@ googleMusic(); // 'awesome'
 ## Documentation
 _(Coming soon)_
 
+**Untested:**
+
+- toggleVisualization
+- getRating
+- getSongURL
+- setStarRating
+
 ## Examples
 _(Coming soon)_
 
