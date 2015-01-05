@@ -2,8 +2,11 @@
 var browserUtils = require('./utils/browser');
 
 // Start our tests
-describe('A new session with Google Music', function () {
+describe.skip('A new session with Google Music', function () {
   browserUtils.openMusic();
+  browserUtils.execute(function getPlayPauseStatus () {
+    return window.MusicAPI;
+  });
 
   it('is not playing any music', function () {
 
