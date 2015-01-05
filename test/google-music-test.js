@@ -18,6 +18,10 @@ browser.get('https://play.google.com/music/listen', console.log);
 browser.allCookies(function (err, cookies) { console.log(JSON.stringify(cookies, null, 4))});
 */
 
+// Downloaded music via musopen
+// https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-492/
+// Credentials: musopen@mt2014.com / password
+
 var cookies = require('./cookies');
 
 // Open Google Music
