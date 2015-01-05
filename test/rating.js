@@ -4,7 +4,7 @@ describe.skip('An unrated track in Google Music', function () {
   });
 });
 
-describe('A track in Google Music', function () {
+describe.skip('A track in Google Music', function () {
   describe('when \'thumbs up\'-ed', function () {
     it('has a high rating', function () {
 
