@@ -31,14 +31,23 @@ describe('A new session with Google Music', function () {
     before(function playMusic (done) {
       // Find and click the I'm Feeling Lucky mix
       var browser = this.browser;
-      browser.elementByCssSelector('[data-type=imfl]', function handleElement (err, el) {
+      browser.elementByCssSelector('[data-type=imfl]', function handleElement (err, elArr) {
         // If there was an error, callback with it
         if (err) {
           return done(err);
         }
 
-        // Otherwise, click our element
-        browser.click(el[0], done);
+        // Otherwise, hover the element
+        var el = elArr[0];
+        browser.moveTo(el, function handleHover (err) {
+          // If there was an error, callback with it
+          if (err) {
+            return done(err);
+          }
+
+          // Otherwise, click our element
+          browser.click(el, done);
+        });
       });
     });
     // TODO: Should we wait for playback to start?
