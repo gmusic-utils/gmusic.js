@@ -1,6 +1,7 @@
 // Load in dependencies
 var assert = require('assert');
 var fs = require('fs');
+var functionToString = require('function-to-string');
 var async = require('async');
 var wd = require('wd');
 
@@ -74,9 +75,26 @@ exports.openMusic = function (options) {
   });
 };
 
+// Helper to assert we have a browser started always
+exports.assertBrowser = function () {
+  before(function assertBrowser () {
+    assert(this.browser, '`this.browser` is not defined. Please make sure `browserUtils.openMusic()` has been run.');
+  });
+};
+
 // TODO: Consider creating `mocha-wd`
 exports.execute = function () {
+  // Save arguments in an array
   var args = [].slice.call(arguments);
+
+  // If the first argument is a function, coerce it to a string
+  var evalFn = args[0];
+  if (typeof evalFn === 'function') {
+    args[0] = functionToString(evalFn).body;
+  }
+
+  // Run the mocha bindings
+  exports.assertBrowser();
   before(function runExecute (done) {
     // Add on a callback to the arguments
     var that = this;
