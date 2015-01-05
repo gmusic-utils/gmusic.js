@@ -37,3 +37,17 @@ describe('A Google Music instance not playing music', function () {
     });
   });
 });
+
+describe('A Google Music instance playing music (via manual click)', function () {
+  describe('when paused via our API', function () {
+    it('is paused', function () {
+
+    });
+
+    describe('when played via our API', function () {
+      it('is playing', function () {
+
+      });
+    });
+  });
+});
