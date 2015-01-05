@@ -1,4 +1,4 @@
-describe('A Google Music instance with shuffle and repeat off', function () {
+describe.skip('A Google Music instance with shuffle and repeat off', function () {
   it('has shuffle off', function () {
 
   });

@@ -1,4 +1,4 @@
-describe('Google Music', function () {
+describe.skip('Google Music', function () {
   it('has a volume amount', function () {
     describe('when volume is increased', function () {
       it('has an increased volume', function () {

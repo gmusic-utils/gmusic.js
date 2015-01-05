@@ -3,7 +3,7 @@ describe('A new session with Google Music', function () {
 
   });
 
-  describe('when we are playing music', function () {
+  describe.skip('when we are playing music', function () {
     it('lists the music as playing', function () {
 
     });
