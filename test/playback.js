@@ -8,6 +8,18 @@ describe.skip('A Google Music instance playing music (via manual click)', functi
       it('is playing', function () {
 
       });
+
+      describe('playing the next track', function () {
+        it('changes songs', function () {
+
+        });
+
+        describe('playing the previous track', function () {
+          it('goes back to the original song', function () {
+
+          });
+        });
+      });
     });
   });
 });

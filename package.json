@@ -29,7 +29,7 @@
     "precheck": "twolfson-style precheck lib/ test/",
     "lint": "twolfson-style lint lib/ test/",
     "_pretest": "twolfson-style install",
-    "test": "mocha --reporter dot && npm run lint",
+    "test": "mocha --timeout 10000 --reporter dot && npm run lint",
     "webdriver-manager-start": "webdriver-manager start"
   },
   "dependencies": {},
