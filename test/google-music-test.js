@@ -3,28 +3,6 @@ var assert = require('assert');
 var async = require('async');
 var browser = require('wd').remote();
 
-// Dump cookies via node CLI
-/*
-node
-
-// Inside of CLI
-var browser = require('wd').remote();
-browser.init({browserName: 'chrome'}, console.log);
-// Wait for browser window to open
-browser.get('https://play.google.com/music/listen', console.log);
-// Wait for redirect to accounts.google.com
-// Manually log in to page
-// When you are logged in to Google Music, dump the output of the following into `cookies.json`
-browser.allCookies(function (err, cookies) { console.log(JSON.stringify(cookies, null, 4))});
-*/
-
-// Downloaded music via musopen
-// https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-492/
-// Credentials: musopen@mt2014.com / password
-
-// Music cannot be uploaded via webdriver instance nor incognito window
-// If you don't want to contaminate your personal account, try a new Google account and profile in Chrome
-
 var cookies = require('./cookies');
 
 // Open Google Music

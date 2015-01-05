@@ -29,6 +29,34 @@ _(Coming soon)_
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
+### Testing
+// TODO: Formalize me
+
+```
+// Dump cookies via node CLI
+/*
+node
+
+// Inside of CLI
+var browser = require('wd').remote();
+browser.init({browserName: 'chrome'}, console.log);
+// Wait for browser window to open
+browser.get('https://play.google.com/music/listen', console.log);
+// Wait for redirect to accounts.google.com
+// Manually log in to page
+// When you are logged in to Google Music, dump the output of the following into `test/cookies.json`
+browser.allCookies(function (err, cookies) { console.log(JSON.stringify(cookies, null, 4))});
+*/
+
+// Downloaded music via musopen
+// https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-492/
+// Credentials: musopen@mt2014.com / password
+
+// Music cannot be uploaded via webdriver instance nor incognito window
+// If you don't want to contaminate your personal account, try a new Google account and profile in Chrome
+
+```
+
 ## Donating
 Support this project and [others by twolfson][gratipay] via [gratipay][].
 
