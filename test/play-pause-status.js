@@ -1,14 +1,19 @@
 // Load in dependencies
+var expect = require('chai').expect;
 var browserUtils = require('./utils/browser');
 
 // Start our tests
-describe.skip('A new session with Google Music', function () {
+describe('A new session with Google Music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getPlayPauseStatus () {
-    return window.MusicAPI;
+    return !!window.MusicAPI;
   });
 
-  it('is not playing any music', function () {
+  it('has a Google Music API', function () {
+    expect(this.result).to.equal(true);
+  });
+
+  it.skip('is not playing any music', function () {
 
   });
 

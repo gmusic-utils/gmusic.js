@@ -1,4 +1,4 @@
-describe('A Google Music instance playing music (via manual click)', function () {
+describe.skip('A Google Music instance playing music (via manual click)', function () {
   describe('when paused via our API', function () {
     it('is paused', function () {
 

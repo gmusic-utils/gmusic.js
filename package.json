@@ -35,6 +35,7 @@
   "dependencies": {},
   "devDependencies": {
     "async": "~0.9.0",
+    "chai": "~1.10.0",
     "function-to-string": "~0.2.0",
     "jscs": "~1.7.3",
     "jshint": "~2.5.10",
