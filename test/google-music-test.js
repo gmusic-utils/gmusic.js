@@ -1,5 +1,6 @@
 // Load in our dependencies
 var assert = require('assert');
+var fs = require('fs');
 var async = require('async');
 var browser = require('wd').remote();
 
@@ -24,23 +25,31 @@ browser.init({browserName: 'chrome'}, function () {
 
       // Otherwise, navigate back to Google Music
       browser.get('https://play.google.com/music/listen', function () {
-        browser.title(function handleTitle (err, title) {
-          console.log(title);
+        // Load in the scripts in order
+        // https://github.com/kbhomes/radiant-player-mac/blob/83f3622977f7b4b3f451422f9b025b03fb385ad6/radiant-player-mac/AppDelegate.m#L874-L894
+        var scripts = ['main.js', 'keyboard.js', 'mouse.js', 'navigation.js', 'appbar.js'];
+        async.map(scripts, fs.readFile, function handleScriptContents (err, scriptContents) {
+          // If there was an error, throw it
+          if (err) {
+            throw err;
+          }
+
+          // Otherwise, eval each script in order
+          async.forEachSeries(scriptContents, function evalScript (scriptContent, cb) {
+            browser.execute(scriptContent, cb);
+          }, function handleEvals (err) {
+            // If there was an error, throw it
+            if (err) {
+              throw err;
+            }
+
+            // Otherwise, continue
+            browser.title(function handleTitle (err, title) {
+              console.log(title);
+            });
+          });
         });
       });
     });
-      // // title.should.include('WD');
-      // console.log(title);
-      // browser.elementById('i am a link', function handleLink (err, el) {
-      //   browser.clickElement(el, function() {
-      //     /* jshint evil: true */
-      //     browser.eval("window.location.href", function handleEval (err, href) {
-            // console.log(href);
-            // href.should.include('guinea-pig2');
-            // browser.quit();
-    //       });
-    //     });
-    //   });
-    // });
   });
 });
