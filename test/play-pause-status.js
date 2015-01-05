@@ -39,7 +39,7 @@ describe('A new session with Google Music', function () {
 
         // Otherwise, hover the element
         var el = elArr[0];
-        browser.moveTo(el, function handleHover (err) {
+        browser.moveTo(el, null, null, function handleHover (err) {
           // If there was an error, callback with it
           if (err) {
             return done(err);
