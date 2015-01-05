@@ -4,7 +4,7 @@ var browserUtils = require('./utils/browser');
 
 // Start our tests
 describe('A new session with Google Music', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({killBrowser: false});
   browserUtils.execute(function getPlayPauseStatus () {
     return !!window.MusicAPI;
   });
@@ -17,7 +17,18 @@ describe('A new session with Google Music', function () {
 
   });
 
-  describe.skip('when we are playing music', function () {
+  describe('when we are playing music', function () {
+    browserUtils.execute(function setupPlaybackWatcher () {
+      window.GoogleMusicApp = {
+        playbackChanged: function saveMode (mode) {
+          window.playbackMode = mode;
+        }
+      };
+    });
+    browserUtils.execute(function playMusic () {
+
+    });
+
     it('lists the music as playing', function () {
 
     });

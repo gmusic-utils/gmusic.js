@@ -64,7 +64,7 @@ exports.openMusic = function (options) {
 
   // If we want to want to kill the session, clean it up
   // DEV: This is useful for inspecting state of a session
-  var killBrowser = !options.dontKillBrowser;
+  var killBrowser = options.killBrowser === undefined ? true : options.killBrowser;
   if (killBrowser) {
     after(function killBrowserFn (done) {
       this.browser.quit(done);
