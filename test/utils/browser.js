@@ -66,9 +66,30 @@ exports.openMusic = function (options) {
   var killBrowser = !options.dontKillBrowser;
   if (killBrowser) {
     after(function killBrowserFn (done) {
-      var browser = this.browser;
-      delete this.browser;
-      browser.quit(done);
+      this.browser.quit(done);
     });
   }
+  after(function cleanup () {
+    delete this.browser;
+  });
+};
+
+// TODO: Consider creating `mocha-wd`
+exports.execute = function () {
+  var args = [].slice.call(arguments);
+  before(function runExecute (done) {
+    // Add on a callback to the arguments
+    var that = this;
+    args.push(function handleResult (err, result) {
+      // Save the result and callback
+      that.result = result;
+      done(err);
+    });
+
+    // Execute our request
+    this.browser.execute.apply(this.browser, args);
+  });
+  after(function cleanup () {
+    delete this.result;
+  });
 };
