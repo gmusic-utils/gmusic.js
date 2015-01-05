@@ -57,6 +57,7 @@ describe('A new session with Google Music', function () {
 
     it('lists the music as playing', function () {
       console.log(this.result);
+      // TODO: Something is borked and we need faster iteration. Take what we have gone and go to the node CLI.
       expect(this.result).to.equal(2 /* PLAYING */);
     });
 
