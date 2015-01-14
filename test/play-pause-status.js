@@ -46,7 +46,7 @@ describe('A new session with Google Music', function () {
           }
 
           // Otherwise, click our element
-          browser.click(el, done);
+          browser.click(0, done);
         });
       });
     });
