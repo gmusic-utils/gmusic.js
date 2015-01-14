@@ -26,14 +26,10 @@ describe('A new session with Google Music', function () {
         }
       };
     });
-    before(function waitForUI (done) {
-      // TODO: Wait for `imfl` to load instead
-      setTimeout(done, 1000);
-    });
     before(function playMusic (done) {
       // Find and click the I'm Feeling Lucky mix
       var browser = this.browser;
-      browser.elementByCssSelector('[data-type=imfl]', function handleElement (err, el) {
+      browser.waitForElementByCssSelector('[data-type=imfl]', 2000, 100, function handleElement (err, el) {
         // If there was an error, callback with it
         if (err) {
           return done(err);
