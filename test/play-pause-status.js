@@ -36,16 +36,8 @@ describe('A new session with Google Music', function () {
           return done(err);
         }
 
-        // Otherwise, hover the element
-        browser.moveTo(el, 10, 10, function handleHover (err) {
-          // If there was an error, callback with it
-          if (err) {
-            return done(err);
-          }
-
-          // Otherwise, click our element
-          browser.click(0 /* left click */, done);
-        });
+        // Otherwise, click our element
+        el.click(done);
       });
     });
     before(function waitForPlaybackStart (done) {
