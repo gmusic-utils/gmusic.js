@@ -78,7 +78,7 @@ describe('A new session with Google Music', function () {
         });
       }), 2000, 100, done);
     });
-    browserUtils.execute(function playMusic () {
+    browserUtils.execute(function getPlaybackState () {
       return window.playbackMode;
     });
 
@@ -86,12 +86,57 @@ describe('A new session with Google Music', function () {
       expect(this.result).to.equal(2 /* PLAYING */);
     });
 
-    describe.skip('and pause it', function () {
-      it('lists the music as paused', function () {
-        // Placeholder for linter
+    describe('and pause it', function () {
+      before(function pausePlayback (done) {
+        // Find and click the I'm Feeling Lucky mix
+        var browser = this.browser;
+        browser.elementByCssSelector('[data-id=play-pause]', function handleElement (err, el) {
+          // If there was an error, callback with it
+          if (err) {
+            return done(err);
+          }
+          // Otherwise, click our element
+          browser.click(0 /* left click */, done);
+        });
+      });
+      before(function waitForPlaybackPause (done) {
+        // Wait for playback slider to stop moving
+        var sliderValue;
+        this.browser.waitFor(new Asserter(function checkSlider (browser, cb) {
+          browser.elementById('slider', function handleElement (err, el) {
+            // If there was an error, callback with it
+            if (err) {
+              return cb(err);
+            }
+
+            // Otherwise, get the slide value
+            browser.getAttribute(el, 'aria-valuenow', function handleValue (err, val) {
+              // If there was an error, callback with it
+              if (err) {
+                return cb(err);
+              }
+
+              // Otherwise, if there is a value, it's non-negative (e.g. not zero), and it has changed, return true
+              if (val && parseInt(val, 10) && sliderValue === val) {
+                return cb(null, true);
+              }
+
+              // Otherwise, save the value and return false
+              sliderValue = val;
+              return cb(null, false);
+            });
+          });
+        }), 2000, 100, done);
+      });
+      browserUtils.execute(function getPlaybackState () {
+        return window.playbackMode;
       });
 
-      describe('and when we clear the queue (aka the only way to stop)', function () {
+      it('lists the music as paused', function () {
+        expect(this.result).to.equal(1 /* PAUSED */);
+      });
+
+      describe.skip('and when we clear the queue (aka the only way to stop)', function () {
         it('lists the music as stopped', function () {
           // Placeholder for linter
         });
