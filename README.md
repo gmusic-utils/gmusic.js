@@ -16,8 +16,11 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 Install the module with: `npm install google-music`
 
 ```js
-var googleMusic = require('google-music');
-googleMusic(); // 'awesome'
+// Load google music onto `window`
+void require('google-music');
+
+// Access volume
+window.MusicAPI.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
 ## Documentation
