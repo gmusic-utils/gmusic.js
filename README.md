@@ -176,7 +176,84 @@ Retrieve the URL of the current song for sharing
 - retVal `String` - URL for current song
 
 ### Hooks
-// TODO: Document window.playbackChanged and similar along with their constants
+Hooks are currently defined via defining and overriding on `window.GoogleMusicApp`.
+
+```js
+window.GoogleMusicApp.notifySong = function (title, artist, album, art, duration) {
+};
+```
+
+#### `notifySong(title, artist, album, art, duration)`
+Triggers when a song changes
+
+```js
+window.GoogleMusicApp.notifySong = function (title, artist, album, art, duration) {
+};
+```
+
+- title `String` - Name of the song
+- artist `String` - Artist of the song
+- album `String` - Album of the song
+- art `String` - URL for album art of the song
+- duration `Number` - Seconds that the track will last for
+
+#### `shuffleChanged(mode)`
+Triggers when shuffle is toggled
+
+```js
+window.GoogleMusicApp.shuffleChanged = function (mode) {
+};
+```
+
+- mode `String` - Mode that shuffle changed to
+    - Values are consistent with `Playback.getShuffle()`
+
+#### `repeatChanged(mode)`
+Triggers when repeat is toggled
+
+```js
+window.GoogleMusicApp.repeatChanged = function (mode) {
+};
+```
+
+- mode `String` - Mode that repeat changed to
+    - Values are consistent with `Playback.getRepeat()`
+
+#### `playbackChanged(mode)`
+Triggers when a song is started, paused, or stopped
+
+```js
+window.GoogleMusicApp.playbackChanged = function (mode) {
+};
+```
+
+- mode `String` - Phase that a song is in (e.g. 0, 1, 2)
+    - 0 - Song is stopped
+    - 1 - Song is paused
+    - 2 - Song is playing
+    - Values are available via `Playback.STOPPED`, `Playback.PAUSED`, and `Playback.PLAYING`
+
+#### `playbackTimeChanged(currentTime, totalTime)`
+Triggers when playback shifts
+
+```js
+window.GoogleMusicApp.playbackTimeChanged = function (currentTime, totalTime) {
+};
+```
+
+- currentTime `Number` - Milliseconds of how far a track has progressed
+- totalTime `Number` - Milliseconds of how long a track is
+
+#### `ratingChanged(rating)`
+Triggers when the current song is rated
+
+```js
+window.GoogleMusicApp.ratingChanged = function (rating) {
+};
+```
+
+- rating `Number` - Rating the current song changed to
+    - Consistent with values provided by `Rating.getRating()`
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
