@@ -33,10 +33,14 @@ exports.openMusic = function (options) {
   // Execute many async steps
   before(function startBrowser () {
     this.browser = wd.remote();
+    // DEV: To debug selenium interactions
+    //   Enable thes line
+    // global.browser = this.browser;
+    //    and run the following inside of a `node` repl
     // process.exit = function () {};
     // process.argv = ['node', '_mocha', '--timeout', '10000'];
     // require('mocha/bin/_mocha');
-    global.browser = this.browser;
+    //    when mocha is completed, access `browser` as a Selenium session
   });
   before(function openBrowser (done) {
     this.browser.init({browserName: 'chrome'}, done);
