@@ -66,6 +66,46 @@ Lower the volume by an amount
     - If we exceed 0 when subtracting new values, volume will stop at 0
     - By default, this is 1
 
+### Playback
+`MusicAPI.Playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
+
+#### `Playback.getPlaybackTime()`
+Retrieve the current progress in a song
+
+**Returns:**
+
+- retVal `Number` - Integer representing milliseconds from the start of the song
+
+#### `Playback.setPlaybackTime(milliseconds)`
+Jump the current song to a time
+
+- milliseconds `Number` - Integer representing milliseconds to jump the current track to
+
+#### `Playback.playPause()`
+Toggle between play and pause for the current song
+
+**This will not work if there are no songs in the queue.**
+
+#### `Playback.forward()`
+Move to the next song
+
+#### `Playback.rewind()`
+Move to the previous song
+
+#### `Playback.getShuffle()`
+Retrieve the status of shuffle
+
+**Returns:**
+
+- retVal `String` - Current state of shuffle (e.g. `ALL_SHUFFLE`, `NO_SHUFFLE`)
+    - This can be `Playback.ALL_SHUFFLE` or `Playback.NO_SHUFFLE`
+    - TODO: Verify these are the states
+
+#### `Playback.toggleShuffle()`
+Toggle to between shuffle being active or inactive
+
+// TODO: Document window.playbackChanged and similar along with their constants
+
 ## Untested
 These are methods which are difficult to test as they require enabling a Google Music labs setting or visual queue.
 
