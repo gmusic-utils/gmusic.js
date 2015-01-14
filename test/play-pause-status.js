@@ -141,7 +141,6 @@ describe('A new session with Google Music', function () {
 
             // Otherwise, click our element
             el.click(done);
-            // TODO: We might need to wait for a bit
           });
         });
         browserUtils.execute(function getPlaybackState () {
