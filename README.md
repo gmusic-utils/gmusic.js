@@ -20,23 +20,59 @@ Install the module with: `npm install google-music`
 void require('google-music');
 
 // Access volume
-window.MusicAPI.getVolume(); // 50 (ranges from 0 to 100)
+window.MusicAPI.Volume.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
 Currently, there is no AMD, UMD, or vanilla build of `google-music.js`. If you would like to see one, please create an issue.
 
 ## Documentation
-_(Coming soon)_
+`google-music.js` exposes its API on `window.MusicAPI`.
 
-**Untested:**
+### Volume
+`MusicAPI.Volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
+
+#### `Volume.getVolume()`
+Retrieve the current volume setting
+
+**Returns:**
+
+- retVal `Number` - Integer from 0 to 100 representing volume
+
+#### `Volume.getVolume()`
+Retrieve the current volume setting
+
+**Returns:**
+
+- retVal `Number` - Integer from 0 to 100 representing volume
+
+#### `Volume.setVolume(vol)`
+Change the volume setting
+
+- vol `Number` - Integer to set volume to
+
+#### `Volume.increaseVolume(amount)`
+Raise the volume by an amount
+
+- amount `Number` - Optional number to raise volume by
+    - For example, if volume is 50 and amount is 5, then the volume will change to 55
+    - If we exceed 100 when adding new values, volume will stop at 100
+    - By default, this is 1
+
+#### `Volume.decreaseVolume(amount)`
+Lower the volume by an amount
+
+- amount `Number` - Optional number to lower volume by
+    - For example, if volume is 50 and amount is 5, then the volume will change to 45
+    - If we exceed 0 when subtracting new values, volume will stop at 0
+    - By default, this is 1
+
+## Untested
+These are methods which are difficult to test as they require enabling a Google Music labs setting or visual queue.
 
 - toggleVisualization
 - getRating
 - getSongURL
 - setStarRating
-
-## Examples
-_(Coming soon)_
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
