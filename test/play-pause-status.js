@@ -13,6 +13,7 @@ describe('A new session with Google Music', function () {
     expect(this.result).to.equal(true);
   });
 
+  // TODO: Currently there is no default state, fix that
   it.skip('is not playing any music', function () {
     // Placeholder for linter
   });
@@ -25,7 +26,8 @@ describe('A new session with Google Music', function () {
         }
       };
     });
-    before(function waitForABit (done) {
+    before(function waitForUI (done) {
+      // TODO: Wait for `imfl` to load instead
       setTimeout(done, 1000);
     });
     before(function playMusic (done) {
@@ -45,26 +47,18 @@ describe('A new session with Google Music', function () {
           }
 
           // Otherwise, click our element
-          browser.click(0, function handleClick (err) {
-            // If there was an error, callback with it
-            if (err) {
-              return done(err);
-            }
-
-            // Otherwise, wait for the music to start
-            setTimeout(done, 1000);
-          });
+          browser.click(0, done);
         });
       });
     });
-    // TODO: Should we wait for playback to start?
+    before(function waitForPlaybackStart (done) {
+      setTimeout(done, 1000);
+    });
     browserUtils.execute(function playMusic () {
       return window.playbackMode;
     });
 
     it('lists the music as playing', function () {
-      console.log(this.result);
-      // TODO: Something is borked and we need faster iteration. Take what we have gone and go to the node CLI.
       expect(this.result).to.equal(2 /* PLAYING */);
     });
 
