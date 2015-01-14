@@ -130,14 +130,53 @@ Trigger a visualization for the track. This is typically album art.
 
 **This is an untested method.**
 
+### Rating
+`MusicAPI.Rating` exposes interfaces to the rating the current song.
+
+#### `Rating.isStarsRatingSystem()`
+Retrieve whether the rating system is star based or not (as opposed to thumbs which is the default).
+
+**Returns:**
+
+- retVal `Boolean` - Indicator for rating system being star based
+    - If `true`, then it is star based. Otherwise, it is thumb based.
+
+#### `Rating.getRating()`
+Retrieve the rating for the current track.
+
+**Returns:**
+
+- retVal `String` - Rating for current song. This varies from 0 to 5
+    - If 0, then there has been no rating
+    - On a thumbs system, thumbs down is 1 and thumbs up is 5
+
+#### `Rating.toggleThumbsUp()`
+Switch between thumbs up and no thumbs up for the current track. If thumbs down was set, this will remove the thumbs down rating.
+
+#### `Rating.toggleThumbsDown()`
+Switch between thumbs down and no thumbs down for the current track. If thumbs up was set, this will remove the thumbs up rating.
+
+#### `Rating.setStarRating(rating)`
+Set the star rating for the current track
+
+- rating `String` - Rating to set for the current track. This should be between 1 and 5
+
+**This is an untested method**
+
+### Extras
+`MusicAPI.Extras` is a collection of utility functions for Google Music
+
+#### `Extras.getSongURL()`
+Retrieve the URL of the current song for sharing
+
+**This is an untested method**
+
+**Returns:**
+
+- retVal `String` - URL for current song
+
+### Hooks
 // TODO: Document window.playbackChanged and similar along with their constants
-
-## Untested
-These are methods which are difficult to test as they require enabling a Google Music labs setting or visual queue.
-
-- getRating
-- getSongURL
-- setStarRating
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
