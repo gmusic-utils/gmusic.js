@@ -98,11 +98,23 @@ Retrieve the status of shuffle
 **Returns:**
 
 - retVal `String` - Current state of shuffle (e.g. `ALL_SHUFFLE`, `NO_SHUFFLE`)
-    - This can be `Playback.ALL_SHUFFLE` or `Playback.NO_SHUFFLE`
-    - TODO: Verify these are the states
+    - `ALL_SHUFFLE` will shuffle between all tracks
+    - `NO_SHUFFLE` will play the tracks in the order they were added
+    - We created constants named `Playback.ALL_SHUFFLE` or `Playback.NO_SHUFFLE`
 
 #### `Playback.toggleShuffle()`
 Toggle to between shuffle being active or inactive
+
+#### `Playback.getRepeat()`
+Retrieve the current setting for repeat
+
+**Returns:**
+
+- retVal `String` - Current setting for repeat (e.g. `LIST_REPEAT`, `SINGLE_REPEAT`, `NO_REPEAT`)
+    - `LIST_REPEAT` will repeat the queue when it reaches the last song
+    - `SINGLE_REPEAT` will repeat the current song indefinitely
+    - `NO_REPEAT` will not repeat the queue
+    - We created constants named `Playback.LIST_REPEAT`, `Playback.SINGLE_REPEAT`, `Playback.NO_REPEAT`
 
 // TODO: Document window.playbackChanged and similar along with their constants
 
