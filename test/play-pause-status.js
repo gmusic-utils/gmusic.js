@@ -79,7 +79,7 @@ describe('A new session with Google Music', function () {
             // Otherwise, return false
             return cb(null, false);
           });
-        }):
+        });
       }, 2000, 100, done);
     });
     browserUtils.execute(function playMusic () {
