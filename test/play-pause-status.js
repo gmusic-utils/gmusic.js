@@ -129,9 +129,26 @@ describe('A new session with Google Music', function () {
         expect(this.result).to.equal(1 /* PAUSED */);
       });
 
-      describe.skip('and when we clear the queue (aka the only way to stop)', function () {
+      describe('and when we clear the queue (aka the only way to stop)', function () {
+        before(function clearQueue (done) {
+          // Find and click the I'm Feeling Lucky mix
+          var browser = this.browser;
+          browser.elementByCssSelector('[data-id=clear-queue]', function handleElement (err, el) {
+            // If there was an error, callback with it
+            if (err) {
+              return done(err);
+            }
+
+            // Otherwise, click our element
+            el.click(done);
+          });
+        });
+        browserUtils.execute(function getPlaybackState () {
+          return window.playbackMode;
+        });
+
         it('lists the music as stopped', function () {
-          // Placeholder for linter
+          expect(this.result).to.equal(0 /* STOPPED */);
         });
       });
     });
