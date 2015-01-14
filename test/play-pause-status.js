@@ -45,7 +45,15 @@ describe('A new session with Google Music', function () {
           }
 
           // Otherwise, click our element
-          browser.click(0, done);
+          browser.click(0, function handleClick (err) {
+            // If there was an error, callback with it
+            if (err) {
+              return done(err);
+            }
+
+            // Otherwise, wait for the music to start
+            setTimeout(done, 500);
+          });
         });
       });
     });
