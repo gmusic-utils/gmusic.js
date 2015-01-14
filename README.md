@@ -23,6 +23,8 @@ void require('google-music');
 window.MusicAPI.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
+Currently, there is no AMD, UMD, or vanilla build of `google-music.js`. If you would like to see one, please create an issue.
+
 ## Documentation
 _(Coming soon)_
 
