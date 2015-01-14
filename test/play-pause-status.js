@@ -66,18 +66,13 @@ describe('A new session with Google Music', function () {
               return cb(err);
             }
 
-            // Otherwise, if there is a value and it's non-negative (e.g. not zero)
-            if (val && parseInt(val, 10)) {
-              // If the value has changed, return true
-              if (sliderValue !== val) {
-                return cb(null, true);
-              }
-
-              // Otherwise, save the value
-              sliderValue = val;
+            // Otherwise, if there is a value, it's non-negative (e.g. not zero), and it has changed, return true
+            if (val && parseInt(val, 10) && sliderValue !== val) {
+              return cb(null, true);
             }
 
-            // Otherwise, return false
+            // Otherwise, save the value and return false
+            sliderValue = val;
             return cb(null, false);
           });
         });
