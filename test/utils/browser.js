@@ -33,6 +33,10 @@ exports.openMusic = function (options) {
   // Execute many async steps
   before(function startBrowser () {
     this.browser = wd.remote();
+    // process.exit = function () {};
+    // process.argv = ['node', '_mocha', '--timeout', '10000'];
+    // require('mocha/bin/_mocha');
+    global.browser = this.browser;
   });
   before(function openBrowser (done) {
     this.browser.init({browserName: 'chrome'}, done);
