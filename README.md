@@ -116,12 +116,25 @@ Retrieve the current setting for repeat
     - `NO_REPEAT` will not repeat the queue
     - We created constants named `Playback.LIST_REPEAT`, `Playback.SINGLE_REPEAT`, `Playback.NO_REPEAT`
 
+#### `Playback.changeRepeat(mode)`
+Change the current setting for repeat
+
+- mode `String` - Optional mode to change repeat to
+    - If not specified, we will toggle to the next mode
+        - The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
+    - Valid values are `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
+        - See `Playback.getRepeat()` for meaning
+
+#### `Playback.toggleVisualization()`
+Trigger a visualization for the track. This is typically album art.
+
+**This is an untested method.**
+
 // TODO: Document window.playbackChanged and similar along with their constants
 
 ## Untested
 These are methods which are difficult to test as they require enabling a Google Music labs setting or visual queue.
 
-- toggleVisualization
 - getRating
 - getSongURL
 - setStarRating
