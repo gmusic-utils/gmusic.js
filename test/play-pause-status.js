@@ -14,7 +14,7 @@ describe('A new session with Google Music', function () {
   });
 
   it.skip('is not playing any music', function () {
-
+    // Placeholder for linter
   });
 
   describe('when we are playing music', function () {
@@ -70,12 +70,12 @@ describe('A new session with Google Music', function () {
 
     describe.skip('and pause it', function () {
       it('lists the music as paused', function () {
-
+        // Placeholder for linter
       });
 
       describe('and when we clear the queue (aka the only way to stop)', function () {
         it('lists the music as stopped', function () {
-
+          // Placeholder for linter
         });
       });
     });
