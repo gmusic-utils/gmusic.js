@@ -51,7 +51,8 @@ describe('A new session with Google Music', function () {
       // Wait for playback slider to move
       // DEV: This is intentionally different from play-pause button which is library behavior
       var sliderValue;
-      this.browser.waitFor(function checkSlider (browser, cb) {
+      var Asserter = require('wd/lib/asserters').Asserter;
+      this.browser.waitFor(new Asserter(function checkSlider (browser, cb) {
         browser.elementById('slider', function handleElement (err, el) {
           // If there was an error, callback with it
           if (err) {
@@ -80,7 +81,7 @@ describe('A new session with Google Music', function () {
             return cb(null, false);
           });
         });
-      }, 2000, 100, done);
+      }), 2000, 100, done);
     });
     browserUtils.execute(function playMusic () {
       return window.playbackMode;
