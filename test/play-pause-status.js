@@ -52,6 +52,8 @@ describe('A new session with Google Music', function () {
       });
     });
     before(function waitForPlaybackStart (done) {
+      // TODO: Wait for playback slider to move
+      //   Intentionally different from play-pause button to make sure tests are good
       setTimeout(done, 1000);
     });
     browserUtils.execute(function playMusic () {
