@@ -52,7 +52,7 @@ describe('A new session with Google Music', function () {
             }
 
             // Otherwise, wait for the music to start
-            setTimeout(done, 500);
+            setTimeout(done, 1000);
           });
         });
       });
