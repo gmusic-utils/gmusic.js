@@ -52,6 +52,7 @@ exports.openMusic = function (options) {
     var browser = this.browser;
     async.forEach(cookies, function setCookies (cookie, cb) {
       // If the cookie is not for .google.com, skip it
+      // DEV: As discovered by Burp suite's repeater, we only need `SID`, `HSID`, `SSID` but this is simpler
       if (cookie.domain !== '.google.com') {
         process.nextTick(cb);
       // Otherwise, set it
