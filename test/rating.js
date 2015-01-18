@@ -4,17 +4,9 @@ var browserUtils = require('./utils/browser');
 var browserMusicUtils = require('./utils/browser-music');
 
 // Start our tests
-// TODO: Test doesn't exist due to difficulty of testing
-describe.skip('An unrated track in Google Music', function () {
-  it('has no rating', function () {
-    // Placeholder for linter
-  });
-});
-
 describe('A track in Google Music', function () {
   // Load up 'Unknown Album - Unknown Artist'
   browserUtils.openMusic({
-    killBrowser: false,
     url: 'https://play.google.com/music/listen#/album'
   });
   browserUtils.execute(function playViaApi () {
@@ -46,6 +38,19 @@ describe('A track in Google Music', function () {
 
     it('has a high rating', function () {
       expect(this.result).to.equal('5');
+    });
+
+    describe('when switched to neutral', function () {
+      browserUtils.execute(function thumbsUpTrack () {
+        window.MusicAPI.Rating.toggleThumbsUp();
+      });
+      browserUtils.execute(function thumbsUpTrack () {
+        return window.MusicAPI.Rating.getRating();
+      });
+
+      it('has no rating', function () {
+        expect(this.result).to.equal('0');
+      });
     });
   });
 });
