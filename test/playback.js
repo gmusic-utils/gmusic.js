@@ -102,7 +102,7 @@ describe.only('A Google Music instance not playing music', function () {
       });
 
       it('is within 10 seconds of new playback', function () {
-        expect(this.result).to.be.at.least(60e3);
+        expect(this.result).to.be.at.least(50e3);
         expect(this.result).to.be.lessThan(70e3);
       });
     });
