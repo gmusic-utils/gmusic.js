@@ -70,6 +70,7 @@
   "validateIndentation": 2,
   "validateParameterSeparator": ", ",
   "safeContextKeyword": [
+    "MusicAPI",
     "that"
   ]
 }
