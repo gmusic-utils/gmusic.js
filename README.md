@@ -259,7 +259,7 @@ window.GoogleMusicApp.ratingChanged = function (rating) {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
 ### Testing
-Currently, we require a personal Google account exclusively for testing. We will be rating tracks, changing repeat settings, and need predictable track titles. We are using the following songs (first 3 tracks):
+Currently, we require a personal Google account exclusively for testing. We will be rating tracks, changing repeat settings, and need predictable track titles. We are using the following songs:
 
 > Credentials: musopen@mt2014.com / password
 
@@ -268,6 +268,8 @@ https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-
 > Music cannot be uploaded via webdriver instance nor incognito window
 >
 > If you don't want to contaminate your personal account, create a new user profile in Chrome.
+
+For exactly one track, tag it with the following via "Edit Info" in Google Music":
 
 Once your Google account is registered and the music is uploaded, extract the cookies for our test suite via:
 
