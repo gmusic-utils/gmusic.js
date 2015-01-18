@@ -16,9 +16,9 @@ describe('A Google Music instance playing no music', function () {
   });
 
   describe('when we are playing music', function () {
-    browserUtils.execute(function setupPlaybackWatcher () {
+    browserUtils.execute(function setupSongWatcher () {
       window.GoogleMusicApp = {
-        playbackChanged: function saveSong (title, artist, album, art, duration) {
+        notifySong: function saveSong (title, artist, album, art, duration) {
           window.song = {
             title: title,
             artist: artist,
@@ -38,13 +38,13 @@ describe('A Google Music instance playing no music', function () {
     });
 
     it('has the artist/track info', function () {
-      expect(this.song).to.have.property('title', 'this-is-a-title');
-      expect(this.song).to.have.property('artist', 'this-is-a-artist');
-      expect(this.song).to.have.property('album', 'this-is-a-album');
-      expect(this.song).to.have.property('art');
-      expect(this.song.art).to.have.match(/^https?:\/\//);
-      expect(this.song).to.have.property('duration');
-      expect(this.song.duration).to.be.a('number');
+      expect(this.result).to.have.property('title', 'this-is-a-name');
+      expect(this.result).to.have.property('artist', 'this-is-a-artist');
+      expect(this.result).to.have.property('album', 'this-is-a-album');
+      expect(this.result).to.have.property('art');
+      expect(this.result.art).to.have.match(/^https?:\/\//);
+      expect(this.result).to.have.property('duration');
+      expect(this.result.duration).to.be.a('number');
     });
   });
 });
