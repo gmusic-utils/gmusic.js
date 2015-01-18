@@ -69,7 +69,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
   });
 });
 
-describe.only('A Google Music instance not playing music', function () {
+describe('A Google Music instance not playing music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getPlaybackNothing () {
     return window.MusicAPI.Playback.getPlaybackTime();
