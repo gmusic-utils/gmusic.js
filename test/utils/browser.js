@@ -15,14 +15,8 @@ try {
 }
 var cookies = JSON.parse(cookiesJson);
 
-// Resolve the browser scripts
-// https://github.com/kbhomes/radiant-player-mac/blob/83f3622977f7b4b3f451422f9b025b03fb385ad6/radiant-player-mac/AppDelegate.m#L874-L894
-// TODO: Use bundled script instead of these one-offs
-var scripts = [
-  fs.readFileSync(__dirname + '/../../lib/main.js', 'utf8'),
-  fs.readFileSync(__dirname + '/../../lib/keyboard.js', 'utf8'),
-  fs.readFileSync(__dirname + '/../../lib/mouse.js', 'utf8')
-];
+// Resolve the compiled script
+var script = fs.readFileSync(__dirname + '/../../dist/google-music.js', 'utf8');
 
 // Define helpers for interacting with the browser
 exports.openMusic = function (options) {
@@ -64,11 +58,8 @@ exports.openMusic = function (options) {
   before(function navigateToMusicAfterLogin (done) {
     this.browser.get(url, done);
   });
-  before(function evalScripts (done) {
-    var browser = this.browser;
-    async.forEachSeries(scripts, function evalScript (script, cb) {
-      browser.execute(script, cb);
-    }, done);
+  before(function evalScript (done) {
+    this.browser.execute(script, done);
   });
 
   // If we want to want to kill the session, clean it up

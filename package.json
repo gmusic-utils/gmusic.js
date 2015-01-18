@@ -31,7 +31,7 @@
     "build": "npm run build-browserify && npm run build-uglify",
     "precheck": "twolfson-style precheck lib/ test/",
     "lint": "twolfson-style lint lib/ test/",
-    "_pretest": "twolfson-style install",
+    "pretest": "npm run build",
     "test": "mocha --timeout 10000 --reporter dot && npm run lint",
     "webdriver-manager-start": "webdriver-manager start"
   },
