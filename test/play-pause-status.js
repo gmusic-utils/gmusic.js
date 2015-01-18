@@ -21,19 +21,7 @@ describe('A new session with Google Music', function () {
         }
       };
     });
-    before(function playMusic (done) {
-      // Find and click the I'm Feeling Lucky mix
-      var browser = this.browser;
-      browser.waitForElementByCssSelector('[data-type=imfl]', 2000, 100, function handleElement (err, el) {
-        // If there was an error, callback with it
-        if (err) {
-          return done(err);
-        }
-
-        // Otherwise, click our element
-        el.click(done);
-      });
-    });
+    browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function getPlaybackState () {
       return window.playbackMode;
