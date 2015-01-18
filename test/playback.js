@@ -109,7 +109,9 @@ describe('A Google Music instance not playing music', function () {
   });
 });
 
-describe.skip('A Google Music instance with shuffle and repeat off', function () {
+describe.only('A Google Music instance with shuffle and repeat off', function () {
+  browserUtils.openMusic({killBrowser: false});
+
   it('has shuffle off', function () {
     // Placeholder for linter
   });
