@@ -88,9 +88,9 @@ describe.only('A Google Music instance not playing music', function () {
       return window.MusicAPI.Playback.getPlaybackTime();
     });
 
-    it('is within the 0 to 10% of playback', function () {
+    it('is within the 0 to 10 seconds of playback', function () {
       expect(this.result).to.be.at.least(0);
-      expect(this.result).to.be.lessThan(10);
+      expect(this.result).to.be.lessThan(10000);
     });
 
     describe.skip('when seeked to 50% of a track', function () {
