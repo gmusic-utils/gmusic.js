@@ -109,8 +109,10 @@ describe('A Google Music instance not playing music', function () {
   });
 });
 
-describe.only('A Google Music instance', function () {
-  describe('when we toggle shuffle', function () {
+describe('A Google Music instance', function () {
+  browserUtils.openMusic();
+
+  describe.only('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.MusicAPI.Playback.getShuffle();
     });
