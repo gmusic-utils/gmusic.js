@@ -13,6 +13,7 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 [James Fator]: http://jamesfator.com/
 
 ## Getting Started
+### npm
 Install the module with: `npm install google-music`
 
 ```js
@@ -23,7 +24,31 @@ void require('google-music');
 window.MusicAPI.Volume.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
-Currently, there is no AMD, UMD, or vanilla build of `google-music.js`. If you would like to see one, please create an issue.
+### bower
+Install the module with: `bower install google-music`
+
+Once installed, add it to your HTML and access it via `window.MusicAPI`.
+
+```html
+<script src="bower_components/google-music/dist/google-music.min.js"></script>
+<script>
+  window.MusicAPI; // Our Google Music API
+</script>
+```
+
+### Vanilla
+If you are not using a package manager, download the latest script at:
+
+https://raw.githubusercontent.com/twolfson/google-music.js/master/dist/google-music.min.js
+
+Then, add it to your HTML and access it via `window.MusicAPI`.
+
+```html
+<script src="google-music.min.js"></script>
+<script>
+  window.MusicAPI; // Our Google Music API
+</script>
+```
 
 ## Documentation
 `google-music.js` exposes its API on `window.MusicAPI`.
