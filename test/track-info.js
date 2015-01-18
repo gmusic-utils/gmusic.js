@@ -1,3 +1,6 @@
+/* jshint maxparams: false */
+// For now, allow too many parameters to handle hook
+
 // Load in dependencies
 var expect = require('chai').expect;
 var browserUtils = require('./utils/browser');
