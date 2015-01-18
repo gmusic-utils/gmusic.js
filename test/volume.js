@@ -56,7 +56,7 @@ describe('Google Music', function () {
     // DEV: This is necessary to verify `setVolume` works and isn't the original setting only
     describe('when volume is set to 0', function () {
       browserUtils.execute(function getNewVolume () {
-        return window.MusicAPI.Volume.setVolume(50);
+        return window.MusicAPI.Volume.setVolume(0);
       });
       browserUtils.execute(function getNewVolume () {
         return window.MusicAPI.Volume.getVolume();
