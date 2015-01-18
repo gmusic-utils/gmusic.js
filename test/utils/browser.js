@@ -58,8 +58,11 @@ exports.openMusic = function (options) {
   before(function navigateToMusicAfterLogin (done) {
     this.browser.get(url, done);
   });
-  before(function evalScript (done) {
+  before(function loadGoogleMusicConstructor (done) {
     this.browser.execute(script, done);
+  });
+  exports.execute(function startGoogleMusicApi () {
+    window.MusicAPI = new window.GoogleMusic(window);
   });
 
   // If we want to want to kill the session, clean it up
