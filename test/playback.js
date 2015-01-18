@@ -19,12 +19,17 @@ describe('A Google Music instance playing music (via manual click)', function ()
       // Would not run if `browserMusicUtils.waitForPlaybackPause()` failed
     });
 
-    describe.skip('when played via our API', function () {
+    describe('when played via our API', function () {
+      browserUtils.execute(function pauseViaApi () {
+        window.MusicAPI.Playback.playPause();
+      });
+      browserMusicUtils.waitForPlaybackStart();
+
       it('is playing', function () {
-        // Placeholder for linter
+        // Would not run if `browserMusicUtils.waitForPlaybackPause()` failed
       });
 
-      describe('playing the next track', function () {
+      describe.skip('playing the next track', function () {
         it('changes songs', function () {
           // Placeholder for linter
         });
