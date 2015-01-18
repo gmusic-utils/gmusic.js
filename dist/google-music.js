@@ -1,63 +1,74 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// Load in all of the corresponding files
-require('./keyboard');
-require('./main');
-require('./mouse');
+// Expose our constructor to the world
+window.GoogleMusic = require('./main');
 
-// Export their info
-module.exports = {
-  keyboard: window.Keyboard,
-  music: window.MusicAPI,
-  mouse: window.Mouse
+},{"./main":3}],2:[function(require,module,exports){
+function Keyboard(win) {
+  // Save window for later
+  this.win = win;
+}
+// Define constants
+Keyboard.KEY_UP = 0x26;
+Keyboard.KEY_DOWN = 0x28;
+// Define methods
+Keyboard.prototype = {
+  sendKey: function (element, key) {
+    var ev = this.win.document.createEvent('Events');
+    ev.initEvent('keydown', true, true);
+    ev.keyCode = key;
+    ev.which = key;
+
+    element.dispatchEvent(ev);
+  }
 };
 
-},{"./keyboard":2,"./main":3,"./mouse":4}],2:[function(require,module,exports){
-if (typeof window.Keyboard === 'undefined') {
-  window.Keyboard = {
-    // Key constants
-    KEY_UP: 0x26,
-    KEY_DOWN: 0x28,
-
-    sendKey: function (element, key) {
-      var ev = document.createEvent('Events');
-      ev.initEvent('keydown', true, true);
-      ev.keyCode = key;
-      ev.which = key;
-
-      element.dispatchEvent(ev);
-    }
-  };
-}
+// Export Keyboard constructor
+module.exports = Keyboard;
 
 },{}],3:[function(require,module,exports){
-// This check ensures that, even though this script is run multiple times, our code is only attached once.
-if (typeof window.MusicAPI === 'undefined') {
-  var MusicAPI = window.MusicAPI = {};
+// Load in dependencies
+var Keyboard = require('./keyboard');
+var Mouse = require('./mouse');
 
-  /* Set up for Safari versions less than 7. */
-  if (typeof window.MutationObserver === 'undefined') {
-    window.MutationObserver = window.WebKitMutationObserver;
+// Define our constructor
+function GoogleMusic(win) {
+  // If win was not provided, complain
+  if (!win) {
+    throw new Error('`win` was not provided to the `GoogleMusic` constructor');
   }
 
+  // Localize reference to document
+  var doc = win.document;
+
+  // Initialize a keyboard and mouse
+  var keyboard = new Keyboard(win);
+  var mouse = new Mouse(win);
+
+  // Define mutation observer for reuse
+  var MutationObserver = win.MutationObserver || win.WebKitMutationObserver;
+
+  // Alias `this` as `MusicAPI` to reduce noise
+  var MusicAPI = this;
+
   /* Create a volume API. */
-  window.MusicAPI.Volume = {
+  MusicAPI.Volume = {
 
     // A reference to the volume slider element.
-    slider: document.querySelector('#vslider'),
+    slider: doc.querySelector('#vslider'),
 
     // Get the current volume level.
     getVolume: function () {
-      return parseInt(window.MusicAPI.Volume.slider.getAttribute('aria-valuenow'));
+      return parseInt(MusicAPI.Volume.slider.getAttribute('aria-valuenow'), 10);
     },
 
     // Set the volume level (0 - 100).
     setVolume: function (vol) {
-      var current = window.MusicAPI.Volume.getVolume();
+      var current = MusicAPI.Volume.getVolume();
 
       if (vol > current) {
-        window.MusicAPI.Volume.increaseVolume(vol - current);
+        MusicAPI.Volume.increaseVolume(vol - current);
       } else if (vol < current) {
-        window.MusicAPI.Volume.decreaseVolume(current - vol);
+        MusicAPI.Volume.decreaseVolume(current - vol);
       }
     },
 
@@ -68,7 +79,7 @@ if (typeof window.MusicAPI === 'undefined') {
       }
 
       for (var i = 0; i < amount; i++) {
-        window.Keyboard.sendKey(window.MusicAPI.Volume.slider, window.Keyboard.KEY_UP);
+        keyboard.sendKey(MusicAPI.Volume.slider, Keyboard.KEY_UP);
       }
     },
 
@@ -79,20 +90,20 @@ if (typeof window.MusicAPI === 'undefined') {
       }
 
       for (var i = 0; i < amount; i++) {
-        window.Keyboard.sendKey(window.MusicAPI.Volume.slider, window.Keyboard.KEY_DOWN);
+        keyboard.sendKey(MusicAPI.Volume.slider, Keyboard.KEY_DOWN);
       }
     }
   };
 
   /* Create a playback API. */
-  window.MusicAPI.Playback = {
+  MusicAPI.Playback = {
 
     // References to the media playback elements.
-    _eplayPause:  document.querySelector('button[data-id="play-pause"]'),
-    _eforward:    document.querySelector('button[data-id="forward"]'),
-    _erewind:     document.querySelector('button[data-id="rewind"]'),
-    _eshuffle:    document.querySelector('button[data-id="shuffle"]'),
-    _erepeat:     document.querySelector('button[data-id="repeat"]'),
+    _eplayPause:  doc.querySelector('button[data-id="play-pause"]'),
+    _eforward:    doc.querySelector('button[data-id="forward"]'),
+    _erewind:     doc.querySelector('button[data-id="rewind"]'),
+    _eshuffle:    doc.querySelector('button[data-id="shuffle"]'),
+    _erepeat:     doc.querySelector('button[data-id="repeat"]'),
 
     // Playback modes.
     STOPPED:    0,
@@ -110,16 +121,16 @@ if (typeof window.MusicAPI === 'undefined') {
 
     // Time functions.
     getPlaybackTime: function () {
-      return parseInt(window.slider.getAttribute('aria-valuenow'));
+      return parseInt(win.slider.getAttribute('aria-valuenow'), 10);
     },
 
     setPlaybackTime: function (milliseconds) {
-      var percent = milliseconds / parseFloat(window.slider.getAttribute('aria-valuemax'));
-      var lower = window.slider.offsetLeft + 6;
-      var upper = window.slider.offsetLeft + window.slider.clientWidth - 6;
+      var percent = milliseconds / parseFloat(win.slider.getAttribute('aria-valuemax'));
+      var lower = win.slider.offsetLeft + 6;
+      var upper = win.slider.offsetLeft + win.slider.clientWidth - 6;
       var x = lower + percent * (upper - lower);
 
-      window.Mouse.clickAtLocation(window.slider, x, 0);
+      mouse.clickAtLocation(win.slider, x, 0);
     },
 
     // Playback functions.
@@ -148,22 +159,22 @@ if (typeof window.MusicAPI === 'undefined') {
 
     // Taken from the Google Play Music page.
     toggleVisualization: function () {
-      window.SJBpost('toggleVisualization');
+      win.SJBpost('toggleVisualization');
     }
 
   };
 
   /* Create a rating API. */
-  window.MusicAPI.Rating = {
+  MusicAPI.Rating = {
 
     // Determine whether the rating system is thumbs or stars.
     isStarsRatingSystem: function () {
-      return document.querySelector('.rating-container.stars') !== null;
+      return doc.querySelector('.rating-container.stars') !== null;
     },
 
     // Get current rating.
     getRating: function () {
-      var el = document.querySelector('.player-rating-container li.selected');
+      var el = doc.querySelector('.player-rating-container li.selected');
 
       if (el) {
         return el.getAttribute('data-rating');
@@ -174,7 +185,7 @@ if (typeof window.MusicAPI === 'undefined') {
 
     // Thumbs up.
     toggleThumbsUp: function () {
-      var el = document.querySelector('.player-rating-container li[data-rating="5"]');
+      var el = doc.querySelector('.player-rating-container li[data-rating="5"]');
 
       if (el) {
         el.click();
@@ -183,7 +194,7 @@ if (typeof window.MusicAPI === 'undefined') {
 
     // Thumbs down.
     toggleThumbsDown: function () {
-      var el = document.querySelector('.player-rating-container li[data-rating="1"]');
+      var el = doc.querySelector('.player-rating-container li[data-rating="1"]');
 
       if (el) {
         el.click();
@@ -192,7 +203,7 @@ if (typeof window.MusicAPI === 'undefined') {
 
     // Set a star rating.
     setStarRating: function (rating) {
-      var el = document.querySelector('.player-rating-container li[data-rating="' + rating + '"]');
+      var el = doc.querySelector('.player-rating-container li[data-rating="' + rating + '"]');
 
       if (el) {
         el.click();
@@ -201,12 +212,12 @@ if (typeof window.MusicAPI === 'undefined') {
   };
 
   /* Miscellaneous functions. */
-  window.MusicAPI.Extras = {
+  MusicAPI.Extras = {
 
     // Get a shareable URL of the song on Google Play Music.
     getSongURL: function () {
-      var albumEl = document.querySelector('.player-album');
-      var artistEl = document.querySelector('.player-artist');
+      var albumEl = doc.querySelector('.player-album');
+      var artistEl = doc.querySelector('.player-artist');
 
       var urlTemplate = 'https://play.google.com/music/m/';
       var url = null;
@@ -243,11 +254,11 @@ if (typeof window.MusicAPI === 'undefined') {
         var name = target.id || target.className;
 
         if (name === 'text-wrapper')  {
-          var title = document.querySelector('#playerSongTitle');
-          var artist = document.querySelector('#player-artist');
-          var album = document.querySelector('.player-album');
-          var art = document.querySelector('#playingAlbumArt');
-          var duration = parseInt(document.querySelector('#player #slider').getAttribute('aria-valuemax')) / 1000;
+          var title = doc.querySelector('#playerSongTitle');
+          var artist = doc.querySelector('#player-artist');
+          var album = doc.querySelector('.player-album');
+          var art = doc.querySelector('#playingAlbumArt');
+          var duration = parseInt(doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10) / 1000;
 
           title = (title) ? title.innerText : 'Unknown';
           artist = (artist) ? artist.innerText : 'Unknown';
@@ -262,7 +273,7 @@ if (typeof window.MusicAPI === 'undefined') {
           // Make sure that this is the first of the notifications for the
           // insertion of the song information elements.
           if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
-            window.GoogleMusicApp.notifySong(title, artist, album, art, duration);
+            win.GoogleMusicApp.notifySong(title, artist, album, art, duration);
 
             lastTitle = title;
             lastArtist = artist;
@@ -279,7 +290,7 @@ if (typeof window.MusicAPI === 'undefined') {
       var id = target.dataset.id;
 
       if (id === 'shuffle') {
-        window.GoogleMusicApp.shuffleChanged(target.value);
+        win.GoogleMusicApp.shuffleChanged(target.value);
       }
     });
   });
@@ -290,7 +301,7 @@ if (typeof window.MusicAPI === 'undefined') {
       var id = target.dataset.id;
 
       if (id === 'repeat') {
-        window.GoogleMusicApp.repeatChanged(target.value);
+        win.GoogleMusicApp.repeatChanged(target.value);
       }
     });
   });
@@ -308,14 +319,14 @@ if (typeof window.MusicAPI === 'undefined') {
           mode = MusicAPI.Playback.PLAYING;
         } else {
           // If there is a current song, then the player is paused.
-          if (document.querySelector('#playerSongInfo').childNodes.length) {
+          if (doc.querySelector('#playerSongInfo').childNodes.length) {
             mode = MusicAPI.Playback.PAUSED;
           } else {
             mode = MusicAPI.Playback.STOPPED;
           }
         }
 
-        window.GoogleMusicApp.playbackChanged(mode);
+        win.GoogleMusicApp.playbackChanged(mode);
       }
     });
   });
@@ -326,9 +337,9 @@ if (typeof window.MusicAPI === 'undefined') {
       var id = target.id;
 
       if (id === 'slider') {
-        var currentTime = parseInt(target.getAttribute('aria-valuenow'));
-        var totalTime = parseInt(target.getAttribute('aria-valuemax'));
-        window.GoogleMusicApp.playbackTimeChanged(currentTime, totalTime);
+        var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
+        var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
+        win.GoogleMusicApp.playbackTimeChanged(currentTime, totalTime);
       }
     });
   });
@@ -338,38 +349,43 @@ if (typeof window.MusicAPI === 'undefined') {
       var target = m.target;
 
       if (target.classList.contains('selected')) {
-        window.GoogleMusicApp.ratingChanged(target.dataset.rating);
+        win.GoogleMusicApp.ratingChanged(target.dataset.rating);
       }
     });
   });
 
-  addObserver.observe(document.querySelector('#playerSongInfo'), {childList: true, subtree: true});
-  shuffleObserver.observe(document.querySelector('#player button[data-id="shuffle"]'), {attributes: true});
-  repeatObserver.observe(document.querySelector('#player button[data-id="repeat"]'), {attributes: true});
-  playbackObserver.observe(document.querySelector('#player button[data-id="play-pause"]'), {attributes: true});
-  playbackTimeObserver.observe(document.querySelector('#player #slider'), {attributes: true});
-  ratingObserver.observe(document.querySelector('#player .player-rating-container'), {attributes: true, subtree: true});
+  addObserver.observe(doc.querySelector('#playerSongInfo'), {childList: true, subtree: true});
+  shuffleObserver.observe(doc.querySelector('#player button[data-id="shuffle"]'), {attributes: true});
+  repeatObserver.observe(doc.querySelector('#player button[data-id="repeat"]'), {attributes: true});
+  playbackObserver.observe(doc.querySelector('#player button[data-id="play-pause"]'), {attributes: true});
+  playbackTimeObserver.observe(doc.querySelector('#player #slider'), {attributes: true});
+  ratingObserver.observe(doc.querySelector('#player .player-rating-container'), {attributes: true, subtree: true});
 }
 
-},{}],4:[function(require,module,exports){
-if (typeof window.Mouse === 'undefined') {
-  window.Mouse = {
-    clickAtLocation: function (element, pageX, pageY) {
-      var ev = document.createEvent('MouseEvent');
-      ev.initMouseEvent(
-        'click',
-        true /* bubble */,
-        true /* cancelable */,
-        window, null,
-        pageX, pageY, pageX, pageY, /* coordinates */
-        false, false, false, false, /* modifier keys */
-        0 /*left*/,
-        null
-      );
+// Export our constructor
+module.exports = GoogleMusic;
 
-      element.dispatchEvent(ev);
-    }
-  };
+},{"./keyboard":2,"./mouse":4}],4:[function(require,module,exports){
+function Mouse(win) {
+  // Save window for later
+  this.win = win;
 }
+Mouse.prototype = {
+  clickAtLocation: function (element, pageX, pageY) {
+    var ev = this.win.document.createEvent('MouseEvent');
+    ev.initMouseEvent(
+      'click',
+      true /* bubble */,
+      true /* cancelable */,
+      window, null,
+      pageX, pageY, pageX, pageY, /* coordinates */
+      false, false, false, false, /* modifier keys */
+      0 /*left*/,
+      null
+    );
+
+    element.dispatchEvent(ev);
+  }
+};
 
 },{}]},{},[1]);
