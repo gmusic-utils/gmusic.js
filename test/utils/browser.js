@@ -62,7 +62,7 @@ exports.openMusic = function (options) {
     this.browser.execute(script, done);
   });
   exports.execute(function startGoogleMusicApi () {
-    window.MusicAPI = new window.GoogleMusic(window);
+    window.googleMusic = new window.GoogleMusic(window);
   });
 
   // If we want to want to kill the session, clean it up

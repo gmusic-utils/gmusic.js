@@ -32,7 +32,7 @@ describe('A Google Music instance playing no music', function () {
       };
     });
     browserUtils.execute(function playViaApi () {
-      window.MusicAPI.Playback.playPause();
+      window.googleMusic.playback.playPause();
     });
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function playViaApi () {
