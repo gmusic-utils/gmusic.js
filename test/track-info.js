@@ -6,7 +6,6 @@ var browserMusicUtils = require('./utils/browser-music');
 // Start our tests
 describe('A Google Music instance playing no music', function () {
   browserUtils.openMusic({
-    killBrowser: false,
     url: 'https://play.google.com/music/listen#/album//this-is-an-album-artist/this-is-an-album'
   });
 
