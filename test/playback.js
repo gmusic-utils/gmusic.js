@@ -61,7 +61,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
           it('goes back to the original song', function () {
             var originalTrack = this.result;
-            expect(originalTrack).to.not.equal(this.track);
+            expect(originalTrack).to.equal(this.track);
           });
         });
       });
