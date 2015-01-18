@@ -69,17 +69,31 @@ describe('A Google Music instance playing music (via manual click)', function ()
   });
 });
 
-describe.skip('A Google Music instance not playing music', function () {
-  it('has no time for playback', function () {
-    // Placeholder for linter
+describe.only('A Google Music instance not playing music', function () {
+  browserUtils.openMusic();
+  browserUtils.execute(function getPlaybackNothing () {
+    return window.MusicAPI.Playback.getPlaybackTime();
+  });
+
+  // Currently we return 0 but that isn't accurate. We should return 0.
+  // TODO: Should we expect this as a proper use case?
+  it.skip('has no time for playback', function () {
+    expect(this.result).to.equal(null);
   });
 
   describe('playing music', function () {
-    it('is within the 0 to 10% of playback', function () {
-      // Placeholder for linter
+    browserMusicUtils.playAnything();
+    browserMusicUtils.waitForPlaybackStart();
+    browserUtils.execute(function getPlaybackStart () {
+      return window.MusicAPI.Playback.getPlaybackTime();
     });
 
-    describe('when seeked to 50% of a track', function () {
+    it('is within the 0 to 10% of playback', function () {
+      expect(this.result).to.be.atLeast(0);
+      expect(this.result).to.be.lessThan(10);
+    });
+
+    describe.skip('when seeked to 50% of a track', function () {
       it('is within 50 to 60% of playback', function () {
         // Placeholder for linter
       });
