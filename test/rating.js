@@ -1,4 +1,4 @@
-describe.skip('An unrated track in Google Music', function () {
+describe('An unrated track in Google Music', function () {
   it('has no rating', function () {
     // Placeholder for linter
   });

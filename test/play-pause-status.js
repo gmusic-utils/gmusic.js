@@ -6,13 +6,6 @@ var browserUtils = require('./utils/browser');
 // Start our tests
 describe('A new session with Google Music', function () {
   browserUtils.openMusic();
-  browserUtils.execute(function getPlayPauseStatus () {
-    return !!window.MusicAPI;
-  });
-
-  it('has a Google Music API', function () {
-    expect(this.result).to.equal(true);
-  });
 
   // TODO: Currently there is no default state, fix that
   it.skip('is not playing any music', function () {
