@@ -1,6 +1,18 @@
-describe.skip('Google Music', function () {
+// Load in dependencies
+var expect = require('chai').expect;
+var browserUtils = require('./utils/browser');
+
+// Start our tests
+describe('Google Music', function () {
+  browserUtils.openMusic();
+  browserUtils.execute(function getVolume () {
+    return window.MusicApi.Volume.getVolume();
+  });
+
   it('has a volume amount', function () {
-    // Placeholder for linter
+    expect(this.result).to.be.a('number');
+    expect(this.result).to.be.at.least(0);
+    expect(this.result).to.be.at.most(100);
   });
 
   describe('when volume is increased', function () {
