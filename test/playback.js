@@ -48,13 +48,20 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
         it('changes songs', function () {
           var newTrack = this.result;
-          console.log(newTrack, this.track);
           expect(newTrack).to.not.equal(this.track);
         });
 
-        describe.skip('playing the previous track', function () {
+        describe('playing the previous track', function () {
+          browserUtils.execute(function moveToPreviousTrack () {
+            window.MusicAPI.Playback.rewind();
+          });
+          browserUtils.execute(function getNewTrack () {
+            return document.getElementById('playerSongTitle').textContent;
+          });
+
           it('goes back to the original song', function () {
-            // Placeholder for linter
+            var originalTrack = this.result;
+            expect(originalTrack).to.not.equal(this.track);
           });
         });
       });
