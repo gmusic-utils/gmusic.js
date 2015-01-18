@@ -269,7 +269,39 @@ https://musopen.org/music/1333/wolfgang-amadeus-mozart/the-marriage-of-figaro-k-
 >
 > If you don't want to contaminate your personal account, create a new user profile in Chrome.
 
-For exactly one track, tag it with the following via "Edit Info" in Google Music":
+For exactly one track, set the following via "Edit Info" in Google Music:
+
+```
+Name:
+this-is-a-name
+
+Artist:
+this-is-an-artist
+
+Album Artist:
+this-is-an-album-artist
+
+Album:
+this-is-an-album
+
+Composer:
+this-is-a-composer
+
+Genre:
+this-is-a-genre
+
+Year:
+2000
+
+Track #:
+1 of 10
+
+Disc #:
+3 of 5
+
+Explicit:
+Unchecked
+```
 
 Once your Google account is registered and the music is uploaded, extract the cookies for our test suite via:
 
