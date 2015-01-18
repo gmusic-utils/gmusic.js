@@ -90,12 +90,20 @@ describe.only('A Google Music instance not playing music', function () {
 
     it('is within the 0 to 10 seconds of playback', function () {
       expect(this.result).to.be.at.least(0);
-      expect(this.result).to.be.lessThan(10000);
+      expect(this.result).to.be.lessThan(10e3);
     });
 
-    describe.skip('when seeked to 50% of a track', function () {
-      it('is within 50 to 60% of playback', function () {
-        // Placeholder for linter
+    describe('when seeked to middle of a track', function () {
+      browserUtils.execute(function getPlaybackStart () {
+        window.MusicAPI.Playback.setPlaybackTime(60e3);
+      });
+      browserUtils.execute(function getPlaybackMiddle () {
+        return window.MusicAPI.Playback.getPlaybackTime();
+      });
+
+      it('is within 10 seconds of new playback', function () {
+        expect(this.result).to.be.at.least(60e3);
+        expect(this.result).to.be.lessThan(70e3);
       });
     });
   });
