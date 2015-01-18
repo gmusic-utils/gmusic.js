@@ -1,10 +1,25 @@
-describe.skip('A Google Music instance playing music (via manual click)', function () {
+// Load in dependencies
+var expect = require('chai').expect;
+var browserUtils = require('./utils/browser');
+var browserMusicUtils = require('./utils/browser-music');
+
+// Start our tests
+describe('A Google Music instance playing music (via manual click)', function () {
+  browserUtils.openMusic();
+  browserMusicUtils.playAnything();
+  browserMusicUtils.waitForPlaybackStart();
+
   describe('when paused via our API', function () {
+    browserUtils.execute(function pauseViaApi () {
+      window.MusicAPI.Playback.playPause();
+    });
+    browserMusicUtils.waitForPlaybackPause();
+
     it('is paused', function () {
-      // Placeholder for linter
+      // Would not run if `browserMusicUtils.waitForPlaybackPause()` failed
     });
 
-    describe('when played via our API', function () {
+    describe.skip('when played via our API', function () {
       it('is playing', function () {
         // Placeholder for linter
       });

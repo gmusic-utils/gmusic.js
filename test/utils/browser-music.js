@@ -17,6 +17,7 @@ exports.playAnything = function () {
     });
   });
 };
+
 exports.waitForPlaybackStart = function () {
   before(function waitForPlaybackStartFn (done) {
     // Wait for playback slider to move
@@ -38,6 +39,38 @@ exports.waitForPlaybackStart = function () {
 
           // Otherwise, if there is a value, it's non-negative (e.g. not zero), and it has changed, return true
           if (val && parseInt(val, 10) && sliderValue !== val) {
+            return cb(null, true);
+          }
+
+          // Otherwise, save the value and return false
+          sliderValue = val;
+          return cb(null, false);
+        });
+      });
+    }), 2000, 100, done);
+  });
+};
+
+exports.waitForPlaybackPause = function () {
+  before(function waitForPlaybackPauseFn (done) {
+    // Wait for playback slider to stop moving
+    var sliderValue;
+    this.browser.waitFor(new Asserter(function checkSlider (browser, cb) {
+      browser.elementById('slider', function handleElement (err, el) {
+        // If there was an error, callback with it
+        if (err) {
+          return cb(err);
+        }
+
+        // Otherwise, get the slide value
+        browser.getAttribute(el, 'aria-valuenow', function handleValue (err, val) {
+          // If there was an error, callback with it
+          if (err) {
+            return cb(err);
+          }
+
+          // Otherwise, if there is a value, it's non-negative (e.g. not zero), and it has changed, return true
+          if (val && parseInt(val, 10) && sliderValue === val) {
             return cb(null, true);
           }
 
