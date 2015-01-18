@@ -5,7 +5,7 @@ var browserMusicUtils = require('./utils/browser-music');
 
 // Start our tests
 describe('A Google Music instance playing music (via manual click)', function () {
-  browserUtils.openMusic({killBrowser: false});
+  browserUtils.openMusic();
   browserMusicUtils.playAnything();
   browserMusicUtils.waitForPlaybackStart();
 
@@ -29,13 +29,30 @@ describe('A Google Music instance playing music (via manual click)', function ()
         // Would not run if `browserMusicUtils.waitForPlaybackPause()` failed
       });
 
-      describe.skip('playing the next track', function () {
-        // $('#playerSongTitle').text();
-        it('changes songs', function () {
-          // Placeholder for linter
+      describe('playing the next track', function () {
+        browserUtils.execute(function getCurrentTrack () {
+          return document.getElementById('playerSongTitle').textContent;
+        });
+        before(function saveCurrentTrack () {
+          this.track = this.result;
+        });
+        browserUtils.execute(function moveToNextTrack () {
+          window.MusicAPI.Playback.forward();
+        });
+        browserUtils.execute(function getNewTrack () {
+          return document.getElementById('playerSongTitle').textContent;
+        });
+        after(function cleanup () {
+          delete this.track;
         });
 
-        describe('playing the previous track', function () {
+        it('changes songs', function () {
+          var newTrack = this.result;
+          console.log(newTrack, this.track);
+          expect(newTrack).to.not.equal(this.track);
+        });
+
+        describe.skip('playing the previous track', function () {
           it('goes back to the original song', function () {
             // Placeholder for linter
           });

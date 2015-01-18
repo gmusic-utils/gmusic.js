@@ -259,7 +259,7 @@ window.GoogleMusicApp.ratingChanged = function (rating) {
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
 ### Testing
-Currently, we require a personal Google account exclusively for testing. It should be entirely empty except for a single track for Google Music. We are using:
+Currently, we require a personal Google account exclusively for testing. We are using the following songs (first 3 tracks):
 
 > Credentials: musopen@mt2014.com / password
 
