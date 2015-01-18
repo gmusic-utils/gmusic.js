@@ -35,7 +35,7 @@ describe('A track in Google Music', function () {
     });
 
     it('has a low rating', function () {
-      expect(this.result).to.equal(1);
+      expect(this.result).to.equal('1');
     });
   });
 
@@ -51,7 +51,7 @@ describe('A track in Google Music', function () {
     });
 
     it('has a high rating', function () {
-      expect(this.result).to.equal(5);
+      expect(this.result).to.equal('5');
     });
   });
 });
