@@ -27,6 +27,9 @@ describe('A track in Google Music', function () {
     browserUtils.execute(function thumbsDownTrack () {
       window.MusicAPI.Rating.toggleThumbsDown();
     });
+    before(function waitForRatingChange (done) {
+      setTimeout(done, 1000);
+    });
     browserUtils.execute(function thumbsDownTrack () {
       return window.MusicAPI.Rating.getRating();
     });
@@ -39,6 +42,9 @@ describe('A track in Google Music', function () {
   describe('when \'thumbs up\'-ed', function () {
     browserUtils.execute(function thumbsUpTrack () {
       window.MusicAPI.Rating.toggleThumbsUp();
+    });
+    before(function waitForRatingChange (done) {
+      setTimeout(done, 1000);
     });
     browserUtils.execute(function thumbsUpTrack () {
       return window.MusicAPI.Rating.getRating();
