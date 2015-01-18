@@ -13,7 +13,7 @@ describe.skip('An unrated track in Google Music', function () {
 
 describe('A track in Google Music', function () {
   // Load up 'Unknown Album - Unknown Artist'
-  browserUtils.openMusic('https://play.google.com/music/listen#/album');
+  browserUtils.openMusic({url: 'https://play.google.com/music/listen#/album'});
   browserUtils.execute(function playViaApi () {
     window.MusicAPI.Playback.playPause();
   });
