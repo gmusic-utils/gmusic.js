@@ -26,7 +26,9 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "build": "browserify lib/google-music.js > dist/google-music.js",
+    "build-browserify": "browserify lib/google-music.js > dist/google-music.js",
+    "build-uglify": "uglifyjs dist/google-music.js > dist/google-music.min.js",
+    "build": "npm run build-browserify && npm run build-uglify",
     "precheck": "twolfson-style precheck lib/ test/",
     "lint": "twolfson-style lint lib/ test/",
     "_pretest": "twolfson-style install",
@@ -44,6 +46,7 @@
     "mocha": "~1.11.0",
     "protractor": "~1.5.0",
     "twolfson-style": "~1.6.0",
+    "uglify-js": "~2.4.16",
     "wd": "~0.3.11"
   },
   "keywords": [
