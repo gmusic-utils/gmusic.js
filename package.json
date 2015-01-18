@@ -21,7 +21,7 @@
       "url": "https://github.com/twolfson/google-music.js/blob/master/UNLICENSE"
     }
   ],
-  "main": "lib/google-music",
+  "main": "lib/main",
   "engines": {
     "node": ">= 0.8.0"
   },
