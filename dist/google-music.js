@@ -366,6 +366,7 @@ function GoogleMusic(win) {
 module.exports = GoogleMusic;
 
 },{"./keyboard":2,"./mouse":4}],4:[function(require,module,exports){
+// Define our constructor
 function Mouse(win) {
   // Save window for later
   this.win = win;
@@ -377,7 +378,7 @@ Mouse.prototype = {
       'click',
       true /* bubble */,
       true /* cancelable */,
-      window, null,
+      this.win, null,
       pageX, pageY, pageX, pageY, /* coordinates */
       false, false, false, false, /* modifier keys */
       0 /*left*/,
@@ -387,5 +388,8 @@ Mouse.prototype = {
     element.dispatchEvent(ev);
   }
 };
+
+// Expose our constructor
+module.exports = Mouse;
 
 },{}]},{},[1]);
