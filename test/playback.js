@@ -133,8 +133,22 @@ describe('A Google Music instance', function () {
   });
 
   describe('when we toggle repeat', function () {
+    browserUtils.execute(function getShuffleMode () {
+      return window.MusicAPI.Playback.getRepeat();
+    });
+    before(function saveFirstRepeat () {
+      this.repeat = this.result;
+    });
+    after(function cleanup () {
+      delete this.repeat;
+    });
+    browserUtils.execute(function moveToNextTrack () {
+      window.MusicAPI.Playback.toggleRepeat();
+    });
+
     it('goes to the next mode', function () {
-      // Placeholder for linter
+      var nextRepeat = this.result;
+      expect(nextRepeat).to.not.equal(this.repeat);
     });
   });
 });
