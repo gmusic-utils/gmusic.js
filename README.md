@@ -22,7 +22,7 @@ var GoogleMusic = require('google-music');
 window.googleMusic = new GoogleMusic(window);
 
 // Access volume
-window.googleMusic.Volume.getVolume(); // 50 (ranges from 0 to 100)
+window.googleMusic.volume.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
 ### bower
@@ -60,21 +60,21 @@ Constructor for a new Google Music API. For usage with `node-webkit`, we require
 - window `Object` - Global `window` object for target browser window
 
 ### Volume
-`googleMusic.Volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
+`googleMusic.volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
 
-#### `Volume.getVolume()`
+#### `volume.getVolume()`
 Retrieve the current volume setting
 
 **Returns:**
 
 - retVal `Number` - Integer from 0 to 100 representing volume
 
-#### `Volume.setVolume(vol)`
+#### `volume.setVolume(vol)`
 Change the volume setting
 
 - vol `Number` - Integer to set volume to
 
-#### `Volume.increaseVolume(amount)`
+#### `volume.increaseVolume(amount)`
 Raise the volume by an amount
 
 - amount `Number` - Optional number to raise volume by
@@ -82,7 +82,7 @@ Raise the volume by an amount
     - If we exceed 100 when adding new values, volume will stop at 100
     - By default, this is 1
 
-#### `Volume.decreaseVolume(amount)`
+#### `volume.decreaseVolume(amount)`
 Lower the volume by an amount
 
 - amount `Number` - Optional number to lower volume by
@@ -91,32 +91,32 @@ Lower the volume by an amount
     - By default, this is 1
 
 ### Playback
-`googleMusic.Playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
+`googleMusic.playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
 
-#### `Playback.getPlaybackTime()`
+#### `playback.getPlaybackTime()`
 Retrieve the current progress in a song
 
 **Returns:**
 
 - retVal `Number` - Integer representing milliseconds from the start of the song
 
-#### `Playback.setPlaybackTime(milliseconds)`
+#### `playback.setPlaybackTime(milliseconds)`
 Jump the current song to a time
 
 - milliseconds `Number` - Integer representing milliseconds to jump the current track to
 
-#### `Playback.playPause()`
+#### `playback.playPause()`
 Toggle between play and pause for the current song
 
 **This will not work if there are no songs in the queue.**
 
-#### `Playback.forward()`
+#### `playback.forward()`
 Move to the next song
 
-#### `Playback.rewind()`
+#### `playback.rewind()`
 Move to the previous song
 
-#### `Playback.getShuffle()`
+#### `playback.getShuffle()`
 Retrieve the status of shuffle
 
 **Returns:**
@@ -124,12 +124,12 @@ Retrieve the status of shuffle
 - retVal `String` - Current state of shuffle (e.g. `ALL_SHUFFLE`, `NO_SHUFFLE`)
     - `ALL_SHUFFLE` will shuffle between all tracks
     - `NO_SHUFFLE` will play the tracks in the order they were added
-    - We created constants named `Playback.ALL_SHUFFLE` or `Playback.NO_SHUFFLE`
+    - We created constants named `playback.ALL_SHUFFLE` or `playback.NO_SHUFFLE`
 
-#### `Playback.toggleShuffle()`
+#### `playback.toggleShuffle()`
 Toggle to between shuffle being active or inactive
 
-#### `Playback.getRepeat()`
+#### `playback.getRepeat()`
 Retrieve the current setting for repeat
 
 **Returns:**
@@ -138,26 +138,26 @@ Retrieve the current setting for repeat
     - `LIST_REPEAT` will repeat the queue when it reaches the last song
     - `SINGLE_REPEAT` will repeat the current song indefinitely
     - `NO_REPEAT` will not repeat the queue
-    - We created constants named `Playback.LIST_REPEAT`, `Playback.SINGLE_REPEAT`, `Playback.NO_REPEAT`
+    - We created constants named `playback.LIST_REPEAT`, `playback.SINGLE_REPEAT`, `playback.NO_REPEAT`
 
-#### `Playback.changeRepeat(mode)`
+#### `playback.changeRepeat(mode)`
 Change the current setting for repeat
 
 - mode `String` - Optional mode to change repeat to
     - If not specified, we will toggle to the next mode
         - The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
     - Valid values are `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
-        - See `Playback.getRepeat()` for meaning
+        - See `playback.getRepeat()` for meaning
 
-#### `Playback.toggleVisualization()`
+#### `playback.toggleVisualization()`
 Trigger a visualization for the track. This is typically album art.
 
 **This is an untested method.**
 
 ### Rating
-`googleMusic.Rating` exposes interfaces to the rating the current song.
+`googleMusic.rating` exposes interfaces to the rating the current song.
 
-#### `Rating.isStarsRatingSystem()`
+#### `rating.isStarsRatingSystem()`
 Retrieve whether the rating system is star based or not (as opposed to thumbs which is the default).
 
 **Returns:**
@@ -165,7 +165,7 @@ Retrieve whether the rating system is star based or not (as opposed to thumbs wh
 - retVal `Boolean` - Indicator for rating system being star based
     - If `true`, then it is star based. Otherwise, it is thumb based.
 
-#### `Rating.getRating()`
+#### `rating.getRating()`
 Retrieve the rating for the current track.
 
 **Returns:**
@@ -174,13 +174,13 @@ Retrieve the rating for the current track.
     - If 0, then there has been no rating
     - On a thumbs system, thumbs down is 1 and thumbs up is 5
 
-#### `Rating.toggleThumbsUp()`
+#### `rating.toggleThumbsUp()`
 Switch between thumbs up and no thumbs up for the current track. If thumbs down was set, this will remove the thumbs down rating.
 
-#### `Rating.toggleThumbsDown()`
+#### `rating.toggleThumbsDown()`
 Switch between thumbs down and no thumbs down for the current track. If thumbs up was set, this will remove the thumbs up rating.
 
-#### `Rating.setStarRating(rating)`
+#### `rating.setStarRating(rating)`
 Set the star rating for the current track
 
 - rating `String` - Rating to set for the current track. This should be between 1 and 5
@@ -230,7 +230,7 @@ window.GoogleMusicApp.shuffleChanged = function (mode) {
 ```
 
 - mode `String` - Mode that shuffle changed to
-    - Values are consistent with `Playback.getShuffle()`
+    - Values are consistent with `playback.getShuffle()`
 
 #### `repeatChanged(mode)`
 Triggers when repeat is toggled
@@ -241,7 +241,7 @@ window.GoogleMusicApp.repeatChanged = function (mode) {
 ```
 
 - mode `String` - Mode that repeat changed to
-    - Values are consistent with `Playback.getRepeat()`
+    - Values are consistent with `playback.getRepeat()`
 
 #### `playbackChanged(mode)`
 Triggers when a song is started, paused, or stopped
@@ -255,7 +255,7 @@ window.GoogleMusicApp.playbackChanged = function (mode) {
     - 0 - Song is stopped
     - 1 - Song is paused
     - 2 - Song is playing
-    - Values are available via `Playback.STOPPED`, `Playback.PAUSED`, and `Playback.PLAYING`
+    - Values are available via `playback.STOPPED`, `playback.PAUSED`, and `playback.PLAYING`
 
 #### `playbackTimeChanged(currentTime, totalTime)`
 Triggers when playback shifts
@@ -277,7 +277,7 @@ window.GoogleMusicApp.ratingChanged = function (rating) {
 ```
 
 - rating `Number` - Rating the current song changed to
-    - Consistent with values provided by `Rating.getRating()`
+    - Consistent with values provided by `rating.getRating()`
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
