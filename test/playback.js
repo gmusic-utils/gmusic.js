@@ -131,10 +131,10 @@ describe('A Google Music instance', function () {
   browserUtils.execute(function setupHooks () {
     window.GoogleMusicApp = {
       repeatChanged: function (mode) {
-        window.repeatChanged = (window.repeatChanged || 0) + 1;
+        window.repeatChanged = true;
       },
       shuffleChanged: function (mode) {
-        window.shuffleChanged = (window.shuffleChanged || 0) + 1;
+        window.shuffleChanged = true;
       }
     };
   });
@@ -164,7 +164,7 @@ describe('A Google Music instance', function () {
       });
 
       it('was triggered', function () {
-        expect(this.result).to.equal(1);
+        expect(this.result).to.equal(true);
       });
     });
   });
@@ -194,7 +194,7 @@ describe('A Google Music instance', function () {
       });
 
       it('was triggered', function () {
-        expect(this.result).to.equal(1);
+        expect(this.result).to.equal(true);
       });
     });
   });
