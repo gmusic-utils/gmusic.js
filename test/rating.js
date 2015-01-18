@@ -20,6 +20,7 @@ describe('A track in Google Music', function () {
   browserUtils.execute(function playViaApi () {
     window.MusicAPI.Playback.playPause();
   });
+  browserMusicUtils.waitForPlaybackStart();
 
   describe('when \'thumbs down\'-ed', function () {
     // DEV: Warning this will skip to next track
