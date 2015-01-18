@@ -112,7 +112,7 @@ describe('A Google Music instance not playing music', function () {
 describe('A Google Music instance', function () {
   browserUtils.openMusic();
 
-  describe.only('when we toggle shuffle', function () {
+  describe('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.MusicAPI.Playback.getShuffle();
     });
@@ -132,7 +132,7 @@ describe('A Google Music instance', function () {
     });
   });
 
-  describe('when we toggle repeat', function () {
+  describe.only('when we toggle repeat', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.MusicAPI.Playback.getRepeat();
     });
@@ -143,7 +143,7 @@ describe('A Google Music instance', function () {
       delete this.repeat;
     });
     browserUtils.execute(function moveToNextTrack () {
-      window.MusicAPI.Playback.toggleRepeat();
+      window.MusicAPI.Playback.changeRepeat();
     });
 
     it('goes to the next mode', function () {
