@@ -38,13 +38,6 @@ Retrieve the current volume setting
 
 - retVal `Number` - Integer from 0 to 100 representing volume
 
-#### `Volume.getVolume()`
-Retrieve the current volume setting
-
-**Returns:**
-
-- retVal `Number` - Integer from 0 to 100 representing volume
-
 #### `Volume.setVolume(vol)`
 Change the volume setting
 
