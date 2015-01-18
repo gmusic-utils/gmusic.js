@@ -89,7 +89,7 @@ describe.only('A Google Music instance not playing music', function () {
     });
 
     it('is within the 0 to 10% of playback', function () {
-      expect(this.result).to.be.atLeast(0);
+      expect(this.result).to.be.at.least(0);
       expect(this.result).to.be.lessThan(10);
     });
 
