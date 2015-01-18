@@ -5,9 +5,8 @@ var browserMusicUtils = require('./utils/browser-music');
 
 // Start our tests
 describe('A track in Google Music', function () {
-  // Load up 'Unknown Album - Unknown Artist'
   browserUtils.openMusic({
-    url: 'https://play.google.com/music/listen#/album'
+    url: 'https://play.google.com/music/listen#/album//this-is-an-album-artist/this-is-an-album'
   });
   browserUtils.execute(function playViaApi () {
     window.MusicAPI.Playback.playPause();
