@@ -111,6 +111,16 @@ describe('A Google Music instance not playing music', function () {
 
 describe('A Google Music instance', function () {
   browserUtils.openMusic();
+  browserUtils.execute(function setupHooks () {
+    window.GoogleMusicApp = {
+      repeatChanged: function (mode) {
+        window.repeatChanged = (window.repeatChanged || 0) + 1;
+      },
+      shuffleChanged: function (mode) {
+        window.shuffleChanged = (window.shuffleChanged || 0) + 1;
+      }
+    };
+  });
 
   describe('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
@@ -129,6 +139,16 @@ describe('A Google Music instance', function () {
     it('goes to the next mode', function () {
       var secondShuffle = this.result;
       expect(secondShuffle).to.not.equal(this.firstShuffle);
+    });
+
+    describe('a shuffle hook', function () {
+      browserUtils.execute(function getShuffleHookResults () {
+        return window.shuffleChanged;
+      });
+
+      it('was triggered', function () {
+        expect(this.result).to.equal(1);
+      });
     });
   });
 
@@ -149,6 +169,16 @@ describe('A Google Music instance', function () {
     it('goes to the next mode', function () {
       var nextRepeat = this.result;
       expect(nextRepeat).to.not.equal(this.repeat);
+    });
+
+    describe('a repeat hook', function () {
+      browserUtils.execute(function getRepeatHookResults () {
+        return window.repeatChanged;
+      });
+
+      it('was triggered', function () {
+        expect(this.result).to.equal(1);
+      });
     });
   });
 });
