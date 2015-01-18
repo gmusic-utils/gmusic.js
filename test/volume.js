@@ -15,40 +15,55 @@ describe('Google Music', function () {
     expect(this.result).to.be.at.most(100);
   });
 
-  describe('when volume is increased', function () {
-    before(function saveOldVolume () {
-      this.volume = this.result;
-    });
-    after(function cleanup () {
-      delete this.volume;
-    });
+  describe('when volume is set to 50', function () {
     browserUtils.execute(function getNewVolume () {
-      return window.MusicAPI.Volume.increaseVolume(10);
+      return window.MusicAPI.Volume.setVolume(50);
     });
     browserUtils.execute(function getNewVolume () {
       return window.MusicAPI.Volume.getVolume();
     });
 
-    it('has an increased volume', function () {
-      var newVolume = this.result;
-      expect(newVolume).to.equal(
+    it('has a volume of 50', function () {
+      expect(this.result).to.equal(50);
     });
 
-    describe('when volume is decreased', function () {
-      it('has the original volume', function () {
-        // Placeholder for linter
+    describe('when volume is increased', function () {
+      browserUtils.execute(function getNewVolume () {
+        return window.MusicAPI.Volume.increaseVolume(10);
+      });
+      browserUtils.execute(function getNewVolume () {
+        return window.MusicAPI.Volume.getVolume();
       });
 
-      describe('when volume is set to 0', function () {
-        it('has a volume of 0', function () {
-          // Placeholder for linter
+      it('has an increased volume', function () {
+        expect(this.result).to.equal(60);
+      });
+
+      describe('when volume is decreased', function () {
+        browserUtils.execute(function getNewVolume () {
+          return window.MusicAPI.Volume.decreaseVolume(10);
+        });
+        browserUtils.execute(function getNewVolume () {
+          return window.MusicAPI.Volume.getVolume();
         });
 
-        describe('when volume is set to 50', function () {
-          it('has a volume of 50', function () {
-            // Placeholder for linter
-          });
+        it('has the original volume', function () {
+          expect(this.result).to.equal(50);
         });
+      });
+    });
+
+    // DEV: This is necessary to verify `setVolume` works and isn't the original setting only
+    describe('when volume is set to 0', function () {
+      browserUtils.execute(function getNewVolume () {
+        return window.MusicAPI.Volume.setVolume(50);
+      });
+      browserUtils.execute(function getNewVolume () {
+        return window.MusicAPI.Volume.getVolume();
+      });
+
+      it('has a volume of 0', function () {
+        expect(this.result).to.equal(0);
       });
     });
   });
