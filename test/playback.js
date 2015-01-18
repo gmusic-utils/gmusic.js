@@ -5,7 +5,7 @@ var browserMusicUtils = require('./utils/browser-music');
 
 // Start our tests
 describe('A Google Music instance playing music (via manual click)', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({killBrowser: false});
   browserMusicUtils.playAnything();
   browserMusicUtils.waitForPlaybackStart();
 
@@ -30,6 +30,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
       });
 
       describe.skip('playing the next track', function () {
+        // $('#playerSongTitle').text();
         it('changes songs', function () {
           // Placeholder for linter
         });
