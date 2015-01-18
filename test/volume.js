@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 var browserUtils = require('./utils/browser');
 
 // Start our tests
-describe('Google Music', function () {
+describe.skip('Google Music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getVolume () {
     return window.MusicApi.Volume.getVolume();
