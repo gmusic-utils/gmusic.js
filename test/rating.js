@@ -8,6 +8,13 @@ describe('A track in Google Music', function () {
   browserUtils.openMusic({
     url: 'https://play.google.com/music/listen#/album//this-is-an-album-artist/this-is-an-album'
   });
+  browserUtils.execute(function setupHooks () {
+    window.GoogleMusicApp = {
+      ratingChanged: function (rating) {
+        window.rating = rating;
+      }
+    };
+  });
   browserUtils.execute(function playViaApi () {
     window.MusicAPI.Playback.playPause();
   });
@@ -24,6 +31,16 @@ describe('A track in Google Music', function () {
 
     it('has a low rating', function () {
       expect(this.result).to.equal('1');
+    });
+
+    describe('a hook result', function () {
+      browserUtils.execute(function thumbsDownTrack () {
+        return window.rating;
+      });
+
+      it('was triggered', function () {
+        expect(this.result).to.equal('1');
+      });
     });
   });
 

@@ -74,6 +74,13 @@ describe('A Google Music instance not playing music', function () {
   browserUtils.execute(function getPlaybackNothing () {
     return window.MusicAPI.Playback.getPlaybackTime();
   });
+  browserUtils.execute(function setupHooks () {
+    window.GoogleMusicApp = {
+      playbackTimeChanged: function (currentTime, totalTime) {
+        window.playbackTimeChanged = true;
+      }
+    };
+  });
 
   // Currently we return 0 but that isn't accurate. We should return 0.
   // TODO: Should we expect this as a proper use case?
@@ -104,6 +111,16 @@ describe('A Google Music instance not playing music', function () {
       it('is within 10 seconds of new playback', function () {
         expect(this.result).to.be.at.least(50e3);
         expect(this.result).to.be.lessThan(70e3);
+      });
+
+      describe('a playback time hook', function () {
+        browserUtils.execute(function getPlaybackMiddle () {
+          return window.playbackTimeChanged;
+        });
+
+        it('has been triggered', function () {
+          expect(this.result).to.equal(true);
+        });
       });
     });
   });
