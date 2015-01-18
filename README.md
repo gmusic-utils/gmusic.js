@@ -17,22 +17,23 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 Install the module with: `npm install google-music`
 
 ```js
-// Load google music onto `window`
-void require('google-music');
+// Load and initialize GoogleMusic
+var GoogleMusic = require('google-music');
+window.googleMusic = new GoogleMusic(window);
 
 // Access volume
-window.MusicAPI.Volume.getVolume(); // 50 (ranges from 0 to 100)
+window.googleMusic.Volume.getVolume(); // 50 (ranges from 0 to 100)
 ```
 
 ### bower
 Install the module with: `bower install google-music`
 
-Once installed, add it to your HTML and access it via `window.MusicAPI`.
+Once installed, add it to your HTML and access it via `window.GoogleMusic`.
 
 ```html
 <script src="bower_components/google-music/dist/google-music.min.js"></script>
 <script>
-  window.MusicAPI; // Our Google Music API
+  window.googleMusic = new window.GoogleMusic(window); // Our Google Music API
 </script>
 ```
 
@@ -41,20 +42,25 @@ If you are not using a package manager, download the latest script at:
 
 https://raw.githubusercontent.com/twolfson/google-music.js/master/dist/google-music.min.js
 
-Then, add it to your HTML and access it via `window.MusicAPI`.
+Then, add it to your HTML and access it via `window.GoogleMusic`.
 
 ```html
 <script src="google-music.min.js"></script>
 <script>
-  window.MusicAPI; // Our Google Music API
+  window.googleMusic = new window.GoogleMusic(window); // Our Google Music API
 </script>
 ```
 
 ## Documentation
-`google-music.js` exposes its API on `window.MusicAPI`.
+`google-music.js` exposes a constructor, `GoogleMusic` as its `module.exports` (`window.GoogleMusic` for `bower`/vanilla).
+
+### `new GoogleMusic(window)`
+Constructor for a new Google Music API. For usage with `node-webkit`, we require `window` to be passed in rather than assumed from global scope.
+
+- window `Object` - Global `window` object for target browser window
 
 ### Volume
-`MusicAPI.Volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
+`googleMusic.Volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
 
 #### `Volume.getVolume()`
 Retrieve the current volume setting
@@ -85,7 +91,7 @@ Lower the volume by an amount
     - By default, this is 1
 
 ### Playback
-`MusicAPI.Playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
+`googleMusic.Playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
 
 #### `Playback.getPlaybackTime()`
 Retrieve the current progress in a song
@@ -149,7 +155,7 @@ Trigger a visualization for the track. This is typically album art.
 **This is an untested method.**
 
 ### Rating
-`MusicAPI.Rating` exposes interfaces to the rating the current song.
+`googleMusic.Rating` exposes interfaces to the rating the current song.
 
 #### `Rating.isStarsRatingSystem()`
 Retrieve whether the rating system is star based or not (as opposed to thumbs which is the default).
@@ -182,7 +188,7 @@ Set the star rating for the current track
 **This is an untested method**
 
 ### Extras
-`MusicAPI.Extras` is a collection of utility functions for Google Music
+`googleMusic.Extras` is a collection of utility functions for Google Music
 
 #### `Extras.getSongURL()`
 Retrieve the URL of the current song for sharing
