@@ -109,25 +109,29 @@ describe('A Google Music instance not playing music', function () {
   });
 });
 
-describe.only('A Google Music instance with shuffle and repeat off', function () {
-  browserUtils.openMusic({killBrowser: false});
+describe.only('A Google Music instance', function () {
+  describe('when we toggle shuffle', function () {
+    browserUtils.execute(function getShuffleMode () {
+      return window.MusicAPI.Playback.getShuffle();
+    });
+    before(function saveFirstShuffle () {
+      this.firstShuffle = this.result;
+    });
+    after(function cleanup () {
+      delete this.firstShuffle;
+    });
+    browserUtils.execute(function moveToNextTrack () {
+      window.MusicAPI.Playback.toggleShuffle();
+    });
 
-  it('has shuffle off', function () {
-    // Placeholder for linter
-  });
-
-  it('has repeat off', function () {
-    // Placeholder for linter
-  });
-
-  describe('when we enable shuffle', function () {
-    it('has shuffle on', function () {
-      // Placeholder for linter
+    it('goes to the next mode', function () {
+      var secondShuffle = this.result;
+      expect(secondShuffle).to.not.equal(this.firstShuffle);
     });
   });
 
-  describe('when we enable repeat', function () {
-    it('has repeat on', function () {
+  describe('when we toggle repeat', function () {
+    it('goes to the next mode', function () {
       // Placeholder for linter
     });
   });
