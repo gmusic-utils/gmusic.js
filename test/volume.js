@@ -6,7 +6,7 @@ var browserUtils = require('./utils/browser');
 describe('Google Music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getVolume () {
-    return window.MusicApi.Volume.getVolume();
+    return window.MusicAPI.Volume.getVolume();
   });
 
   it('has a volume amount', function () {
@@ -16,8 +16,22 @@ describe('Google Music', function () {
   });
 
   describe('when volume is increased', function () {
+    before(function saveOldVolume () {
+      this.volume = this.result;
+    });
+    after(function cleanup () {
+      delete this.volume;
+    });
+    browserUtils.execute(function getNewVolume () {
+      return window.MusicAPI.Volume.increaseVolume(10);
+    });
+    browserUtils.execute(function getNewVolume () {
+      return window.MusicAPI.Volume.getVolume();
+    });
+
     it('has an increased volume', function () {
-      // Placeholder for linter
+      var newVolume = this.result;
+      expect(newVolume).to.equal(
     });
 
     describe('when volume is decreased', function () {
