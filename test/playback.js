@@ -132,7 +132,7 @@ describe('A Google Music instance', function () {
     });
   });
 
-  describe.only('when we toggle repeat', function () {
+  describe('when we toggle repeat', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.MusicAPI.Playback.getRepeat();
     });
