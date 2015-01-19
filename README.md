@@ -200,19 +200,21 @@ Retrieve the URL of the current song for sharing
 - retVal `String` - URL for current song
 
 ### Hooks
-Hooks are currently defined via defining and overriding on `window.GoogleMusicApp`.
+Hooks are currently bound via `.on` and other corresponding methods for [node's EventEmitter][EventEmitter]
+
+[EventEmitter]: http://nodejs.org/api/events.html
 
 ```js
-window.GoogleMusicApp.notifySong = function (song) {
+googleMusic.on('change:song', function (song) {
 };
 ```
 
-#### `notifySong(song)`
+#### `.on('change:song')`
 Triggers when a song changes
 
 ```js
-window.GoogleMusicApp.notifySong = function (song) {
-};
+googleMusic.on('change:song', function (song) {
+});
 ```
 
 - song `Object` - Container for song info
@@ -222,34 +224,34 @@ window.GoogleMusicApp.notifySong = function (song) {
     - art `String` - URL for album art of the song
     - duration `Number` - Seconds that the track will last for
 
-#### `shuffleChanged(mode)`
+#### `.on('change:shuffle')`
 Triggers when shuffle is toggled
 
 ```js
-window.GoogleMusicApp.shuffleChanged = function (mode) {
-};
+googleMusic.on('change:shuffle', function (mode) {
+});
 ```
 
 - mode `String` - Mode that shuffle changed to
     - Values are consistent with `playback.getShuffle()`
 
-#### `repeatChanged(mode)`
+#### `.on('change:repeat')`
 Triggers when repeat is toggled
 
 ```js
-window.GoogleMusicApp.repeatChanged = function (mode) {
-};
+googleMusic.on('change:repeat', function (mode) {
+});
 ```
 
 - mode `String` - Mode that repeat changed to
     - Values are consistent with `playback.getRepeat()`
 
-#### `playbackChanged(mode)`
+#### `.on('change:playback')`
 Triggers when a song is started, paused, or stopped
 
 ```js
-window.GoogleMusicApp.playbackChanged = function (mode) {
-};
+googleMusic.on('change:playback', function (mode) {
+});
 ```
 
 - mode `String` - Phase that a song is in (e.g. 0, 1, 2)
@@ -258,24 +260,24 @@ window.GoogleMusicApp.playbackChanged = function (mode) {
     - 2 - Song is playing
     - Values are available via `GoogleMusic.Playback.STOPPED`, `GoogleMusic.Playback.PAUSED`, and `GoogleMusic.Playback.PLAYING`
 
-#### `playbackTimeChanged(playbackInfo)`
+#### `.on('change:playback-time')`
 Triggers when playback shifts
 
 ```js
-window.GoogleMusicApp.playbackTimeChanged = function (playbackInfo) {
-};
+googleMusic.on('change:playback-time', function (playbackInfo) {
+});
 ```
 
 - playbackInfo `Object` - Container for playback info
     - currentTime `Number` - Milliseconds of how far a track has progressed
     - totalTime `Number` - Milliseconds of how long a track is
 
-#### `ratingChanged(rating)`
+#### `.on('change:rating')`
 Triggers when the current song is rated
 
 ```js
-window.GoogleMusicApp.ratingChanged = function (rating) {
-};
+googleMusic.on('change:rating', function (rating) {
+});
 ```
 
 - rating `Number` - Rating the current song changed to
