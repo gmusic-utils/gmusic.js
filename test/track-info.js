@@ -20,14 +20,8 @@ describe('A Google Music instance playing no music', function () {
   describe('when we are playing music', function () {
     browserUtils.execute(function setupSongWatcher () {
       window.GoogleMusicApp = {
-        notifySong: function saveSong (title, artist, album, art, duration) {
-          window.song = {
-            title: title,
-            artist: artist,
-            album: album,
-            art: art,
-            duration: duration
-          };
+        notifySong: function saveSong (song) {
+          window.song = song;
         }
       };
     });
