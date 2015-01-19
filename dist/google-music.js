@@ -81,7 +81,7 @@ var proto = GoogleMusic._protoObj = {};
 proto.volume = {
   // Query required elements
   init: function () {
-    this._sliderEl = this.doc.querySelector('#vslider');
+    this.volume._sliderEl = this.doc.querySelector('#vslider');
   },
 
   // Get the current volume level.
@@ -127,12 +127,12 @@ proto.volume = {
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
-    this._sliderEl = this.doc.getElementById('slider');
-    this._playPauseEl = this.doc.querySelector('button[data-id="play-pause"]');
-    this._forwardEl = this.doc.querySelector('button[data-id="forward"]');
-    this._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
-    this._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
-    this._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
+    this.playback._sliderEl = this.doc.getElementById('slider');
+    this.playback._playPauseEl = this.doc.querySelector('button[data-id="play-pause"]');
+    this.playback._forwardEl = this.doc.querySelector('button[data-id="forward"]');
+    this.playback._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
+    this.playback._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
+    this.playback._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
   },
 
   // Playback modes.
@@ -151,16 +151,16 @@ proto.playback = {
 
   // Time functions.
   getPlaybackTime: function () {
-    return parseInt(this._sliderEl.getAttribute('aria-valuenow'), 10);
+    return parseInt(this.playback._sliderEl.getAttribute('aria-valuenow'), 10);
   },
 
   setPlaybackTime: function (milliseconds) {
-    var percent = milliseconds / parseFloat(this._sliderEl.getAttribute('aria-valuemax'));
-    var lower = this._sliderEl.offsetLeft + 6;
-    var upper = this._sliderEl.offsetLeft + this._sliderEl.clientWidth - 6;
+    var percent = milliseconds / parseFloat(this.playback._sliderEl.getAttribute('aria-valuemax'));
+    var lower = this.playback._sliderEl.offsetLeft + 6;
+    var upper = this.playback._sliderEl.offsetLeft + this.playback._sliderEl.clientWidth - 6;
     var x = lower + percent * (upper - lower);
 
-    this.mouse.clickAtLocation(this._sliderEl, x, 0);
+    this.mouse.clickAtLocation(this.playback._sliderEl, x, 0);
   },
 
   // Playback functions.
