@@ -317,7 +317,7 @@ proto.hooks = {
             // Make sure that this is the first of the notifications for the
             // insertion of the song information elements.
             if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
-              that.win.GoogleMusicApp.notifySong({
+              that.emit('change:song', {
                 title: title,
                 artist: artist,
                 album: album,
@@ -340,7 +340,7 @@ proto.hooks = {
         var id = target.dataset.id;
 
         if (id === 'shuffle') {
-          that.win.GoogleMusicApp.shuffleChanged(target.value);
+          that.emit('change:shuffle', target.value);
         }
       });
     });
@@ -351,7 +351,7 @@ proto.hooks = {
         var id = target.dataset.id;
 
         if (id === 'repeat') {
-          that.win.GoogleMusicApp.repeatChanged(target.value);
+          that.emit('change:repeat', target.value);
         }
       });
     });
@@ -376,7 +376,7 @@ proto.hooks = {
             }
           }
 
-          that.win.GoogleMusicApp.playbackChanged(mode);
+          that.emit('change:playback', mode);
         }
       });
     });
@@ -389,7 +389,7 @@ proto.hooks = {
         if (id === 'slider') {
           var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
           var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
-          that.win.GoogleMusicApp.playbackTimeChanged({current: currentTime, total: totalTime});
+          that.emit('change:playback-time', {current: currentTime, total: totalTime});
         }
       });
     });
@@ -399,7 +399,7 @@ proto.hooks = {
         var target = m.target;
 
         if (target.classList.contains('selected')) {
-          that.win.GoogleMusicApp.ratingChanged(target.dataset.rating);
+          that.emit('change:rating', target.dataset.rating);
         }
       });
     });
