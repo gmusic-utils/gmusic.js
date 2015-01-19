@@ -9,11 +9,9 @@ describe('A track in Google Music', function () {
     url: 'https://play.google.com/music/listen#/album//this-is-an-album-artist/this-is-an-album'
   });
   browserUtils.execute(function setupHooks () {
-    window.GoogleMusicApp = {
-      ratingChanged: function (rating) {
-        window.rating = rating;
-      }
-    };
+    window.googleMusic.on('change:rating', function ratingChanged (rating) {
+      window.rating = rating;
+    });
   });
   browserUtils.execute(function playViaApi () {
     window.googleMusic.playback.playPause();
