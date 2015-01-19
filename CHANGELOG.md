@@ -1,4 +1,6 @@
 # google-music changelog
+2.0.4 - Moved from `setStarRating` to `setRating`, renamed `changeRepeat` to `toggleRepeat`, and moved `notifySong` to provide duration in millseconds
+
 2.0.3 - Moved to EventEmitter for hooks
 
 2.0.2 - Refactored internals, moved constants as class properties
