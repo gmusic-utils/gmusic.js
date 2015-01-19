@@ -222,7 +222,7 @@ googleMusic.on('change:song', function (song) {
     - artist `String` - Artist of the song
     - album `String` - Album of the song
     - art `String` - URL for album art of the song
-    - duration `Number` - Seconds that the track will last for
+    - duration `Number` - Milliseconds that the track will last for
 
 #### `.on('change:shuffle')`
 Triggers when shuffle is toggled
