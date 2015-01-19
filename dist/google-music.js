@@ -133,21 +133,21 @@ proto.playback = {
     this.playback._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
     this.playback._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
     this.playback._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
+
+    // Playback modes.
+    this.playback.STOPPED = 0;
+    this.playback.PAUSED = 1;
+    this.playback.PLAYING = 2;
+
+    // Repeat modes.
+    this.playback.LIST_REPEAT = 'LIST_REPEAT';
+    this.playback.SINGLE_REPEAT = 'SINGLE_REPEAT';
+    this.playback.NO_REPEAT = 'NO_REPEAT';
+
+    // Shuffle modes.
+    this.playback.ALL_SHUFFLE = 'ALL_SHUFFLE';
+    this.playback.NO_SHUFFLE = 'NO_SHUFFLE';
   },
-
-  // Playback modes.
-  STOPPED: 0,
-  PAUSED: 1,
-  PLAYING: 2,
-
-  // Repeat modes.
-  LIST_REPEAT: 'LIST_REPEAT',
-  SINGLE_REPEAT: 'SINGLE_REPEAT',
-  NO_REPEAT: 'NO_REPEAT',
-
-  // Shuffle modes.
-  ALL_SHUFFLE: 'ALL_SHUFFLE',
-  NO_SHUFFLE: 'NO_SHUFFLE',
 
   // Time functions.
   getPlaybackTime: function () {
