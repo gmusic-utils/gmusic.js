@@ -140,7 +140,7 @@ Retrieve the current setting for repeat
     - `NO_REPEAT` will not repeat the queue
     - We created constants named `GoogleMusic.Playback.LIST_REPEAT`, `GoogleMusic.Playback.SINGLE_REPEAT`, `GoogleMusic.Playback.NO_REPEAT`
 
-#### `playback.changeRepeat(mode)`
+#### `playback.toggleRepeat(mode)`
 Change the current setting for repeat
 
 - mode `String` - Optional mode to change repeat to

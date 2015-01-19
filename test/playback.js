@@ -176,7 +176,7 @@ describe('A Google Music instance', function () {
       delete this.repeat;
     });
     browserUtils.execute(function moveToNextTrack () {
-      window.googleMusic.playback.changeRepeat();
+      window.googleMusic.playback.toggleRepeat();
     });
 
     it('goes to the next mode', function () {
