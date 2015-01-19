@@ -203,23 +203,24 @@ Retrieve the URL of the current song for sharing
 Hooks are currently defined via defining and overriding on `window.GoogleMusicApp`.
 
 ```js
-window.GoogleMusicApp.notifySong = function (title, artist, album, art, duration) {
+window.GoogleMusicApp.notifySong = function (song) {
 };
 ```
 
-#### `notifySong(title, artist, album, art, duration)`
+#### `notifySong(song)`
 Triggers when a song changes
 
 ```js
-window.GoogleMusicApp.notifySong = function (title, artist, album, art, duration) {
+window.GoogleMusicApp.notifySong = function (song) {
 };
 ```
 
-- title `String` - Name of the song
-- artist `String` - Artist of the song
-- album `String` - Album of the song
-- art `String` - URL for album art of the song
-- duration `Number` - Seconds that the track will last for
+- song `Object` - Container for song info
+    - title `String` - Name of the song
+    - artist `String` - Artist of the song
+    - album `String` - Album of the song
+    - art `String` - URL for album art of the song
+    - duration `Number` - Seconds that the track will last for
 
 #### `shuffleChanged(mode)`
 Triggers when shuffle is toggled
@@ -257,16 +258,17 @@ window.GoogleMusicApp.playbackChanged = function (mode) {
     - 2 - Song is playing
     - Values are available via `GoogleMusic.Playback.STOPPED`, `GoogleMusic.Playback.PAUSED`, and `GoogleMusic.Playback.PLAYING`
 
-#### `playbackTimeChanged(currentTime, totalTime)`
+#### `playbackTimeChanged(playbackInfo)`
 Triggers when playback shifts
 
 ```js
-window.GoogleMusicApp.playbackTimeChanged = function (currentTime, totalTime) {
+window.GoogleMusicApp.playbackTimeChanged = function (playbackInfo) {
 };
 ```
 
-- currentTime `Number` - Milliseconds of how far a track has progressed
-- totalTime `Number` - Milliseconds of how long a track is
+- playbackInfo `Object` - Container for playback info
+    - currentTime `Number` - Milliseconds of how far a track has progressed
+    - totalTime `Number` - Milliseconds of how long a track is
 
 #### `ratingChanged(rating)`
 Triggers when the current song is rated
