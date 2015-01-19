@@ -272,6 +272,9 @@ proto.extras = {
 
 proto.hooks = {
   init: function () {
+    // Save context for bindings
+    var that = this;
+
     // Define mutation observer for reuse
     var MutationObserver = this.win.MutationObserver || this.win.WebKitMutationObserver;
 
@@ -286,11 +289,11 @@ proto.hooks = {
           var name = target.id || target.className;
 
           if (name === 'text-wrapper')  {
-            var title = this.doc.querySelector('#playerSongTitle');
-            var artist = this.doc.querySelector('#player-artist');
-            var album = this.doc.querySelector('.player-album');
-            var art = this.doc.querySelector('#playingAlbumArt');
-            var duration = parseInt(this.doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10) / 1000;
+            var title = that.doc.querySelector('#playerSongTitle');
+            var artist = that.doc.querySelector('#player-artist');
+            var album = that.doc.querySelector('.player-album');
+            var art = that.doc.querySelector('#playingAlbumArt');
+            var duration = parseInt(that.doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10) / 1000;
 
             title = (title) ? title.innerText : 'Unknown';
             artist = (artist) ? artist.innerText : 'Unknown';
@@ -305,7 +308,7 @@ proto.hooks = {
             // Make sure that this is the first of the notifications for the
             // insertion of the song information elements.
             if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
-              this.win.GoogleMusicApp.notifySong(title, artist, album, art, duration);
+              that.win.GoogleMusicApp.notifySong(title, artist, album, art, duration);
 
               lastTitle = title;
               lastArtist = artist;
@@ -322,7 +325,7 @@ proto.hooks = {
         var id = target.dataset.id;
 
         if (id === 'shuffle') {
-          this.win.GoogleMusicApp.shuffleChanged(target.value);
+          that.win.GoogleMusicApp.shuffleChanged(target.value);
         }
       });
     });
@@ -333,7 +336,7 @@ proto.hooks = {
         var id = target.dataset.id;
 
         if (id === 'repeat') {
-          this.win.GoogleMusicApp.repeatChanged(target.value);
+          that.win.GoogleMusicApp.repeatChanged(target.value);
         }
       });
     });
@@ -348,17 +351,17 @@ proto.hooks = {
           var playing = target.classList.contains('playing');
 
           if (playing) {
-            mode = this.playback.PLAYING;
+            mode = that.playback.PLAYING;
           } else {
             // If there is a current song, then the player is paused.
-            if (this.doc.querySelector('#playerSongInfo').childNodes.length) {
-              mode = this.playback.PAUSED;
+            if (that.doc.querySelector('#playerSongInfo').childNodes.length) {
+              mode = that.playback.PAUSED;
             } else {
-              mode = this.playback.STOPPED;
+              mode = that.playback.STOPPED;
             }
           }
 
-          this.win.GoogleMusicApp.playbackChanged(mode);
+          that.win.GoogleMusicApp.playbackChanged(mode);
         }
       });
     });
@@ -371,7 +374,7 @@ proto.hooks = {
         if (id === 'slider') {
           var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
           var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
-          this.win.GoogleMusicApp.playbackTimeChanged(currentTime, totalTime);
+          that.win.GoogleMusicApp.playbackTimeChanged(currentTime, totalTime);
         }
       });
     });
@@ -381,7 +384,7 @@ proto.hooks = {
         var target = m.target;
 
         if (target.classList.contains('selected')) {
-          this.win.GoogleMusicApp.ratingChanged(target.dataset.rating);
+          that.win.GoogleMusicApp.ratingChanged(target.dataset.rating);
         }
       });
     });
