@@ -1,4 +1,6 @@
 # google-music changelog
+2.0.3 - Moved to EventEmitter for hooks
+
 2.0.2 - Refactored internals, moved constants as class properties
 
 2.0.1 - Fixed style issues and moved all method keys to lower case for OOP consistency
