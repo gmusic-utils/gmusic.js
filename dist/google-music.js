@@ -44,7 +44,8 @@ function GoogleMusic(win) {
     throw new Error('`win` was not provided to the `GoogleMusic` constructor');
   }
 
-  // Localize reference to document and `that`
+  // Localize reference to window and document
+  this.win = win;
   this.doc = win.document;
 
   // Initialize a keyboard and mouse
