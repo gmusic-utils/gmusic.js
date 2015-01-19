@@ -75,11 +75,9 @@ describe('A Google Music instance not playing music', function () {
     return window.googleMusic.playback.getPlaybackTime();
   });
   browserUtils.execute(function setupHooks () {
-    window.GoogleMusicApp = {
-      playbackTimeChanged: function (currentTime, totalTime) {
-        window.playbackTimeChanged = true;
-      }
-    };
+    window.googleMusic.on('change:playback-time', function playbackTimeChanged (playbackInfo) {
+      window.playbackTimeChanged = true;
+    });
   });
 
   // Currently we return 0 but that isn't accurate. We should return 0.
@@ -129,14 +127,12 @@ describe('A Google Music instance not playing music', function () {
 describe('A Google Music instance', function () {
   browserUtils.openMusic();
   browserUtils.execute(function setupHooks () {
-    window.GoogleMusicApp = {
-      repeatChanged: function (mode) {
-        window.repeatChanged = true;
-      },
-      shuffleChanged: function (mode) {
-        window.shuffleChanged = true;
-      }
-    };
+    window.googleMusic.on('change:repeat', function repeatChanged (mode) {
+      window.repeatChanged = true;
+    });
+    window.googleMusic.on('change:shuffle', function shuffleChanged (mode) {
+      window.shuffleChanged = true;
+    });
   });
 
   describe('when we toggle shuffle', function () {

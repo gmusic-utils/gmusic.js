@@ -14,11 +14,9 @@ describe('A new session with Google Music', function () {
 
   describe('when we are playing music', function () {
     browserUtils.execute(function setupPlaybackWatcher () {
-      window.GoogleMusicApp = {
-        playbackChanged: function saveMode (mode) {
-          window.playbackMode = mode;
-        }
-      };
+      window.googleMusic.on('change:playback', function saveMode (mode) {
+        window.playbackMode = mode;
+      });
     });
     browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
