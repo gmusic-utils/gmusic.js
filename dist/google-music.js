@@ -100,7 +100,7 @@ proto.volume = {
     }
   },
 
-  // Increase the volume by an amount (default of 1).
+  // Increase the volume by an amount (default of 1)
   increaseVolume: function (amount) {
     if (amount === undefined) {
       amount = 1;
@@ -111,7 +111,7 @@ proto.volume = {
     }
   },
 
-  // Decrease the volume by an amount (default of 1).
+  // Decrease the volume by an amount (default of 1)
   decreaseVolume: function (amount) {
     if (amount === undefined) {
       amount = 1;
@@ -123,7 +123,22 @@ proto.volume = {
   }
 };
 
-// Create a playback API
+// Create a playback API and constants
+GoogleMusic.Playback = {
+  // Playback states
+  STOPPED: 0,
+  PAUSED: 1,
+  PLAYING: 2,
+
+  // Repeat modes
+  LIST_REPEAT: 'LIST_REPEAT',
+  SINGLE_REPEAT: 'SINGLE_REPEAT',
+  NO_REPEAT: 'NO_REPEAT',
+
+  // Shuffle modes
+  ALL_SHUFFLE: 'ALL_SHUFFLE',
+  NO_SHUFFLE: 'NO_SHUFFLE'
+};
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
@@ -133,23 +148,9 @@ proto.playback = {
     this.playback._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
     this.playback._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
     this.playback._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
-
-    // Playback modes.
-    this.playback.STOPPED = 0;
-    this.playback.PAUSED = 1;
-    this.playback.PLAYING = 2;
-
-    // Repeat modes.
-    this.playback.LIST_REPEAT = 'LIST_REPEAT';
-    this.playback.SINGLE_REPEAT = 'SINGLE_REPEAT';
-    this.playback.NO_REPEAT = 'NO_REPEAT';
-
-    // Shuffle modes.
-    this.playback.ALL_SHUFFLE = 'ALL_SHUFFLE';
-    this.playback.NO_SHUFFLE = 'NO_SHUFFLE';
   },
 
-  // Time functions.
+  // Time functions
   getPlaybackTime: function () {
     return parseInt(this.playback._sliderEl.getAttribute('aria-valuenow'), 10);
   },
@@ -163,7 +164,7 @@ proto.playback = {
     this.mouse.clickAtLocation(this.playback._sliderEl, x, 0);
   },
 
-  // Playback functions.
+  // Playback functions
   playPause: function () { this.playback._playPauseEl.click(); },
   forward: function () { this.playback._forwardEl.click(); },
   rewind: function () { this.playback._rewindEl.click(); },
@@ -177,17 +178,17 @@ proto.playback = {
 
   changeRepeat: function (mode) {
     if (!mode) {
-      // Toggle between repeat modes once.
+      // Toggle between repeat modes once
       this.playback._repeatEl.click();
     } else {
-      // Toggle between repeat modes until the desired mode is activated.
+      // Toggle between repeat modes until the desired mode is activated
       while (this.playback.getRepeat() !== mode) {
         this.playback._repeatEl.click();
       }
     }
   },
 
-  // Taken from the Google Play Music page.
+  // Taken from the Google Play Music page
   toggleVisualization: function () {
     this.win.SJBpost('toggleVisualization');
   }
@@ -195,12 +196,12 @@ proto.playback = {
 
 // Create a rating API
 proto.rating = {
-  // Determine whether the rating system is thumbs or stars.
+  // Determine whether the rating system is thumbs or stars
   isStarsRatingSystem: function () {
     return this.doc.querySelector('.rating-container.stars') !== null;
   },
 
-  // Get current rating.
+  // Get current rating
   getRating: function () {
     var el = this.doc.querySelector('.player-rating-container li.selected');
 
@@ -211,7 +212,7 @@ proto.rating = {
     }
   },
 
-  // Thumbs up.
+  // Thumbs up
   toggleThumbsUp: function () {
     var el = this.doc.querySelector('.player-rating-container li[data-rating="5"]');
 
@@ -220,7 +221,7 @@ proto.rating = {
     }
   },
 
-  // Thumbs down.
+  // Thumbs down
   toggleThumbsDown: function () {
     var el = this.doc.querySelector('.player-rating-container li[data-rating="1"]');
 
@@ -229,7 +230,7 @@ proto.rating = {
     }
   },
 
-  // Set a star rating.
+  // Set a star rating
   setStarRating: function (rating) {
     var el = this.doc.querySelector('.player-rating-container li[data-rating="' + rating + '"]');
 
@@ -241,7 +242,7 @@ proto.rating = {
 
 // Miscellaneous functions
 proto.extras = {
-  // Get a shareable URL of the song on Google Play Music.
+  // Get a shareable URL of the song on Google Play Music
   getSongURL: function () {
     var albumEl = this.doc.querySelector('.player-album');
     var artistEl = this.doc.querySelector('.player-artist');
@@ -300,7 +301,7 @@ proto.hooks = {
             album = (album) ? album.innerText : 'Unknown';
             art = (art) ? art.src : null;
 
-            // The art may be a protocol-relative URL, so normalize it to HTTPS.
+            // The art may be a protocol-relative URL, so normalize it to HTTPS
             if (art && art.slice(0, 2) === '//') {
               art = 'https:' + art;
             }
@@ -351,13 +352,13 @@ proto.hooks = {
           var playing = target.classList.contains('playing');
 
           if (playing) {
-            mode = that.playback.PLAYING;
+            mode = GoogleMusic.Playback.PLAYING;
           } else {
-            // If there is a current song, then the player is paused.
+            // If there is a current song, then the player is paused
             if (that.doc.querySelector('#playerSongInfo').childNodes.length) {
-              mode = that.playback.PAUSED;
+              mode = GoogleMusic.Playback.PAUSED;
             } else {
-              mode = that.playback.STOPPED;
+              mode = GoogleMusic.Playback.STOPPED;
             }
           }
 
