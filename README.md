@@ -206,7 +206,7 @@ Hooks are currently bound via `.on` and other corresponding methods for [node's 
 
 ```js
 googleMusic.on('change:song', function (song) {
-};
+});
 ```
 
 #### `.on('change:song')`
