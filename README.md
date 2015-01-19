@@ -124,7 +124,7 @@ Retrieve the status of shuffle
 - retVal `String` - Current state of shuffle (e.g. `ALL_SHUFFLE`, `NO_SHUFFLE`)
     - `ALL_SHUFFLE` will shuffle between all tracks
     - `NO_SHUFFLE` will play the tracks in the order they were added
-    - We created constants named `playback.ALL_SHUFFLE` or `playback.NO_SHUFFLE`
+    - We created constants named `GoogleMusic.Playback.ALL_SHUFFLE` or `GoogleMusic.Playback.NO_SHUFFLE`
 
 #### `playback.toggleShuffle()`
 Toggle to between shuffle being active or inactive
@@ -138,7 +138,7 @@ Retrieve the current setting for repeat
     - `LIST_REPEAT` will repeat the queue when it reaches the last song
     - `SINGLE_REPEAT` will repeat the current song indefinitely
     - `NO_REPEAT` will not repeat the queue
-    - We created constants named `playback.LIST_REPEAT`, `playback.SINGLE_REPEAT`, `playback.NO_REPEAT`
+    - We created constants named `GoogleMusic.Playback.LIST_REPEAT`, `GoogleMusic.Playback.SINGLE_REPEAT`, `GoogleMusic.Playback.NO_REPEAT`
 
 #### `playback.changeRepeat(mode)`
 Change the current setting for repeat
@@ -255,7 +255,7 @@ window.GoogleMusicApp.playbackChanged = function (mode) {
     - 0 - Song is stopped
     - 1 - Song is paused
     - 2 - Song is playing
-    - Values are available via `playback.STOPPED`, `playback.PAUSED`, and `playback.PLAYING`
+    - Values are available via `GoogleMusic.Playback.STOPPED`, `GoogleMusic.Playback.PAUSED`, and `GoogleMusic.Playback.PLAYING`
 
 #### `playbackTimeChanged(currentTime, totalTime)`
 Triggers when playback shifts
