@@ -184,7 +184,7 @@ proto.playback = {
     return this.playback._repeatEl.value;
   },
 
-  changeRepeat: function (mode) {
+  toggleRepeat: function (mode) {
     if (!mode) {
       // Toggle between repeat modes once
       this.playback._repeatEl.click();
@@ -238,11 +238,11 @@ proto.rating = {
     }
   },
 
-  // Set a star rating
-  setStarRating: function (rating) {
+  // Set a rating
+  setRating: function (rating) {
     var el = this.doc.querySelector('.player-rating-container li[data-rating="' + rating + '"]');
 
-    if (el) {
+    if (el && !el.classList.contains('selected')) {
       el.click();
     }
   }
@@ -302,7 +302,7 @@ proto.hooks = {
             var artist = that.doc.querySelector('#player-artist');
             var album = that.doc.querySelector('.player-album');
             var art = that.doc.querySelector('#playingAlbumArt');
-            var duration = parseInt(that.doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10) / 1000;
+            var duration = parseInt(that.doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10);
 
             title = (title) ? title.innerText : 'Unknown';
             artist = (artist) ? artist.innerText : 'Unknown';
