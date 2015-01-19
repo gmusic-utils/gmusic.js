@@ -65,6 +65,31 @@ describe('A track in Google Music', function () {
       it('has no rating', function () {
         expect(this.result).to.equal('0');
       });
+
+      describe('when a rating is set via `setRating`', function () {
+        browserUtils.execute(function setRating () {
+          window.googleMusic.rating.setRating('5');
+        });
+        browserUtils.execute(function setRating () {
+          return window.googleMusic.rating.getRating();
+        });
+        it('becomes set', function () {
+          expect(this.result).to.equal('5');
+        });
+
+        describe('and when set again', function () {
+          browserUtils.execute(function setRating () {
+            window.googleMusic.rating.setRating('5');
+          });
+          browserUtils.execute(function setRating () {
+            return window.googleMusic.rating.getRating();
+          });
+
+          it('remains set', function () {
+            expect(this.result).to.equal('5');
+          });
+        });
+      });
     });
   });
 });

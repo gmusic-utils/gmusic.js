@@ -180,12 +180,10 @@ Switch between thumbs up and no thumbs up for the current track. If thumbs down 
 #### `rating.toggleThumbsDown()`
 Switch between thumbs down and no thumbs down for the current track. If thumbs up was set, this will remove the thumbs up rating.
 
-#### `rating.setStarRating(rating)`
-Set the star rating for the current track
+#### `rating.setRating(rating)`
+Set the rating for the current track
 
 - rating `String` - Rating to set for the current track. This should be between 1 and 5
-
-**This is an untested method**
 
 ### Extras
 `googleMusic.Extras` is a collection of utility functions for Google Music
