@@ -199,7 +199,7 @@ proto.playback = {
   },
 
   setPlaybackTime: function (milliseconds) {
-    var percent = milliseconds / parseFloat(this.playback._sliderEl.getAttribute('aria-valuemax'));
+    var percent = milliseconds / parseFloat(this.playback._sliderEl.getAttribute('aria-valuemax'), 10);
     var lower = this.playback._sliderEl.offsetLeft + 6;
     var upper = this.playback._sliderEl.offsetLeft + this.playback._sliderEl.clientWidth - 6;
     var x = lower + percent * (upper - lower);
@@ -447,29 +447,22 @@ proto.hooks = {
       });
     });
 
-
-    console.log(this.doc.getElementById(SELECTORS.info.containerId));
     addObserver.observe(this.doc.getElementById(SELECTORS.info.containerId), {
       childList: true,
       subtree: true
     });
-    console.log(this.doc.querySelector(SELECTORS.shuffle.buttonSelector));
     shuffleObserver.observe(this.doc.querySelector(SELECTORS.shuffle.buttonSelector), {
       attributes: true
     });
-    console.log(this.doc.querySelector(SELECTORS.repeat.buttonSelector));
     repeatObserver.observe(this.doc.querySelector(SELECTORS.repeat.buttonSelector), {
       attributes: true
     });
-    console.log(this.doc.querySelector(SELECTORS.playPause.buttonSelector));
     playbackObserver.observe(this.doc.querySelector(SELECTORS.playPause.buttonSelector), {
       attributes: true
     });
-    console.log(this.doc.getElementById(SELECTORS.slider.id));
     playbackTimeObserver.observe(this.doc.getElementById(SELECTORS.slider.id), {
       attributes: true
     });
-    console.log(this.doc.querySelector(SELECTORS.rating.containerSelector));
     ratingObserver.observe(this.doc.querySelector(SELECTORS.rating.containerSelector), {
       attributes: true,
       subtree: true
