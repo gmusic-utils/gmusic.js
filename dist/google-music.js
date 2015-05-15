@@ -38,7 +38,7 @@ var SELECTORS = {
     id: 'playerSongInfo'
   },
   forward: {
-    buttonSelector: '#player sj-icon-button[data-id="repeat"]'
+    buttonSelector: '#player sj-icon-button[data-id="forward"]'
   },
   playPause: {
     buttonSelector: '#player sj-icon-button[data-id="play-pause"]',
@@ -52,6 +52,9 @@ var SELECTORS = {
     dataId: 'repeat',
     buttonSelector: '#player sj-icon-button[data-id="repeat"]'
   },
+  rewind: {
+    buttonSelector: '#player sj-icon-button[data-id="rewind"]'
+  },
   shuffle: {
     dataId: 'shuffle',
     buttonSelector: '#player sj-icon-button[data-id="shuffle"]'
@@ -60,7 +63,6 @@ var SELECTORS = {
     id: 'material-player-progress'
   }
 };
-
 
 // Define bind method
 function bind(context, fn) {
@@ -183,9 +185,9 @@ proto.playback = {
     this.playback._sliderEl = this.doc.getElementById(SELECTORS.slider.id);
     this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
     this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
-    this.playback._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
-    this.playback._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
-    this.playback._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
+    this.playback._rewindEl = this.doc.querySelector(SELECTORS.rewind.buttonSelector);
+    this.playback._shuffleEl = this.doc.querySelector(SELECTORS.shuffle.buttonSelector);
+    this.playback._repeatEl = this.doc.querySelector(SELECTORS.repeat.buttonSelector);
   },
 
   // Time functions
@@ -442,22 +444,29 @@ proto.hooks = {
       });
     });
 
+
+    console.log(this.doc.getElementById(SELECTORS.info.id));
     addObserver.observe(this.doc.getElementById(SELECTORS.info.id), {
       childList: true,
       subtree: true
     });
+    console.log(this.doc.querySelector(SELECTORS.shuffle.buttonSelector));
     shuffleObserver.observe(this.doc.querySelector(SELECTORS.shuffle.buttonSelector), {
       attributes: true
     });
+    console.log(this.doc.querySelector(SELECTORS.repeat.buttonSelector));
     repeatObserver.observe(this.doc.querySelector(SELECTORS.repeat.buttonSelector), {
       attributes: true
     });
+    console.log(this.doc.querySelector(SELECTORS.playPause.buttonSelector));
     playbackObserver.observe(this.doc.querySelector(SELECTORS.playPause.buttonSelector), {
       attributes: true
     });
+    console.log(this.doc.getElementById(SELECTORS.slider.id));
     playbackTimeObserver.observe(this.doc.getElementById(SELECTORS.slider.id), {
       attributes: true
     });
+    console.log(this.doc.querySelector(SELECTORS.rating.containerSelector));
     ratingObserver.observe(this.doc.querySelector(SELECTORS.rating.containerSelector), {
       attributes: true,
       subtree: true
