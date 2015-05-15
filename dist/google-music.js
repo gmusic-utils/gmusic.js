@@ -32,6 +32,36 @@ var inherits = require('inherits');
 var Keyboard = require('./keyboard');
 var Mouse = require('./mouse');
 
+// Define selector constants
+var SELECTORS = {
+  info: {
+    id: 'playerSongInfo'
+  },
+  forward: {
+    buttonSelector: '#player sj-icon-button[data-id="repeat"]'
+  },
+  playPause: {
+    buttonSelector: '#player sj-icon-button[data-id="play-pause"]',
+    dataId: 'play-pause',
+    playingClass: 'playing'
+  },
+  rating: {
+    containerSelector: '#player .player-rating-container'
+  },
+  repeat: {
+    dataId: 'repeat',
+    buttonSelector: '#player sj-icon-button[data-id="repeat"]'
+  },
+  shuffle: {
+    dataId: 'shuffle',
+    buttonSelector: '#player sj-icon-button[data-id="shuffle"]'
+  },
+  slider: {
+    id: 'material-player-progress'
+  }
+};
+
+
 // Define bind method
 function bind(context, fn) {
   return function bindFn () {
@@ -150,9 +180,9 @@ GoogleMusic.Playback = {
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
-    this.playback._sliderEl = this.doc.getElementById('material-player-progress');
-    this.playback._playPauseEl = this.doc.querySelector('button[data-id="play-pause"]');
-    this.playback._forwardEl = this.doc.querySelector('button[data-id="forward"]');
+    this.playback._sliderEl = this.doc.getElementById(SELECTORS.slider.id);
+    this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
+    this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
     this.playback._rewindEl = this.doc.querySelector('button[data-id="rewind"]');
     this.playback._shuffleEl = this.doc.querySelector('button[data-id="shuffle"]');
     this.playback._repeatEl = this.doc.querySelector('button[data-id="repeat"]');
@@ -291,139 +321,147 @@ proto.hooks = {
     var lastArtist = '';
     var lastAlbum = '';
 
-    // var addObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     for (var i = 0; i < m.addedNodes.length; i++) {
-    //       var target = m.addedNodes[i];
-    //       var name = target.id || target.className;
+    var addObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        for (var i = 0; i < m.addedNodes.length; i++) {
+          var target = m.addedNodes[i];
+          var name = target.id || target.className;
 
-    //       if (name === 'text-wrapper')  {
-    //         var title = that.doc.querySelector('#playerSongTitle');
-    //         var artist = that.doc.querySelector('#player-artist');
-    //         var album = that.doc.querySelector('.player-album');
-    //         var art = that.doc.querySelector('#playingAlbumArt');
-    //         var duration = parseInt(that.doc.querySelector('#player #slider').getAttribute('aria-valuemax'), 10);
+          if (name === 'text-wrapper')  {
+            var title = that.doc.querySelector('#playerSongTitle');
+            var artist = that.doc.querySelector('#player-artist');
+            var album = that.doc.querySelector('.player-album');
+            var art = that.doc.querySelector('#playingAlbumArt');
+            var duration = parseInt(that.doc.getElementById(SELECTORS.slider.id).getAttribute('aria-valuemax'), 10);
 
-    //         title = (title) ? title.innerText : 'Unknown';
-    //         artist = (artist) ? artist.innerText : 'Unknown';
-    //         album = (album) ? album.innerText : 'Unknown';
-    //         art = (art) ? art.src : null;
+            title = (title) ? title.innerText : 'Unknown';
+            artist = (artist) ? artist.innerText : 'Unknown';
+            album = (album) ? album.innerText : 'Unknown';
+            art = (art) ? art.src : null;
 
-    //         // The art may be a protocol-relative URL, so normalize it to HTTPS
-    //         if (art && art.slice(0, 2) === '//') {
-    //           art = 'https:' + art;
-    //         }
+            // The art may be a protocol-relative URL, so normalize it to HTTPS
+            if (art && art.slice(0, 2) === '//') {
+              art = 'https:' + art;
+            }
 
-    //         // Make sure that this is the first of the notifications for the
-    //         // insertion of the song information elements.
-    //         if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
-    //           that.emit('change:song', {
-    //             title: title,
-    //             artist: artist,
-    //             album: album,
-    //             art: art,
-    //             duration: duration
-    //           });
+            // Make sure that this is the first of the notifications for the
+            // insertion of the song information elements.
+            if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
+              that.emit('change:song', {
+                title: title,
+                artist: artist,
+                album: album,
+                art: art,
+                duration: duration
+              });
 
-    //           lastTitle = title;
-    //           lastArtist = artist;
-    //           lastAlbum = album;
-    //         }
-    //       }
-    //     }
-    //   });
-    // });
+              lastTitle = title;
+              lastArtist = artist;
+              lastAlbum = album;
+            }
+          }
+        }
+      });
+    });
 
-    // var shuffleObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     var target = m.target;
-    //     var id = target.dataset.id;
+    var shuffleObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        var target = m.target;
+        var id = target.dataset.id;
 
-    //     if (id === 'shuffle') {
-    //       that.emit('change:shuffle', target.value);
-    //     }
-    //   });
-    // });
+        if (id === SELECTORS.shuffle.dataId) {
+          that.emit('change:shuffle', target.value);
+        }
+      });
+    });
 
-    // var repeatObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     var target = m.target;
-    //     var id = target.dataset.id;
+    var repeatObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        var target = m.target;
+        var id = target.dataset.id;
 
-    //     if (id === 'repeat') {
-    //       that.emit('change:repeat', target.value);
-    //     }
-    //   });
-    // });
+        if (id === SELECTORS.shuffle.repeat) {
+          that.emit('change:repeat', target.value);
+        }
+      });
+    });
 
-    // var playbackObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     var target = m.target;
-    //     var id = target.dataset.id;
+    var playbackObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        var target = m.target;
+        var id = target.dataset.id;
 
-    //     if (id === 'play-pause') {
-    //       var mode;
-    //       var playing = target.classList.contains('playing');
+        if (id === SELECTORS.playPause.dataId) {
+          var mode;
+          var playing = target.classList.contains(SELECTORS.playPause.playingClass);
 
-    //       if (playing) {
-    //         mode = GoogleMusic.Playback.PLAYING;
-    //       } else {
-    //         // If there is a current song, then the player is paused
-    //         if (that.doc.querySelector('#playerSongInfo').childNodes.length) {
-    //           mode = GoogleMusic.Playback.PAUSED;
-    //         } else {
-    //           mode = GoogleMusic.Playback.STOPPED;
-    //         }
-    //       }
+          if (playing) {
+            mode = GoogleMusic.Playback.PLAYING;
+          } else {
+            // If there is a current song, then the player is paused
+            if (that.doc.getElementById(SELECTORS.info.id).childNodes.length) {
+              mode = GoogleMusic.Playback.PAUSED;
+            } else {
+              mode = GoogleMusic.Playback.STOPPED;
+            }
+          }
 
-    //       that.emit('change:playback', mode);
-    //     }
-    //   });
-    // });
+          that.emit('change:playback', mode);
+        }
+      });
+    });
 
-    // var playbackTimeObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     var target = m.target;
-    //     var id = target.id;
+    var playbackTimeObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        var target = m.target;
+        var id = target.id;
 
-    //     if (id === 'slider') {
-    //       var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
-    //       var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
-    //       that.emit('change:playback-time', {current: currentTime, total: totalTime});
-    //     }
-    //   });
-    // });
+        if (id === SELECTORS.shuffle.buttonSelector) {
+          var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
+          var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
+          that.emit('change:playback-time', {current: currentTime, total: totalTime});
+        }
+      });
+    });
 
-    // var ratingObserver = new MutationObserver(function (mutations) {
-    //   mutations.forEach(function (m) {
-    //     var target = m.target;
+    var ratingObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        var target = m.target;
 
-    //     if (target.classList.contains('selected')) {
-    //       that.emit('change:rating', target.dataset.rating);
-    //     }
-    //   });
-    // });
+        // If the target is no longer outlined in its shadow DOM
+        // DEV: Access shadow DOM via `$`
+        //   Selected thumbs up:
+        //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-up" role="img"></core-icon>
+        //   Unselected thumbs down:
+        //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
+        var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
+        var selected = !notSelected;
+        if (selected) {
+          that.emit('change:rating', target.dataset.rating);
+        }
+      });
+    });
 
-    // addObserver.observe(this.doc.querySelector('#playerSongInfo'), {
-    //   childList: true,
-    //   subtree: true
-    // });
-    // shuffleObserver.observe(this.doc.querySelector('#player button[data-id="shuffle"]'), {
-    //   attributes: true
-    // });
-    // repeatObserver.observe(this.doc.querySelector('#player button[data-id="repeat"]'), {
-    //   attributes: true
-    // });
-    // playbackObserver.observe(this.doc.querySelector('#player button[data-id="play-pause"]'), {
-    //   attributes: true
-    // });
-    // playbackTimeObserver.observe(this.doc.querySelector('#player #slider'), {
-    //   attributes: true
-    // });
-    // ratingObserver.observe(this.doc.querySelector('#player .player-rating-container'), {
-    //   attributes: true,
-    //   subtree: true
-    // });
+    addObserver.observe(this.doc.getElementById(SELECTORS.info.id), {
+      childList: true,
+      subtree: true
+    });
+    shuffleObserver.observe(this.doc.querySelector(SELECTORS.shuffle.buttonSelector), {
+      attributes: true
+    });
+    repeatObserver.observe(this.doc.querySelector(SELECTORS.repeat.buttonSelector), {
+      attributes: true
+    });
+    playbackObserver.observe(this.doc.querySelector(SELECTORS.playPause.buttonSelector), {
+      attributes: true
+    });
+    playbackTimeObserver.observe(this.doc.getElementById(SELECTORS.slider.id), {
+      attributes: true
+    });
+    ratingObserver.observe(this.doc.querySelector(SELECTORS.rating.containerSelector), {
+      attributes: true,
+      subtree: true
+    });
   }
 };
 
