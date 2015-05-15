@@ -19,7 +19,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
       // Would not run if `browserMusicUtils.waitForPlaybackPause()` failed
     });
 
-    describe('when played via our API', function () {
+    describe.only('when played via our API', function () {
       browserUtils.execute(function pauseViaApi () {
         window.googleMusic.playback.playPause();
       });
@@ -31,7 +31,8 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
       describe('playing the next track', function () {
         browserUtils.execute(function getCurrentTrack () {
-          return document.getElementById('playerSongTitle').textContent;
+          var selectors = window.GoogleMusic.SELECTORS;
+          return document.getElementById(selectors.info.titleId).textContent;
         });
         before(function saveCurrentTrack () {
           this.track = this.result;
@@ -40,7 +41,8 @@ describe('A Google Music instance playing music (via manual click)', function ()
           window.googleMusic.playback.forward();
         });
         browserUtils.execute(function getNewTrack () {
-          return document.getElementById('playerSongTitle').textContent;
+          var selectors = window.GoogleMusic.SELECTORS;
+          return document.getElementById(selectors.info.titleId).textContent;
         });
         after(function cleanup () {
           delete this.track;
@@ -56,7 +58,8 @@ describe('A Google Music instance playing music (via manual click)', function ()
             window.googleMusic.playback.rewind();
           });
           browserUtils.execute(function getNewTrack () {
-            return document.getElementById('playerSongTitle').textContent;
+            var selectors = window.GoogleMusic.SELECTORS;
+            return document.getElementById(selectors.info.titleId).textContent;
           });
 
           it('goes back to the original song', function () {

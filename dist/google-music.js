@@ -35,7 +35,8 @@ var Mouse = require('./mouse');
 // Define selector constants
 var SELECTORS = {
   info: {
-    id: 'playerSongInfo'
+    containerId: 'playerSongInfo',
+    titleId: 'playerSongTitle'
   },
   forward: {
     buttonSelector: '#player sj-icon-button[data-id="forward"]'
@@ -46,7 +47,9 @@ var SELECTORS = {
     playingClass: 'playing'
   },
   rating: {
-    containerSelector: '#player .player-rating-container'
+    // TODO: Revisit me
+    // containerSelector: '#player .player-rating-container'
+    containerSelector: '#playerSongInfo'
   },
   repeat: {
     dataId: 'repeat',
@@ -473,6 +476,9 @@ proto.hooks = {
     });
   }
 };
+
+// Expose selectors as a class property
+GoogleMusic.SELECTORS = SELECTORS;
 
 // Export our constructor
 module.exports = GoogleMusic;
