@@ -36,7 +36,7 @@ var Mouse = require('./mouse');
 var SELECTORS = {
   info: {
     containerId: 'playerSongInfo',
-    titleId: 'playerSongTitle'
+    titleId: 'player-song-title'
   },
   forward: {
     buttonSelector: '#player sj-icon-button[data-id="forward"]'
@@ -404,7 +404,7 @@ proto.hooks = {
             mode = GoogleMusic.Playback.PLAYING;
           } else {
             // If there is a current song, then the player is paused
-            if (that.doc.getElementById(SELECTORS.info.id).childNodes.length) {
+            if (that.doc.getElementById(SELECTORS.info.containerId).childNodes.length) {
               mode = GoogleMusic.Playback.PAUSED;
             } else {
               mode = GoogleMusic.Playback.STOPPED;
@@ -448,8 +448,8 @@ proto.hooks = {
     });
 
 
-    console.log(this.doc.getElementById(SELECTORS.info.id));
-    addObserver.observe(this.doc.getElementById(SELECTORS.info.id), {
+    console.log(this.doc.getElementById(SELECTORS.info.containerId));
+    addObserver.observe(this.doc.getElementById(SELECTORS.info.containerId), {
       childList: true,
       subtree: true
     });
