@@ -24,7 +24,7 @@ exports.waitForPlaybackStart = function () {
     // DEV: This is intentionally different from play-pause button which is library behavior
     var sliderValue;
     this.browser.waitFor(new Asserter(function checkSlider (browser, cb) {
-      browser.elementById('slider', function handleElement (err, el) {
+      browser.elementById('material-player-progress', function handleElement (err, el) {
         // If there was an error, callback with it
         if (err) {
           return cb(err);
@@ -56,7 +56,7 @@ exports.waitForPlaybackPause = function () {
     // Wait for playback slider to stop moving
     var sliderValue;
     this.browser.waitFor(new Asserter(function checkSlider (browser, cb) {
-      browser.elementById('slider', function handleElement (err, el) {
+      browser.elementById('material-player-progress', function handleElement (err, el) {
         // If there was an error, callback with it
         if (err) {
           return cb(err);
