@@ -63,7 +63,7 @@ Constructor for a new Google Music API. For usage with `node-webkit`, we require
 - window `Object` - Global `window` object for target browser window
 
 ### Volume
-`googleMusic.volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100.
+`googleMusic.volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100 in steps of 5 (e.g. 10, 15, 20).
 
 #### `volume.getVolume()`
 Retrieve the current volume setting
@@ -83,7 +83,7 @@ Raise the volume by an amount
 - amount `Number` - Optional number to raise volume by
     - For example, if volume is 50 and amount is 5, then the volume will change to 55
     - If we exceed 100 when adding new values, volume will stop at 100
-    - By default, this is 1
+    - By default, this is 5
 
 #### `volume.decreaseVolume(amount)`
 Lower the volume by an amount
@@ -91,7 +91,7 @@ Lower the volume by an amount
 - amount `Number` - Optional number to lower volume by
     - For example, if volume is 50 and amount is 5, then the volume will change to 45
     - If we exceed 0 when subtracting new values, volume will stop at 0
-    - By default, this is 1
+    - By default, this is 5
 
 ### Playback
 `googleMusic.playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
