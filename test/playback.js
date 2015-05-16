@@ -195,11 +195,11 @@ describe('A Google Music instance', function () {
 
     describe('a repeat hook', function () {
       browserUtils.execute(function getRepeatHookResults () {
-        return window.repeatChanged;
+        return window.repeatCount;
       });
 
       it('was triggered', function () {
-        expect(this.result).to.equal(true);
+        expect(this.result).to.equal(2);
       });
     });
   });
