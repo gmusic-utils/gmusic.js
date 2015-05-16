@@ -17,7 +17,7 @@ describe('A Google Music instance playing no music', function () {
     // Placeholder for linter
   });
 
-  describe.only('when we are playing music', function () {
+  describe('when we are playing music', function () {
     browserUtils.execute(function setupSongWatcher () {
       window.googleMusic.on('change:song', function saveSong (song) {
         window.song = song;

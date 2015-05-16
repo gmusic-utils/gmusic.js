@@ -3,14 +3,13 @@ var expect = require('chai').expect;
 var browserUtils = require('./utils/browser');
 
 // Start our tests
-// TODO: Repair me
-describe.skip('Google Music', function () {
+describe('Google Music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getVolume () {
     return window.googleMusic.volume.getVolume();
   });
 
-  it('has a volume amount', function () {
+  it.only('has a volume amount', function () {
     expect(this.result).to.be.a('number');
     expect(this.result).to.be.at.least(0);
     expect(this.result).to.be.at.most(100);
