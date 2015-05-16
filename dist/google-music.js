@@ -252,7 +252,11 @@ proto.rating = {
     //   Unselected thumbs down:
     //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
     // jscs:enable maximumLineLength
-    return el.$.icon.getAttribute('aria-label').indexOf('-outline') === -1;
+    if (el && el.$ && el.$.icon) {
+      return el.$.icon.getAttribute('aria-label').indexOf('-outline') === -1;
+    } else {
+      return false;
+    }
   },
   // Get current rating
   getRating: function () {
