@@ -44,6 +44,7 @@ describe('Google Music', function () {
           return window.googleMusic.volume.decreaseVolume(10);
         });
         browserUtils.execute(function getNewVolume () {
+          throw new Error('wat');
           return window.googleMusic.volume.getVolume();
         });
 
