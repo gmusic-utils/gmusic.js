@@ -439,11 +439,11 @@ proto.hooks = {
         //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-up" role="img"></core-icon>
         //   Unselected thumbs down:
         //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
-        var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
-        var selected = !notSelected;
-        if (selected) {
-          that.emit('change:rating', target.dataset.rating);
-        }
+        // var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
+        // var selected = !notSelected;
+        // if (selected) {
+        //   that.emit('change:rating', target.dataset.rating);
+        // }
       });
     });
 
@@ -484,18 +484,23 @@ function Mouse(win) {
 }
 Mouse.prototype = {
   clickAtLocation: function (element, pageX, pageY) {
-    var ev = this.win.document.createEvent('MouseEvent');
-    ev.initMouseEvent(
-      'click',
-      true, // bubble
-      true, // cancelable
-      this.win, null,
-      pageX, pageY, pageX, pageY, // coordinates
-      false, false, false, false, // modifier keys
-      0, // left
-      null
-    );
+    // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
+    // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
+    var ev = new this.win.MouseEvent('click', {
+      // Metadata for event
+      bubbles: true,
+      cancelable: true,
+      view: this.win,
 
+      // Coordinates
+      screenX: pageX,
+      screenY: pageY,
+      clientX: pageX,
+      clientY: pageY,
+
+      // Information about action
+      button: 0 // left click
+    });
     element.dispatchEvent(ev);
   }
 };
