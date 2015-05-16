@@ -48,8 +48,11 @@ var SELECTORS = {
   },
   rating: {
     // TODO: Revisit me
-    // containerSelector: '#player .player-rating-container'
-    containerSelector: '#playerSongInfo'
+    containerSelector: '#player .player-rating-container',
+    thumbsSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating]',
+    thumbsUpSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="5"]',
+    thumbsDownSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="1"]',
+    thumbSelectorFormat: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="{rating}"]'
   },
   repeat: {
     dataId: 'repeat',
@@ -239,20 +242,29 @@ proto.playback = {
 
 // Create a rating API
 proto.rating = {
-  // Determine whether the rating system is thumbs or stars
-  isStarsRatingSystem: function () {
-    return this.doc.querySelector('.rating-container.stars') !== null;
+  // Determine if a thumb is selected or not
+  _isElSelected: function (el) {
+    // If the target is not outlined in its shadow DOM, then it's selected
+    // jscs:disable maximumLineLength
+    // DEV: Access shadow DOM via `$`
+    //   Selected thumbs up:
+    //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-up" role="img"></core-icon>
+    //   Unselected thumbs down:
+    //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
+    // jscs:enable maximumLineLength
+    return el.$.icon.getAttribute('aria-label').indexOf('-outline') === -1;
   },
-
   // Get current rating
   getRating: function () {
-    var el = this.doc.querySelector('.player-rating-container li.selected');
-
-    if (el) {
-      return el.getAttribute('data-rating');
-    } else {
-      return 0;
+    var thumbEls = this.doc.querySelectorAll(SELECTORS.rating.thumbsSelector);
+    var i = 0;
+    var len = thumbEls.length;
+    for (; i < len; i++) {
+      if (this.rating._isElSelected(el)) {
+        return el.getAttribute('data-rating');
+      }
     }
+    return 0;
   },
 
   // Thumbs up
@@ -275,9 +287,10 @@ proto.rating = {
 
   // Set a rating
   setRating: function (rating) {
-    var el = this.doc.querySelector('.player-rating-container li[data-rating="' + rating + '"]');
+    var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', rating);
+    var el = this.doc.querySelector(selector);
 
-    if (el && !el.classList.contains('selected')) {
+    if (el && !this.rating._isElSelected(el)) {
       el.click();
     }
   }
@@ -432,15 +445,6 @@ proto.hooks = {
     var ratingObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         // var target = m.target;
-
-        // If the target is no longer outlined in its shadow DOM
-        // jscs:disable maximumLineLength
-        // DEV: Access shadow DOM via `$`
-        //   Selected thumbs up:
-        //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-up" role="img"></core-icon>
-        //   Unselected thumbs down:
-        //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
-        // jscs:enable maximumLineLength
         // var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
         // var selected = !notSelected;
         // if (selected) {
