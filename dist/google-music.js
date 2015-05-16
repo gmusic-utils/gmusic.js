@@ -262,7 +262,7 @@ proto.rating = {
     for (; i < len; i++) {
       var el = thumbEls[i];
       if (this.rating._isElSelected(el)) {
-        return el.getAttribute('data-rating');
+        return el.dataset.rating;
       }
     }
     return 0;
@@ -445,12 +445,10 @@ proto.hooks = {
 
     var ratingObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
-        // var target = m.target;
-        // var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
-        // var selected = !notSelected;
-        // if (selected) {
-        //   that.emit('change:rating', target.dataset.rating);
-        // }
+        var target = m.target;
+        if (that.rating._isElSelected(target)) {
+          that.emit('change:rating', target.dataset.rating);
+        }
       });
     });
 
