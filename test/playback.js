@@ -89,7 +89,7 @@ describe('A Google Music instance not playing music', function () {
     expect(this.result).to.equal(null);
   });
 
-  describe.only('playing music', function () {
+  describe('playing music', function () {
     browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function getPlaybackStart () {
