@@ -1,4 +1,6 @@
 # google-music changelog
+3.0.0 - Updated integration to handle Material design release
+
 2.0.5 - Fixed `package.main` reference
 
 2.0.4 - Moved from `setStarRating` to `setRating`, renamed `changeRepeat` to `toggleRepeat`, and moved `notifySong` to provide duration in millseconds
