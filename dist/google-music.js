@@ -71,6 +71,9 @@ var SELECTORS = {
   },
   slider: {
     id: 'material-player-progress'
+  },
+  volume: {
+    sliderId: 'material-vslider'
   }
 };
 
@@ -131,7 +134,7 @@ var proto = GoogleMusic._protoObj = {};
 proto.volume = {
   // Query required elements
   init: function () {
-    this.volume._sliderEl = this.doc.querySelector('#vslider');
+    this.volume._sliderEl = this.doc.getElementById(SELECTORS.volume.sliderId);
   },
 
   // Get the current volume level.
@@ -348,8 +351,6 @@ proto.hooks = {
       mutations.forEach(function (m) {
         for (var i = 0; i < m.addedNodes.length; i++) {
           var target = m.addedNodes[i];
-          var name = target.id || target.className;
-
           if (target.classList.contains(SELECTORS.info.infoWrapperClass)) {
             var title = that.doc.getElementById(SELECTORS.info.titleId);
             var artist = that.doc.getElementById(SELECTORS.info.artistId);
