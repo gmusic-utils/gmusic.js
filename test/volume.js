@@ -15,7 +15,7 @@ describe('Google Music', function () {
     expect(this.result).to.be.at.most(100);
   });
 
-  describe.only('when volume is set to 50', function () {
+  describe('when volume is set to 50', function () {
     browserUtils.execute(function getNewVolume () {
       return window.googleMusic.volume.setVolume(50);
     });
