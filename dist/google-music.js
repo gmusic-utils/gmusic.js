@@ -2,34 +2,10 @@
 // Expose our constructor to the world
 window.GoogleMusic = require('./main');
 
-},{"./main":3}],2:[function(require,module,exports){
-function Keyboard(win) {
-  // Save window for later
-  this.win = win;
-}
-// Define constants
-Keyboard.MINUS = 173;
-Keyboard.EQUALS = 61;
-// Define methods
-Keyboard.prototype = {
-  sendKey: function (element, key) {
-    var ev = this.win.document.createEvent('Events');
-    ev.initEvent('keydown', true, true);
-    ev.keyCode = key;
-    ev.which = key;
-
-    element.dispatchEvent(ev);
-  }
-};
-
-// Export Keyboard constructor
-module.exports = Keyboard;
-
-},{}],3:[function(require,module,exports){
+},{"./main":2}],2:[function(require,module,exports){
 // Load in dependencies
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
-var Keyboard = require('./keyboard');
 var Mouse = require('./mouse');
 
 // Define selector constants
@@ -98,8 +74,7 @@ function GoogleMusic(win) {
   this.win = win;
   this.doc = win.document;
 
-  // Initialize a keyboard and mouse
-  this.keyboard = new Keyboard(win);
+  // Initialize a mouse
   this.mouse = new Mouse(win);
 
   // For each of the prototype sections
@@ -153,25 +128,25 @@ proto.volume = {
     }
   },
 
-  // Increase the volume by an amount (default of 1)
+  // Increase the volume by an amount (default of 5)
   increaseVolume: function (amount) {
     if (amount === undefined) {
-      amount = 1;
+      amount = 5;
     }
 
-    for (var i = 0; i < amount; i++) {
-      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.EQUALS);
+    for (var i = 0; i < amount; i += 5) {
+      this.volume._sliderEl.increment();
     }
   },
 
   // Decrease the volume by an amount (default of 1)
   decreaseVolume: function (amount) {
     if (amount === undefined) {
-      amount = 1;
+      amount = 5;
     }
 
-    for (var i = 0; i < amount; i++) {
-      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.MINUS);
+    for (var i = 0; i < amount; i += 5) {
+      this.volume._sliderEl.decrement();
     }
   }
 };
@@ -488,7 +463,7 @@ GoogleMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GoogleMusic;
 
-},{"./keyboard":2,"./mouse":4,"events":5,"inherits":6}],4:[function(require,module,exports){
+},{"./mouse":3,"events":4,"inherits":5}],3:[function(require,module,exports){
 // Define our constructor
 function Mouse(win) {
   // Save window for later
@@ -520,7 +495,7 @@ Mouse.prototype = {
 // Expose our constructor
 module.exports = Mouse;
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -823,7 +798,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
