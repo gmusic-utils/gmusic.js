@@ -141,7 +141,7 @@ describe('A Google Music instance', function () {
     });
   });
 
-  describe.only('when we toggle shuffle', function () {
+  describe('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.googleMusic.playback.getShuffle();
     });
@@ -160,7 +160,6 @@ describe('A Google Music instance', function () {
 
     it('goes to the next mode', function () {
       var secondShuffle = this.result;
-      console.log(this.firstShuffle, secondShuffle);
       expect(secondShuffle).to.not.equal(this.firstShuffle);
       expect(this.firstShuffle).to.be.ok();
       expect(secondShuffle).to.be.ok();
@@ -177,9 +176,8 @@ describe('A Google Music instance', function () {
     });
   });
 
-  // TODO: Repair me
-  describe.skip('when we toggle repeat', function () {
-    browserUtils.execute(function getShuffleMode () {
+  describe.only('when we toggle repeat', function () {
+    browserUtils.execute(function getFirstRepeat () {
       return window.googleMusic.playback.getRepeat();
     });
     before(function saveFirstRepeat () {
@@ -191,10 +189,15 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function moveToNextTrack () {
       window.googleMusic.playback.toggleRepeat();
     });
+    browserUtils.execute(function getNextRepeat () {
+      return window.googleMusic.playback.getRepeat();
+    });
 
     it('goes to the next mode', function () {
       var nextRepeat = this.result;
       expect(nextRepeat).to.not.equal(this.repeat);
+      expect(this.repeat).to.be.ok();
+      expect(nextRepeat).to.be.ok();
     });
 
     describe('a repeat hook', function () {
@@ -203,7 +206,7 @@ describe('A Google Music instance', function () {
       });
 
       it('was triggered', function () {
-        expect(this.result).to.equal(2);
+        expect(this.result).to.be.at.least(2);
       });
     });
   });
