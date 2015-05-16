@@ -212,7 +212,7 @@ proto.playback = {
   forward: function () { this.playback._forwardEl.click(); },
   rewind: function () { this.playback._rewindEl.click(); },
 
-  getShuffle: function () { return this.playback._shuffleEl.value; },
+  getShuffle: function () { return this.playback._shuffleEl.getAttribute('value'); },
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
 
   getRepeat: function () {
@@ -431,14 +431,16 @@ proto.hooks = {
 
     var ratingObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
-        var target = m.target;
+        // var target = m.target;
 
         // If the target is no longer outlined in its shadow DOM
+        // jscs:disable maximumLineLength
         // DEV: Access shadow DOM via `$`
         //   Selected thumbs up:
         //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-up" role="img"></core-icon>
         //   Unselected thumbs down:
         //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
+        // jscs:enable maximumLineLength
         // var notSelected = target.$.icon.ariaLabel.indexOf('-outline') === -1;
         // var selected = !notSelected;
         // if (selected) {
