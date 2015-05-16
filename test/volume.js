@@ -9,13 +9,13 @@ describe('Google Music', function () {
     return window.googleMusic.volume.getVolume();
   });
 
-  it.only('has a volume amount', function () {
+  it('has a volume amount', function () {
     expect(this.result).to.be.a('number');
     expect(this.result).to.be.at.least(0);
     expect(this.result).to.be.at.most(100);
   });
 
-  describe('when volume is set to 50', function () {
+  describe.only('when volume is set to 50', function () {
     browserUtils.execute(function getNewVolume () {
       return window.googleMusic.volume.setVolume(50);
     });
