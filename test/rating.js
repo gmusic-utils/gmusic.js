@@ -21,7 +21,6 @@ describe('A track in Google Music', function () {
   describe.only('when \'thumbs down\'-ed', function () {
     // DEV: Warning this will skip to next track
     browserUtils.execute(function thumbsDownTrack () {
-      throw Error('wat');
       window.googleMusic.rating.toggleThumbsDown();
     });
     browserUtils.execute(function thumbsDownTrack () {
