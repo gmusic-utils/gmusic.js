@@ -35,7 +35,7 @@ describe('A track in Google Music', function () {
     });
 
     describe('a hook result', function () {
-      browserUtils.execute(function thumbsDownTrack () {
+      browserUtils.execute(function getHookResult () {
         return window.rating;
       });
 
