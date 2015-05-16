@@ -270,7 +270,7 @@ proto.rating = {
 
   // Thumbs up
   toggleThumbsUp: function () {
-    var el = this.doc.querySelector('.player-rating-container li[data-rating="5"]');
+    var el = this.doc.querySelector(SELECTORS.rating.thumbsUpSelector);
 
     if (el) {
       el.click();
@@ -279,7 +279,7 @@ proto.rating = {
 
   // Thumbs down
   toggleThumbsDown: function () {
-    var el = this.doc.querySelector('.player-rating-container li[data-rating="1"]');
+    var el = this.doc.querySelector(SELECTORS.rating.thumbsDownSelector);
 
     if (el) {
       el.click();
