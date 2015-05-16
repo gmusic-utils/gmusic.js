@@ -89,7 +89,7 @@ describe('A Google Music instance not playing music', function () {
     expect(this.result).to.equal(null);
   });
 
-  describe('playing music', function () {
+  describe.only('playing music', function () {
     browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function getPlaybackStart () {
@@ -101,12 +101,11 @@ describe('A Google Music instance not playing music', function () {
       expect(this.result).to.be.lessThan(10e3);
     });
 
-    describe.only('when seeked to middle of a track', function () {
+    describe('when seeked to middle of a track', function () {
       browserUtils.execute(function getPlaybackStart () {
         window.googleMusic.playback.setPlaybackTime(60e3);
       });
       browserUtils.execute(function getPlaybackMiddle () {
-        throw new Error('wat');
         return window.googleMusic.playback.getPlaybackTime();
       });
 
