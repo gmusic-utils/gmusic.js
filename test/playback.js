@@ -154,9 +154,13 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function moveToNextTrack () {
       window.googleMusic.playback.toggleShuffle();
     });
+    browserUtils.execute(function getSecondShuffleMode () {
+      return window.googleMusic.playback.getShuffle();
+    });
 
     it('goes to the next mode', function () {
       var secondShuffle = this.result;
+      console.log(this.firstShuffle, secondShuffle);
       expect(secondShuffle).to.not.equal(this.firstShuffle);
       expect(this.firstShuffle).to.be.ok();
       expect(secondShuffle).to.be.ok();
@@ -168,7 +172,7 @@ describe('A Google Music instance', function () {
       });
 
       it('was triggered', function () {
-        expect(this.result).to.equal(2);
+        expect(this.result).to.be.at.least(2);
       });
     });
   });
