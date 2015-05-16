@@ -265,7 +265,7 @@ proto.rating = {
         return el.dataset.rating;
       }
     }
-    return 0;
+    return '0';
   },
 
   // Thumbs up
