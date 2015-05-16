@@ -6,7 +6,6 @@ window.GoogleMusic = require('./main');
 // Load in dependencies
 var EventEmitter = require('events').EventEmitter;
 var inherits = require('inherits');
-var Mouse = require('./mouse');
 
 // Define selector constants
 var SELECTORS = {
@@ -73,9 +72,6 @@ function GoogleMusic(win) {
   // Localize reference to window and document
   this.win = win;
   this.doc = win.document;
-
-  // Initialize a mouse
-  this.mouse = new Mouse(win);
 
   // For each of the prototype sections
   var proto = GoogleMusic._protoObj;
@@ -184,12 +180,10 @@ proto.playback = {
   },
 
   setPlaybackTime: function (milliseconds) {
-    var percent = milliseconds / parseFloat(this.playback._sliderEl.getAttribute('aria-valuemax'), 10);
-    var lower = this.playback._sliderEl.offsetLeft + 6;
-    var upper = this.playback._sliderEl.offsetLeft + this.playback._sliderEl.clientWidth - 6;
-    var x = lower + percent * (upper - lower);
-
-    this.mouse.clickAtLocation(this.playback._sliderEl, x, 0);
+    // Set playback value on the element and trigger a change event
+    this.playback._sliderEl.value = milliseconds;
+    var evt = new UIEvent('change');
+    this.playback._sliderEl.dispatchEvent(evt);
   },
 
   // Playback functions
@@ -463,39 +457,7 @@ GoogleMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GoogleMusic;
 
-},{"./mouse":3,"events":4,"inherits":5}],3:[function(require,module,exports){
-// Define our constructor
-function Mouse(win) {
-  // Save window for later
-  this.win = win;
-}
-Mouse.prototype = {
-  clickAtLocation: function (element, pageX, pageY) {
-    // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
-    // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent
-    var ev = new this.win.MouseEvent('click', {
-      // Metadata for event
-      bubbles: true,
-      cancelable: true,
-      view: this.win,
-
-      // Coordinates
-      screenX: pageX,
-      screenY: pageY,
-      clientX: pageX,
-      clientY: pageY,
-
-      // Information about action
-      button: 0 // left click
-    });
-    element.dispatchEvent(ev);
-  }
-};
-
-// Expose our constructor
-module.exports = Mouse;
-
-},{}],4:[function(require,module,exports){
+},{"events":3,"inherits":4}],3:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -798,7 +760,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
