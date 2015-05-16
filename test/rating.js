@@ -18,10 +18,10 @@ describe('A track in Google Music', function () {
   });
   browserMusicUtils.waitForPlaybackStart();
 
-  // TODO: Repair me
-  describe.skip('when \'thumbs down\'-ed', function () {
+  describe.only('when \'thumbs down\'-ed', function () {
     // DEV: Warning this will skip to next track
     browserUtils.execute(function thumbsDownTrack () {
+      throw Error('wat');
       window.googleMusic.rating.toggleThumbsDown();
     });
     browserUtils.execute(function thumbsDownTrack () {
