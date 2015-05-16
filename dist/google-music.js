@@ -47,12 +47,12 @@ var SELECTORS = {
     playingClass: 'playing'
   },
   rating: {
-    // TODO: Revisit me
-    containerSelector: '#player .player-rating-container',
-    thumbsSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating]',
-    thumbsUpSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="5"]',
-    thumbsDownSelector: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="1"]',
-    thumbSelectorFormat: '#player .player-rating-container [icon^="sj:thumb-*"][data-rating="{rating}"]'
+    // DEV: `.player-rating-container` doesn't exist until a song is playing
+    containerSelector: '#playerSongInfo',
+    thumbsSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating]',
+    thumbsUpSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="5"]',
+    thumbsDownSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="1"]',
+    thumbSelectorFormat: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="{rating}"]'
   },
   repeat: {
     dataId: 'repeat',
@@ -260,6 +260,7 @@ proto.rating = {
     var i = 0;
     var len = thumbEls.length;
     for (; i < len; i++) {
+      var el = thumbEls[i];
       if (this.rating._isElSelected(el)) {
         return el.getAttribute('data-rating');
       }
