@@ -43,7 +43,7 @@ describe('A track in Google Music', function () {
     });
   });
 
-  describe.only('when \'thumbs up\'-ed', function () {
+  describe('when \'thumbs up\'-ed', function () {
     browserUtils.execute(function thumbsUpTrack () {
       window.googleMusic.rating.toggleThumbsDown();
       window.googleMusic.rating.toggleThumbsUp();
