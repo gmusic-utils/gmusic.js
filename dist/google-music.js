@@ -216,7 +216,7 @@ proto.playback = {
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
 
   getRepeat: function () {
-    return this.playback._repeatEl.value;
+    return this.playback._repeatEl.getAttribute('value');
   },
 
   toggleRepeat: function (mode) {
