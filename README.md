@@ -1,8 +1,5 @@
 # google-music.js
 
-// TODO: Document how we can only step in 5's for volume
-// TODO: Remove star rating from documentation
-
 Browser-side JS library for controlling [Google Music][].
 
 [Google Music]: https://play.google.com/music/
@@ -14,6 +11,9 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 [radiant-player-mac@v1.3.1]: https://github.com/kbhomes/radiant-player-mac/tree/v1.3.1
 [Sajid Anwar]: https://github.com/kbhomes/
 [James Fator]: http://jamesfator.com/
+
+## Breaking changes in 3.0.0
+On Thursday May 14, 2015 Google launched a Material redesign of the site. This broke a lot of selectors/functionality. In 3.0.0, we updated our integration to handle those changes. The developer-facing interface has not changed but the underlying system was a breaking change so we decided to make it a major release.
 
 ## Getting Started
 ### npm
@@ -159,14 +159,6 @@ Trigger a visualization for the track. This is typically album art.
 
 ### Rating
 `googleMusic.rating` exposes interfaces to the rating the current song.
-
-#### `rating.isStarsRatingSystem()`
-Retrieve whether the rating system is star based or not (as opposed to thumbs which is the default).
-
-**Returns:**
-
-- retVal `Boolean` - Indicator for rating system being star based
-    - If `true`, then it is star based. Otherwise, it is thumb based.
 
 #### `rating.getRating()`
 Retrieve the rating for the current track.
