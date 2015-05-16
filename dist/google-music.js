@@ -44,8 +44,8 @@ var SELECTORS = {
     dataId: 'shuffle',
     buttonSelector: '#player sj-icon-button[data-id="shuffle"]'
   },
-  slider: {
-    id: 'material-player-progress'
+  playback: {
+    sliderId: 'material-player-progress'
   },
   volume: {
     sliderId: 'material-vslider'
@@ -166,7 +166,7 @@ GoogleMusic.Playback = {
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
-    this.playback._sliderEl = this.doc.getElementById(SELECTORS.slider.id);
+    this.playback._sliderEl = this.doc.getElementById(SELECTORS.playback.sliderId);
     this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
     this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
     this.playback._rewindEl = this.doc.querySelector(SELECTORS.rewind.buttonSelector);
@@ -325,7 +325,7 @@ proto.hooks = {
             var artist = that.doc.getElementById(SELECTORS.info.artistId);
             var album = that.doc.querySelector(SELECTORS.info.albumSelector);
             var art = that.doc.getElementById(SELECTORS.info.albumArtId);
-            var duration = parseInt(that.doc.getElementById(SELECTORS.slider.id).getAttribute('aria-valuemax'), 10);
+            var duration = parseInt(that.doc.getElementById(SELECTORS.playback.sliderId).getAttribute('aria-valuemax'), 10);
 
             title = (title) ? title.innerText : 'Unknown';
             artist = (artist) ? artist.innerText : 'Unknown';
@@ -409,7 +409,7 @@ proto.hooks = {
         var target = m.target;
         var id = target.id;
 
-        if (id === SELECTORS.shuffle.buttonSelector) {
+        if (id === SELECTORS.playback.sliderId) {
           var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
           var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
           that.emit('change:playback-time', {current: currentTime, total: totalTime});
@@ -441,7 +441,7 @@ proto.hooks = {
     playbackObserver.observe(this.doc.querySelector(SELECTORS.playPause.buttonSelector), {
       attributes: true
     });
-    playbackTimeObserver.observe(this.doc.getElementById(SELECTORS.slider.id), {
+    playbackTimeObserver.observe(this.doc.getElementById(SELECTORS.playback.sliderId), {
       attributes: true
     });
     ratingObserver.observe(this.doc.querySelector(SELECTORS.rating.containerSelector), {
