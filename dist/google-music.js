@@ -182,7 +182,7 @@ proto.playback = {
   setPlaybackTime: function (milliseconds) {
     // Set playback value on the element and trigger a change event
     this.playback._sliderEl.value = milliseconds;
-    var evt = new UIEvent('change');
+    var evt = new this.win.UIEvent('change');
     this.playback._sliderEl.dispatchEvent(evt);
   },
 
@@ -325,7 +325,8 @@ proto.hooks = {
             var artist = that.doc.getElementById(SELECTORS.info.artistId);
             var album = that.doc.querySelector(SELECTORS.info.albumSelector);
             var art = that.doc.getElementById(SELECTORS.info.albumArtId);
-            var duration = parseInt(that.doc.getElementById(SELECTORS.playback.sliderId).getAttribute('aria-valuemax'), 10);
+            var durationStr = that.doc.getElementById(SELECTORS.playback.sliderId).getAttribute('aria-valuemax');
+            var duration = parseInt(durationStr, 10);
 
             title = (title) ? title.innerText : 'Unknown';
             artist = (artist) ? artist.innerText : 'Unknown';
