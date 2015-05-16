@@ -185,14 +185,11 @@ GoogleMusic.Playback = {
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
-    var doc = this.doc;
     this.playback._sliderEl = this.doc.getElementById(SELECTORS.slider.id);
     this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
     this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
     this.playback._rewindEl = this.doc.querySelector(SELECTORS.rewind.buttonSelector);
-    this.playback.getShuffleEl = function () {
-      return doc.querySelector(SELECTORS.shuffle.buttonSelector);
-    };
+    this.playback._shuffleEl = this.doc.querySelector(SELECTORS.shuffle.buttonSelector);
     this.playback._repeatEl = this.doc.querySelector(SELECTORS.repeat.buttonSelector);
   },
 
@@ -215,8 +212,8 @@ proto.playback = {
   forward: function () { this.playback._forwardEl.click(); },
   rewind: function () { this.playback._rewindEl.click(); },
 
-  getShuffle: function () { return this.playback.getShuffleEl().getAttribute('value'); },
-  toggleShuffle: function () { this.playback.getShuffleEl().click(); },
+  getShuffle: function () { return this.playback._shuffleEl.getAttribute('value'); },
+  toggleShuffle: function () { this.playback._shuffleEl.click(); },
 
   getRepeat: function () {
     return this.playback._repeatEl.value;
