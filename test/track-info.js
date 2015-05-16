@@ -28,6 +28,7 @@ describe('A Google Music instance playing no music', function () {
     });
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function playViaApi () {
+      if (!window.song) { throw new Error('wat'); }
       return window.song;
     });
 

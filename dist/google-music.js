@@ -349,7 +349,7 @@ proto.hooks = {
           var target = m.addedNodes[i];
           var name = target.id || target.className;
 
-          if (name === 'text-wrapper')  {
+          if (name === 'text-wrapper') {
             var title = that.doc.getElementById(SELECTORS.info.titleId);
             var artist = that.doc.getElementById(SELECTORS.info.artistId);
             var album = that.doc.querySelector(SELECTORS.info.albumSelector);
