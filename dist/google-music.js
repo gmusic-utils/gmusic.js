@@ -252,11 +252,7 @@ proto.rating = {
     //   Unselected thumbs down:
     //   <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}" aria-label="thumb-down-outline" role="img"></core-icon>
     // jscs:enable maximumLineLength
-    if (el && el.$ && el.$.icon) {
-      return el.$.icon.getAttribute('aria-label').indexOf('-outline') === -1;
-    } else {
-      return false;
-    }
+    return el.$.icon.getAttribute('aria-label').indexOf('-outline') === -1;
   },
   // Get current rating
   getRating: function () {
@@ -450,7 +446,9 @@ proto.hooks = {
     var ratingObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         var target = m.target;
-        if (that.rating._isElSelected(target)) {
+        // If we are looking at a rating button and it's selected, emit a notification
+        // DEV: We can receive the container easily
+        if (target.dataset.rating !== undefined && that.rating._isElSelected(target)) {
           that.emit('change:rating', target.dataset.rating);
         }
       });
