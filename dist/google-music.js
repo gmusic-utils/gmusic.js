@@ -8,8 +8,8 @@ function Keyboard(win) {
   this.win = win;
 }
 // Define constants
-Keyboard.KEY_UP = 0x26;
-Keyboard.KEY_DOWN = 0x28;
+Keyboard.MINUS = 173;
+Keyboard.EQUALS = 61;
 // Define methods
 Keyboard.prototype = {
   sendKey: function (element, key) {
@@ -160,7 +160,7 @@ proto.volume = {
     }
 
     for (var i = 0; i < amount; i++) {
-      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.KEY_UP);
+      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.EQUALS);
     }
   },
 
@@ -171,7 +171,7 @@ proto.volume = {
     }
 
     for (var i = 0; i < amount; i++) {
-      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.KEY_DOWN);
+      this.keyboard.sendKey(this.volume._sliderEl, Keyboard.MINUS);
     }
   }
 };
