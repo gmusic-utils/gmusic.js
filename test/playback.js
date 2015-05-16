@@ -139,7 +139,8 @@ describe('A Google Music instance', function () {
     });
   });
 
-  describe('when we toggle shuffle', function () {
+  // TODO: Repair me
+  describe.skip('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
       return window.googleMusic.playback.getShuffle();
     });
