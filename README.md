@@ -1,5 +1,8 @@
 # google-music.js
 
+// TODO: Document how we can only step in 5's for volume
+// TODO: Remove star rating from documentation
+
 Browser-side JS library for controlling [Google Music][].
 
 [Google Music]: https://play.google.com/music/
