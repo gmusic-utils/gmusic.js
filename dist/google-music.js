@@ -380,27 +380,39 @@ proto.hooks = {
       });
     });
 
+    var lastMode;
     var playbackObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         var target = m.target;
         var id = target.dataset.id;
 
         if (id === SELECTORS.playPause.dataId) {
+          // If the play/pause button is disabled
           var mode;
-          var playing = target.classList.contains(SELECTORS.playPause.playingClass);
-
-          if (playing) {
-            mode = GoogleMusic.Playback.PLAYING;
-          } else {
-            // If there is a current song, then the player is paused
-            if (that.doc.getElementById(SELECTORS.info.containerId).childNodes.length) {
-              mode = GoogleMusic.Playback.PAUSED;
+          if (target.disabled === true) {
+            // If there is song info, then we are transitioning songs and do nothing
+            if (that.doc.getElementById(SELECTORS.info.containerId).style.display !== 'none') {
+              return;
+            // Otherwise, we are stopped
             } else {
               mode = GoogleMusic.Playback.STOPPED;
             }
+          // Otherwise (the play/pause button is enabled)
+          } else {
+            var playing = target.classList.contains(SELECTORS.playPause.playingClass);
+            if (playing) {
+              mode = GoogleMusic.Playback.PLAYING;
+            // DEV: If this fails to catch stopped cases, then maybe move "no song info" check to top level
+            } else {
+              mode = GoogleMusic.Playback.PAUSED;
+            }
           }
 
-          that.emit('change:playback', mode);
+          // If the mode has changed, then update it
+          if (mode !== lastMode) {
+            that.emit('change:playback', mode);
+            lastMode = mode;
+          }
         }
       });
     });
