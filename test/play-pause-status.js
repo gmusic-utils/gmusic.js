@@ -68,8 +68,9 @@ describe('A new session with Google Music', function () {
                 return done(err);
               }
 
-              // Find and click the button to clear our queue
-              browser.elementByCssSelector('[data-id=clear-queue]', function handleElement (err, clearEl) {
+              // Wait for the queue window to open, find the button to clear our queue, and click it
+              browser.waitForElementByCssSelector('[data-id=clear-queue]', 2000, 100,
+                  function handleElement (err, clearEl) {
                 // If there was an error, callback with it
                 if (err) {
                   return done(err);
