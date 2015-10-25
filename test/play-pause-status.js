@@ -53,33 +53,16 @@ describe('A new session with Google Music', function () {
 
       describe('and when we clear the queue (aka the only way to stop)', function () {
         before(function clearQueue (done) {
-          // Find and click the button to view the queue
+          // Find and click the I'm Feeling Lucky mix
           var browser = this.browser;
-          browser.elementByCssSelector('#queue', function handleElement (err, openEl) {
+          browser.elementByCssSelector('[data-id=clear-queue]', function handleElement (err, el) {
             // If there was an error, callback with it
             if (err) {
               return done(err);
             }
 
             // Otherwise, click our element
-            openEl.click(function handleClick (err) {
-              // If there was an error, callback with it
-              if (err) {
-                return done(err);
-              }
-
-              // Wait for the queue window to open, find the button to clear our queue, and click it
-              browser.waitForElementByCssSelector('[data-id=clear-queue]', 2000, 100,
-                  function handleElement (err, clearEl) {
-                // If there was an error, callback with it
-                if (err) {
-                  return done(err);
-                }
-
-                // Otherwise, click our element
-                clearEl.click(done);
-              });
-            });
+            el.click(done);
           });
         });
         browserUtils.execute(function getPlaybackState () {
