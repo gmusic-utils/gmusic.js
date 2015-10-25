@@ -1,4 +1,6 @@
 # google-music changelog
+3.2.0 - Added assertions for elements and made selectors cross-version
+
 3.1.1 - Added `foundry` for release
 
 3.1.0 - Removed duplicate events from `change:playback` event and fixed "Stop" detection
