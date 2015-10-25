@@ -12,8 +12,16 @@ exports.playAnything = function () {
         return done(err);
       }
 
-      // Otherwise, click our element
-      el.click(done);
+      // Otherwise, move our mouse over the element
+      browser.moveTo(el, function handleMove (err) {
+        // If there was an error, callback with it
+        if (err) {
+          return done(err);
+        }
+
+        // Otherwise, click our element
+        el.click(done);
+      });
     });
   });
 };
