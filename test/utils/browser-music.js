@@ -4,9 +4,11 @@ var Asserter = require('wd/lib/asserters').Asserter;
 // Define our helpers
 exports.playAnything = function () {
   before(function playAnythingFn (done) {
-    // Find and click the I'm Feeling Lucky mix
+    // Find, hover, and click the "Play" icon on an album
+    // DEV: I'm Feeling Lucky now plays an advertisement =(
     var browser = this.browser;
-    browser.waitForElementByCssSelector('[data-type=imfl]', 2000, 100, function handleElement (err, el) {
+    browser.waitForElementByCssSelector('[data-library-status] .play-button-container', 2000, 100,
+        function handleElement (err, el) {
       // If there was an error, callback with it
       if (err) {
         return done(err);
