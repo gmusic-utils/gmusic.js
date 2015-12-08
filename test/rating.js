@@ -19,7 +19,7 @@ describe('A track in Google Music', function () {
   });
   browserMusicUtils.waitForPlaybackStart();
 
-  describe.only('when \'thumbs down\'-ed', function () {
+  describe('when \'thumbs down\'-ed', function () {
     browserUtils.execute(function resetRating () {
       window.googleMusic.rating.toggleThumbsUp();
     });
@@ -46,7 +46,7 @@ describe('A track in Google Music', function () {
     });
   });
 
-  describe.skip('when \'thumbs up\'-ed', function () {
+  describe('when \'thumbs up\'-ed', function () {
     browserUtils.execute(function resetRating () {
       // DEV: Warning this will skip to next track
       window.googleMusic.rating.toggleThumbsDown();
