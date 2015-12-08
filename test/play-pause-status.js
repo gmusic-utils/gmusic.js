@@ -30,7 +30,7 @@ describe('A new session with Google Music', function () {
 
     describe('and pause it', function () {
       before(function pausePlayback (done) {
-        // Find and click the I'm Feeling Lucky mix
+        // Find and click the play/pause button
         var browser = this.browser;
         browser.elementByCssSelector('[data-id=play-pause]', function handleElement (err, el) {
           // If there was an error, callback with it
@@ -52,8 +52,27 @@ describe('A new session with Google Music', function () {
       });
 
       describe('and when we clear the queue (aka the only way to stop)', function () {
+        before(function openQueue (done) {
+          // Find and open the music queue
+          var browser = this.browser;
+          browser.elementByCssSelector('[data-id=queue]', function handleElement (err, el) {
+            // If there was an error, callback with it
+            if (err) {
+              return done(err);
+            }
+
+            // Otherwise, click our element
+            el.click(done);
+          });
+        });
+        before(function waitForVisibleClearQueue (done) {
+          // Find and wait for the clear queue button to be visible
+          // TODO: If this fails, use the queue overlay (queue-overlay)
+          var browser = this.browser;
+          browser.waitForVisible('[data-id=clear-queue]', done);
+        });
         before(function clearQueue (done) {
-          // Find and click the I'm Feeling Lucky mix
+          // Find and click the clear queue button
           var browser = this.browser;
           browser.elementByCssSelector('[data-id=clear-queue]', function handleElement (err, el) {
             // If there was an error, callback with it
