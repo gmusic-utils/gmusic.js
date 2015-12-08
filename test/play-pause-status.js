@@ -68,9 +68,12 @@ describe('A new session with Google Music', function () {
         });
         before(function waitForVisibleClearQueue (done) {
           // Find and wait for the clear queue button to be visible
-          // TODO: If this fails, use the queue overlay (queue-overlay)
           var browser = this.browser;
           browser.waitForElementByCssSelector('[data-id=clear-queue]', asserters.isVisible.assert, 2000, 100, done);
+        });
+        before(function waitABit (done) {
+          // DEV: We need to wait for some reason between visibility and being able to click =(
+          setTimeout(done, 500);
         });
         before(function clearQueue (done) {
           // Find and click the clear queue button
