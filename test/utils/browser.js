@@ -22,7 +22,7 @@ var script = fs.readFileSync(__dirname + '/../../dist/google-music.js', 'utf8');
 exports.openMusic = function (options) {
   // Fallback our options and default URL
   options = options || {};
-  var url = options.url || 'https://play.google.com/music/listen';
+  var url = options.url || 'https://play.google.com/music/listen#/artists';
 
   // Execute many async steps
   before(function startBrowser () {
