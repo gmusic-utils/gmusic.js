@@ -21,6 +21,9 @@ var script = fs.readFileSync(__dirname + '/../../dist/google-music.js', 'utf8');
 // Define helpers for interacting with the browser
 exports.openMusic = function (options) {
   // Fallback our options and default URL
+  // DEV: We choose the Artists page because it has a "Shuffle" button
+  //   In non-paid Google Music, there is a 15 second ad that plays for I'm Feeling Lucky radio
+  //   "Shuffle artists" is a much better and faster alternative
   options = options || {};
   var url = options.url || 'https://play.google.com/music/listen#/artists';
 
