@@ -33,7 +33,7 @@
     "lint": "twolfson-style lint lib/ test/",
     "pretest": "npm run build",
     "test": "npm run verify-webdriver && mocha --timeout 10000 --reporter dot && npm run lint",
-    "verify-webdriver": "curl http://localhost:4444/ || (echo \"Selenium server wasn't started. Please start it via \\`npm run webdriver-manager-start\\`.\" 1>&2 && exit 1)",
+    "verify-webdriver": "curl http://localhost:4444/ &> /dev/null || (echo \"Selenium server wasn't started. Please start it via \\`npm run webdriver-manager-start\\`.\" 1>&2 && exit 1)",
     "webdriver-manager-start": "webdriver-manager start"
   },
   "dependencies": {
