@@ -1,5 +1,6 @@
 // Load in dependencies
 var expect = require('chai').expect;
+var asserters = require('wd/lib/asserters');
 var browserUtils = require('./utils/browser');
 var browserMusicUtils = require('./utils/browser-music');
 
@@ -69,7 +70,7 @@ describe('A new session with Google Music', function () {
           // Find and wait for the clear queue button to be visible
           // TODO: If this fails, use the queue overlay (queue-overlay)
           var browser = this.browser;
-          browser.waitForVisible('[data-id=clear-queue]', done);
+          browser.waitForElementByCssSelector('[data-id=clear-queue]', asserters.isVisible.assert, 2000, 100, done);
         });
         before(function clearQueue (done) {
           // Find and click the clear queue button
