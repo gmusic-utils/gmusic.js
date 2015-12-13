@@ -11,12 +11,12 @@ var inherits = require('inherits');
 // Define selector constants
 var SELECTORS = {
   info: {
-    albumArtId: 'playingAlbumArt',
+    albumArtId: 'playerBarArt',
     albumSelector: '.player-album',
     artistId: 'player-artist',
     containerId: 'playerSongInfo',
     infoWrapperClass: 'now-playing-info-wrapper',
-    titleId: 'player-song-title'
+    titleId: 'currently-playing-title'
   },
   forward: {
     buttonSelector: '[data-id="forward"]'
