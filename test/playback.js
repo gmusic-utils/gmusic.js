@@ -5,7 +5,9 @@ var browserMusicUtils = require('./utils/browser-music');
 
 // Start our tests
 describe('A Google Music instance playing music (via manual click)', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({
+    testName: 'Manual playback test'
+  });
   browserMusicUtils.playAnything();
   browserMusicUtils.waitForPlaybackStart();
 
@@ -73,7 +75,9 @@ describe('A Google Music instance playing music (via manual click)', function ()
 });
 
 describe('A Google Music instance not playing music', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({
+    testName: 'Not playing test'
+  });
   browserUtils.execute(function getPlaybackNothing () {
     return window.gmusic.playback.getPlaybackTime();
   });
@@ -128,7 +132,9 @@ describe('A Google Music instance not playing music', function () {
 });
 
 describe('A Google Music instance', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({
+    testName: 'Normal playback test'
+  });
   browserUtils.execute(function setupHooks () {
     window.repeatCount = 0;
     window.gmusic.on('change:repeat', function repeatChanged (mode) {

@@ -200,11 +200,25 @@ proto.playback = {
   forward: function () { this.playback._forwardEl.click(); },
   rewind: function () { this.playback._rewindEl.click(); },
 
-  getShuffle: function () { return this.playback._shuffleEl.getAttribute('value'); },
+  getShuffle: function () {
+    var title = this.playback._shuffleEl.getAttribute('title').toLowerCase();
+    if (title.indexOf('off') !== -1) {
+      return GMusic.Playback.ALL_SHUFFLE;
+    } else {
+      return GMusic.Playback.NO_SHUFFLE;
+    }
+  },
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
 
   getRepeat: function () {
-    return this.playback._repeatEl.getAttribute('value');
+    var title = this.playback._repeatEl.getAttribute('title').toLowerCase();
+    if (title.indexOf('repeat off') !== -1) {
+      return GMusic.Playback.NO_REPEAT;
+    } else if (title.indexOf('repeating all') !== -1) {
+      return GMusic.Playback.LIST_REPEAT;
+    } else {
+      return GMusic.Playback.SINGLE_REPEAT;
+    }
   },
 
   toggleRepeat: function (mode) {
@@ -279,6 +293,16 @@ proto.rating = {
     if (el && !this.rating._isElSelected(el)) {
       el.click();
     }
+  },
+
+  // Reset the rating
+  resetRating: function () {
+    var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', this.rating.getRating());
+    var el = this.doc.querySelector(selector);
+
+    if (el && this.rating._isElSelected(el)) {
+      el.click();
+    }
   }
 };
 
@@ -338,9 +362,9 @@ proto.hooks = {
             var durationStr = that.doc.getElementById(SELECTORS.playback.sliderId).getAttribute('aria-valuemax');
             var duration = parseInt(durationStr, 10);
 
-            title = (title) ? title.innerText : 'Unknown';
-            artist = (artist) ? artist.innerText : 'Unknown';
-            album = (album) ? album.innerText : 'Unknown';
+            title = (title) ? title.textContent : 'Unknown';
+            artist = (artist) ? artist.textContent : 'Unknown';
+            album = (album) ? album.textContent : 'Unknown';
             art = (art) ? art.src : null;
 
             // The art may be a protocol-relative URL, so normalize it to HTTPS
@@ -452,7 +476,7 @@ proto.hooks = {
         //   <div id="playerSongInfo" style=""></div>
         //   <paper-icon-button icon="remove-circle-outline" data-rating="0" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0"></paper-icon-button>
         // jscs:enable maximumLineLength
-        if (target.dataset.rating !== undefined && target.hasAttribute('aria-label') &&
+        if (target.dataset && target.dataset.rating !== undefined && target.hasAttribute('aria-label') &&
             that.rating._isElSelected(target)) {
           that.emit('change:rating', target.dataset.rating);
         }
@@ -507,7 +531,7 @@ GMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GMusic;
 
-},{"assert":3,"events":4,"inherits":9}],3:[function(require,module,exports){
+},{"assert":3,"events":4,"inherits":5}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -1233,6 +1257,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -1852,6 +1877,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}]},{},[1]);
+},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);

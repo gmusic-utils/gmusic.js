@@ -1,22 +1,44 @@
 // Load in dependencies
 var assert = require('assert');
 var fs = require('fs');
-var functionToString = require('function-to-string');
+var asserters = require('wd/lib/asserters');
 var async = require('async');
+var functionToString = require('function-to-string');
 var wd = require('wd');
-
-// Resolve cookies with helpful messaging
-var cookiesJson;
-try {
-  cookiesJson = fs.readFileSync(__dirname + '/../cookies.json');
-} catch (err) {
-  throw new Error('Could not read `test/cookies.json`. Please make sure it exists. ' +
-      'If it doesn\'t, follow the steps in https://github.com/gmusic-utils/gmusic.js#testing');
-}
-var cookies = JSON.parse(cookiesJson);
 
 // Resolve the compiled script
 var script = fs.readFileSync(__dirname + '/../../dist/gmusic.js', 'utf8');
+
+// Extract Google Music email/password from environment variables
+var GOOGLE_MUSIC_JS_EMAIL = process.env.GOOGLE_MUSIC_JS_EMAIL;
+var GOOGLE_MUSIC_JS_PASSWORD = process.env.GOOGLE_MUSIC_JS_PASSWORD;
+
+assert(
+  GOOGLE_MUSIC_JS_EMAIL,
+  'Username for Google Music wasn\'t set. Please set it via the GOOGLE_MUSIC_JS_EMAIL environment variable'
+);
+assert(
+  GOOGLE_MUSIC_JS_PASSWORD,
+  'Password for Google Music wasn\'t set. Please set it via the GOOGLE_MUSIC_JS_PASSWORD environment variable'
+);
+
+// Extract BrowserStack credentials from environment variables
+// DEV: These are stored securely in Travis CI. Please never ever commit/push them
+var BROWSERSTACK_USER = process.env.BROWSERSTACK_USER;
+var BROWSERSTACK_KEY = process.env.BROWSERSTACK_KEY;
+if (process.env.USE_BROWSERSTACK) {
+  assert(
+    BROWSERSTACK_USER,
+    'Username for BrowserStack wasn\'t set. Please set it via the BROWSERSTACK_USER environment variable'
+  );
+  assert(
+    BROWSERSTACK_KEY,
+    'Access Key for BrowserStack wasn\'t set. Please set it via the BROWSERSTACK_KEY environment variable'
+  );
+}
+
+// DEV: This is how long the webdriver will wait for "waitForConditionInBrowser" in ms
+var ASYNC_SCRIPT_TIMEOUT = 30000;
 
 // Define helpers for interacting with the browser
 exports.openMusic = function (options) {
@@ -26,36 +48,85 @@ exports.openMusic = function (options) {
   //   "Shuffle artists" is a much better and faster alternative
   options = options || {};
   var url = options.url || 'https://play.google.com/music/listen#/artists';
+  var testName = options.testName;
+  assert(
+    testName,
+    'Expected `options.testName` to be provided but it was not.  Please provide a name for this test.'
+  );
 
   // Execute many async steps
   before(function startBrowser () {
     this.browser = wd.remote();
+    // Uniquely identify a browserstack build based on environment variable
+    if (process.env.USE_BROWSERSTACK) {
+      this.browser = wd.remote('hub.browserstack.com', 80);
+    }
     global.browser = this.browser;
   });
   before(function openBrowser (done) {
-    this.browser.init({browserName: 'chrome'}, done);
+    var that = this;
+    // DEV: Force the Windows 8 platform as it appears to run our test more
+    //      stable than other platforms
+    this.browser.init({
+      browserName: 'chrome',
+      name: 'gmusic.js - ' + testName,
+      project: 'gmusic.js Selenium tests',
+      platform: 'WIN8',
+      'browserstack.user': BROWSERSTACK_USER,
+      'browserstack.key': BROWSERSTACK_KEY
+    }, function setBrowserVariables () {
+      // DEV: Maximize the browser window to minimize the possiblity of "element not visible erros"
+      that.browser.maximize();
+      that.browser.setAsyncScriptTimeout(ASYNC_SCRIPT_TIMEOUT, done);
+    });
   });
   before(function navigateToMusicBeforeLogin (done) {
     this.browser.get(url, done);
   });
-  before(function handleLoginViaCookies (done) {
+  before(function handleLogin (done) {
     var browser = this.browser;
-    async.forEach(cookies, function setCookies (cookie, cb) {
-      // If the cookie is not for .google.com, skip it
-      // DEV: As discovered by Burp suite's repeater, we only need `SID`, `HSID`, `SSID` but this is simpler
-      if (cookie.domain !== '.google.com') {
-        process.nextTick(cb);
-      // Otherwise, set it
-      } else {
-        browser.setCookie(cookie, cb);
+
+    async.waterfall([
+      function findSignInButton (cb) {
+        browser.waitForElementByCssSelector('[data-action=signin]', asserters.isDisplayed, cb);
+      },
+      function clickSignInButton (el, cb) {
+        el.click(cb);
+      },
+      function findEmailInput (cb) {
+        browser.waitForElementById('Email', asserters.isDisplayed, cb);
+      },
+      function enterEmailIntoInput (el, cb) {
+        el.type(GOOGLE_MUSIC_JS_EMAIL, cb);
+      },
+      function findNextButton (cb) {
+        browser.waitForElementById('next', asserters.isDisplayed, cb);
+      },
+      function clickNextButton (el, cb) {
+        el.click(cb);
+      },
+      function findPasswordInput (cb) {
+        browser.waitForElementById('Passwd', asserters.isDisplayed, cb);
+      },
+      function enterPasswordIntoInput (el, cb) {
+        el.type(GOOGLE_MUSIC_JS_PASSWORD, cb);
+      },
+      function findLoginButton (cb) {
+        browser.waitForElementById('signIn', asserters.isDisplayed, cb);
+      },
+      function clickLoginButton (el, cb) {
+        el.click(cb);
       }
-    }, done);
+    ], done);
   });
   before(function navigateToMusicAfterLogin (done) {
     this.browser.get(url, done);
   });
   before(function loadGMusicConstructor (done) {
-    this.browser.execute(script, done);
+    var that = this;
+    this.browser.waitForElementById('material-vslider', asserters.isDisplayed, function executeScript () {
+      that.browser.execute(script, done);
+    });
   });
   exports.execute(function startGMusicApi () {
     window.gmusic = new window.GMusic(window);

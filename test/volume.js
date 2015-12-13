@@ -4,7 +4,9 @@ var browserUtils = require('./utils/browser');
 
 // Start our tests
 describe('Google Music', function () {
-  browserUtils.openMusic();
+  browserUtils.openMusic({
+    testName: 'Volume control test'
+  });
   browserUtils.execute(function getVolume () {
     return window.gmusic.volume.getVolume();
   });
