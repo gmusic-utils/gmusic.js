@@ -1,4 +1,6 @@
 # google-music changelog
+3.3.1 - Corrected selectors for title/album art via @MarshallOfSound in #15
+
 3.3.0 - Fixed up one-offs in test suite and resolved errors from #12
 
 3.2.0 - Added assertions for elements and made selectors cross-version
