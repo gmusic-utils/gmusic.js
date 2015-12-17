@@ -344,11 +344,16 @@ browser.allCookies(function (err, cookies) { fs.writeFileSync('test/cookies.json
 Finally, we can run the test suite:
 
 ```bash
+# Install Selenium server files
+npm run webdriver-manager-update
+
 # Start up a Selenium server
 npm run webdriver-manager-start &
 
 # Run our tests
 npm test
+# If you are on Windows, please use
+# npm run test-windows
 ```
 
 #### Debugging
