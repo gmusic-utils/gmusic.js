@@ -1,4 +1,4 @@
-# google-music.js
+# google-music.js [![Build Status](https://travis-ci.org/twolfson/google-music.js.svg?branch=master)](https://travis-ci.org/twolfson/google-music.js)
 
 Browser-side JS library for controlling [Google Music][].
 
