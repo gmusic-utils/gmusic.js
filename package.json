@@ -1,7 +1,7 @@
 {
   "name": "google-music",
   "description": "Browser-side JS library for controlling Google Music",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "homepage": "https://github.com/twolfson/google-music.js",
   "author": {
     "name": "Todd Wolfson",
