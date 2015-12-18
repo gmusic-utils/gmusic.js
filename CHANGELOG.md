@@ -1,4 +1,6 @@
 # google-music changelog
+3.3.3 - Added missing `webdriver-manager-update` command/docs and added `npm run test-windows`
+
 3.3.2 - Added CONTRIBUTING.md as part of resolving #13
 
 3.3.1 - Corrected selectors for title/album art via @MarshallOfSound in #15
