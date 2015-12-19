@@ -11,7 +11,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
   describe('when paused via our API', function () {
     browserUtils.execute(function pauseViaApi () {
-      window.googleMusic.playback.playPause();
+      window.gmusic.playback.playPause();
     });
     browserMusicUtils.waitForPlaybackPause();
 
@@ -21,7 +21,7 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
     describe('when played via our API', function () {
       browserUtils.execute(function pauseViaApi () {
-        window.googleMusic.playback.playPause();
+        window.gmusic.playback.playPause();
       });
       browserMusicUtils.waitForPlaybackStart();
 
@@ -31,17 +31,17 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
       describe('playing the next track', function () {
         browserUtils.execute(function getCurrentTrack () {
-          var selectors = window.GoogleMusic.SELECTORS;
+          var selectors = window.GMusic.SELECTORS;
           return document.getElementById(selectors.info.titleId).textContent;
         });
         before(function saveCurrentTrack () {
           this.track = this.result;
         });
         browserUtils.execute(function moveToNextTrack () {
-          window.googleMusic.playback.forward();
+          window.gmusic.playback.forward();
         });
         browserUtils.execute(function getNewTrack () {
-          var selectors = window.GoogleMusic.SELECTORS;
+          var selectors = window.GMusic.SELECTORS;
           return document.getElementById(selectors.info.titleId).textContent;
         });
         after(function cleanup () {
@@ -55,10 +55,10 @@ describe('A Google Music instance playing music (via manual click)', function ()
 
         describe('playing the previous track', function () {
           browserUtils.execute(function moveToPreviousTrack () {
-            window.googleMusic.playback.rewind();
+            window.gmusic.playback.rewind();
           });
           browserUtils.execute(function getNewTrack () {
-            var selectors = window.GoogleMusic.SELECTORS;
+            var selectors = window.GMusic.SELECTORS;
             return document.getElementById(selectors.info.titleId).textContent;
           });
 
@@ -75,10 +75,10 @@ describe('A Google Music instance playing music (via manual click)', function ()
 describe('A Google Music instance not playing music', function () {
   browserUtils.openMusic();
   browserUtils.execute(function getPlaybackNothing () {
-    return window.googleMusic.playback.getPlaybackTime();
+    return window.gmusic.playback.getPlaybackTime();
   });
   browserUtils.execute(function setupHooks () {
-    window.googleMusic.on('change:playback-time', function playbackTimeChanged (playbackInfo) {
+    window.gmusic.on('change:playback-time', function playbackTimeChanged (playbackInfo) {
       window.playbackTimeChanged = true;
     });
   });
@@ -93,7 +93,7 @@ describe('A Google Music instance not playing music', function () {
     browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
     browserUtils.execute(function getPlaybackStart () {
-      return window.googleMusic.playback.getPlaybackTime();
+      return window.gmusic.playback.getPlaybackTime();
     });
 
     it('is within the 0 to 10 seconds of playback', function () {
@@ -103,10 +103,10 @@ describe('A Google Music instance not playing music', function () {
 
     describe('when seeked to middle of a track', function () {
       browserUtils.execute(function getPlaybackStart () {
-        window.googleMusic.playback.setPlaybackTime(60e3);
+        window.gmusic.playback.setPlaybackTime(60e3);
       });
       browserUtils.execute(function getPlaybackMiddle () {
-        return window.googleMusic.playback.getPlaybackTime();
+        return window.gmusic.playback.getPlaybackTime();
       });
 
       it('is within 10 seconds of new playback', function () {
@@ -131,18 +131,18 @@ describe('A Google Music instance', function () {
   browserUtils.openMusic();
   browserUtils.execute(function setupHooks () {
     window.repeatCount = 0;
-    window.googleMusic.on('change:repeat', function repeatChanged (mode) {
+    window.gmusic.on('change:repeat', function repeatChanged (mode) {
       window.repeatCount += 1;
     });
     window.shuffleCount = 0;
-    window.googleMusic.on('change:shuffle', function shuffleChanged (mode) {
+    window.gmusic.on('change:shuffle', function shuffleChanged (mode) {
       window.shuffleCount += 1;
     });
   });
 
   describe('when we toggle shuffle', function () {
     browserUtils.execute(function getShuffleMode () {
-      return window.googleMusic.playback.getShuffle();
+      return window.gmusic.playback.getShuffle();
     });
     before(function saveFirstShuffle () {
       this.firstShuffle = this.result;
@@ -151,10 +151,10 @@ describe('A Google Music instance', function () {
       delete this.firstShuffle;
     });
     browserUtils.execute(function moveToNextTrack () {
-      window.googleMusic.playback.toggleShuffle();
+      window.gmusic.playback.toggleShuffle();
     });
     browserUtils.execute(function getSecondShuffleMode () {
-      return window.googleMusic.playback.getShuffle();
+      return window.gmusic.playback.getShuffle();
     });
 
     it('goes to the next mode', function () {
@@ -177,7 +177,7 @@ describe('A Google Music instance', function () {
 
   describe('when we toggle repeat', function () {
     browserUtils.execute(function getFirstRepeat () {
-      return window.googleMusic.playback.getRepeat();
+      return window.gmusic.playback.getRepeat();
     });
     before(function saveFirstRepeat () {
       this.repeat = this.result;
@@ -186,10 +186,10 @@ describe('A Google Music instance', function () {
       delete this.repeat;
     });
     browserUtils.execute(function moveToNextTrack () {
-      window.googleMusic.playback.toggleRepeat();
+      window.gmusic.playback.toggleRepeat();
     });
     browserUtils.execute(function getNextRepeat () {
-      return window.googleMusic.playback.getRepeat();
+      return window.gmusic.playback.getRepeat();
     });
 
     it('goes to the next mode', function () {

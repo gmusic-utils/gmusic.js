@@ -11,12 +11,12 @@ try {
   cookiesJson = fs.readFileSync(__dirname + '/../cookies.json');
 } catch (err) {
   throw new Error('Could not read `test/cookies.json`. Please make sure it exists. ' +
-      'If it doesn\'t, follow the steps in https://github.com/twolfson/google-music.js#testing');
+      'If it doesn\'t, follow the steps in https://github.com/gmusic-utils/gmusic.js#testing');
 }
 var cookies = JSON.parse(cookiesJson);
 
 // Resolve the compiled script
-var script = fs.readFileSync(__dirname + '/../../dist/google-music.js', 'utf8');
+var script = fs.readFileSync(__dirname + '/../../dist/gmusic.js', 'utf8');
 
 // Define helpers for interacting with the browser
 exports.openMusic = function (options) {
@@ -54,11 +54,11 @@ exports.openMusic = function (options) {
   before(function navigateToMusicAfterLogin (done) {
     this.browser.get(url, done);
   });
-  before(function loadGoogleMusicConstructor (done) {
+  before(function loadGMusicConstructor (done) {
     this.browser.execute(script, done);
   });
-  exports.execute(function startGoogleMusicApi () {
-    window.googleMusic = new window.GoogleMusic(window);
+  exports.execute(function startGMusicApi () {
+    window.gmusic = new window.GMusic(window);
   });
 
   // If we want to want to kill the session, clean it up

@@ -1,4 +1,6 @@
-# google-music changelog
+# gmusic.js changelog
+4.0.0 - Renamed repository from `google-music` to `gmusic.js`
+
 3.3.4 - Integrated Travis CI
 
 3.3.3 - Added missing `webdriver-manager-update` command/docs and added `npm run test-windows`

@@ -1,10 +1,10 @@
 # Contributing
-Community patches, bug reports, and contributions are always welcome and are crucial to ensure `google-music.js` stays stable. Here are steps/guidelines to follow when contributing.
+Community patches, bug reports, and contributions are always welcome and are crucial to ensure `gmusic.js` stays stable. Here are steps/guidelines to follow when contributing.
 
 ## Opening an issue
 Before starting work on an issue, please make sure that the issue isn't being worked on by anyone else. This can be verified by searching in open issues and pull requests:
 
-https://github.com/twolfson/google-music.js/issues
+https://github.com/gmusic-utils/gmusic.js/issues
 
 - If an issue already exists, please use that issue instead of creating a new one
 - Otherwise, please create a new issue
@@ -35,14 +35,14 @@ When you start work, please comment on the issue that you are starting work. Thi
 [testing-readme]: /README.md#testing
 
 ## Submitting changes
-To submit your changes, please open a pull request from your branch to the `google-music.js` `master` branch. If this is for an inter-dependent branch, please still point to the `master` branch. When one PR is landed, then the other should automatically land as well.
+To submit your changes, please open a pull request from your branch to the `gmusic.js` `master` branch. If this is for an inter-dependent branch, please still point to the `master` branch. When one PR is landed, then the other should automatically land as well.
 
 While we don't require squashing commits for historical reasons, please avoid unnecessary commits in the final pull request. These can be cleaned up via `squash` in `git rebase -i`.
 
 If there is a particular contributor that should review the pull request, then please add them via a "/cc @username" on the pull request.
 
 ## Approval process
-Due to the brittle nature of `google-music.js`, we must be flexible to allow for quick deployment of fixes. Please use the following guidelines when approving/landing changes.
+Due to the brittle nature of `gmusic.js`, we must be flexible to allow for quick deployment of fixes. Please use the following guidelines when approving/landing changes.
 
 - If the issue is time sensitive, please wait up to 24 hours to hear from another core contributor
     - If you don't hear from anyone else, then use your best judgement to land the PR or not

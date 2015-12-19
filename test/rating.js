@@ -10,25 +10,25 @@ describe('A track in Google Music', function () {
   });
   browserUtils.execute(function setupHooks () {
     window.ratingCount = 0;
-    window.googleMusic.on('change:rating', function ratingChanged (rating) {
+    window.gmusic.on('change:rating', function ratingChanged (rating) {
       window.ratingCount += 1;
     });
   });
   browserUtils.execute(function playViaApi () {
-    window.googleMusic.playback.playPause();
+    window.gmusic.playback.playPause();
   });
   browserMusicUtils.waitForPlaybackStart();
 
   describe('when \'thumbs down\'-ed', function () {
     browserUtils.execute(function resetRating () {
-      window.googleMusic.rating.toggleThumbsUp();
+      window.gmusic.rating.toggleThumbsUp();
     });
     browserUtils.execute(function thumbsDownTrack () {
       // DEV: Warning this will skip to next track
-      window.googleMusic.rating.toggleThumbsDown();
+      window.gmusic.rating.toggleThumbsDown();
     });
     browserUtils.execute(function thumbsDownTrack () {
-      return window.googleMusic.rating.getRating();
+      return window.gmusic.rating.getRating();
     });
 
     it('has a low rating', function () {
@@ -49,13 +49,13 @@ describe('A track in Google Music', function () {
   describe('when \'thumbs up\'-ed', function () {
     browserUtils.execute(function resetRating () {
       // DEV: Warning this will skip to next track
-      window.googleMusic.rating.toggleThumbsDown();
+      window.gmusic.rating.toggleThumbsDown();
     });
     browserUtils.execute(function thumbsUpTrack () {
-      window.googleMusic.rating.toggleThumbsUp();
+      window.gmusic.rating.toggleThumbsUp();
     });
     browserUtils.execute(function thumbsUpTrack () {
-      return window.googleMusic.rating.getRating();
+      return window.gmusic.rating.getRating();
     });
 
     it('has a high rating', function () {
@@ -64,10 +64,10 @@ describe('A track in Google Music', function () {
 
     describe('when switched to neutral', function () {
       browserUtils.execute(function thumbsUpTrack () {
-        window.googleMusic.rating.toggleThumbsUp();
+        window.gmusic.rating.toggleThumbsUp();
       });
       browserUtils.execute(function thumbsUpTrack () {
-        return window.googleMusic.rating.getRating();
+        return window.gmusic.rating.getRating();
       });
 
       it('has no rating', function () {
@@ -76,10 +76,10 @@ describe('A track in Google Music', function () {
 
       describe('when a rating is set via `setRating`', function () {
         browserUtils.execute(function setRating () {
-          window.googleMusic.rating.setRating('5');
+          window.gmusic.rating.setRating('5');
         });
         browserUtils.execute(function setRating () {
-          return window.googleMusic.rating.getRating();
+          return window.gmusic.rating.getRating();
         });
         it('becomes set', function () {
           expect(this.result).to.equal('5');
@@ -87,10 +87,10 @@ describe('A track in Google Music', function () {
 
         describe('and when set again', function () {
           browserUtils.execute(function setRating () {
-            window.googleMusic.rating.setRating('5');
+            window.gmusic.rating.setRating('5');
           });
           browserUtils.execute(function setRating () {
-            return window.googleMusic.rating.getRating();
+            return window.gmusic.rating.getRating();
           });
 
           it('remains set', function () {
