@@ -48,3 +48,22 @@ Due to the brittle nature of `gmusic.js`, we must be flexible to allow for quick
     - If you don't hear from anyone else, then use your best judgement to land the PR or not
 - If the issue is not time sensitive, please wait for at least 1 other core contributor to approve the PR (e.g. via a ":+1:", ":shipit:", or "lgtm")
     - If the PR is a large change (e.g. refactoring the library), then please use your judgement and consider waiting for more contributors
+
+## Release process
+To guarantee consistent releases across core contributors, we use [foundry][] to perform our releases. To perform a release, use the following steps:
+
+- Checkout master `git checkout master`
+- Merge pull request branch either via GitHub UI or CLI
+    - CLI instructions: https://gist.github.com/piscisaureus/3342247
+- Update `CHANGELOG.md` to include latest release info
+    - Determine latest version based on [SemVer][]
+- Stage `CHANGELOG.md` changes
+    - `git add -p`
+- Perform release via `foundry`
+    - Install `foundry.cli` globally via `npm install -g foundry.cli`
+    - `foundry release {{version}}`
+        - For example, `foundry release 3.5.0`
+    - Under the hood, this will run `npm run build`, update the `package.json`, use `git commit`, use `git tag`, and `npm publish`
+
+[foundry]: https://github.com/twolfson/foundry
+[SemVer]: http://semver.org/

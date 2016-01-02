@@ -65,6 +65,10 @@
   ],
   "foundry": {
     "releaseCommands": [
+      {
+        "type": "customCommand",
+        "updateFiles": "npm run build && git add dist"
+      },
       "foundry-release-git",
       "foundry-release-npm",
       "foundry-release-bower"
