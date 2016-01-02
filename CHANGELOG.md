@@ -1,4 +1,6 @@
 # gmusic.js changelog
+4.0.2 - Documented release process
+
 4.0.1 - Removed branch whitelist from `.travis.yml`
 
 4.0.0 - Renamed repository from `google-music` to `gmusic.js`
