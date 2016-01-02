@@ -15,12 +15,7 @@
   "bugs": {
     "url": "https://github.com/gmusic-utils/gmusic.js/issues"
   },
-  "licenses": [
-    {
-      "type": "UNLICENSE",
-      "url": "https://github.com/gmusic-utils/gmusic.js/blob/master/UNLICENSE"
-    }
-  ],
+  "license": "Unlicense",
   "main": "lib/main",
   "engines": {
     "node": ">= 0.8.0"
