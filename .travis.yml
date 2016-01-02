@@ -3,15 +3,6 @@ language: node_js
 node_js:
   - "4.2"
 
-# To reduce noise for other contributors,
-# we are whitelisting Travis CI to only build for `master`
-# DEV: If you would like your branch to build,
-#   then temporarily add it to this list
-#   but also remove `notifications` settings
-branches:
-  only:
-    - master
-
 script:
   # DEV: Currently our test suite runs locally only
   #   This should be resolved in #19
