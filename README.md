@@ -264,8 +264,8 @@ gmusic.on('change:playback-time', function (playbackInfo) {
 ```
 
 - playbackInfo `Object` - Container for playback info
-    - currentTime `Number` - Milliseconds of how far a track has progressed
-    - totalTime `Number` - Milliseconds of how long a track is
+    - current `Number` - Milliseconds of how far a track has progressed
+    - total `Number` - Milliseconds of how long a track is
 
 #### `.on('change:rating')`
 Triggers when the current song is rated
