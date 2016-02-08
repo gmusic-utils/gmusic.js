@@ -1,4 +1,6 @@
 # gmusic.js changelog
+4.0.4 - Corrected documentation of the `change:playback-time` event
+
 4.0.3 - Corrected license in package.json to SPDX
 
 4.0.2 - Documented release process
