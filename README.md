@@ -182,6 +182,9 @@ Set the rating for the current track
 
 - rating `String` - Rating to set for the current track. This should be between 1 and 5
 
+#### `rating.resetRating()`
+Removes existing rating from the current track
+
 ### Extras
 `gmusic.Extras` is a collection of utility functions for Google Music
 
@@ -326,26 +329,18 @@ Explicit:
 Unchecked
 ```
 
-Once your Google account is registered and the music is uploaded, extract the cookies for our test suite via:
+Once your Google account is registered and the music is uploaded, set the following environment variables
 
-```
-# Enter into the node REPL
-node
-
-# Inside of the REPL, dump our cookies
-var browser = require('wd').remote();
-browser.init({browserName: 'chrome'}, console.log);
-// Wait for browser window to open
-browser.get('https://play.google.com/music/listen', console.log);
-// Wait for redirect to accounts.google.com
-// Manually log in to page
-// When you are logged in to Google Music, dump the output of the following into `test/cookies.json`
-browser.allCookies(function (err, cookies) { fs.writeFileSync('test/cookies.json', JSON.stringify(cookies, null, 4), 'utf8'); });
-```
-
-Finally, we can run the test suite:
+Once your Google account is registered and the music is uploaded, we are ready to run our test suite:
 
 ```bash
+# Set up Google Music credentials as environment variables
+export GOOGLE_MUSIC_JS_EMAIL="your.google@account.email"
+export GOOGLE_MUSIC_JS_PASSWORD="your-google-account-password"
+# If you are on Windows, use the following
+# set GOOGLE_MUSIC_JS_EMAIL="your.google@account.email"
+# set GOOGLE_MUSIC_JS_PASSWORD="your-google-account-password"
+
 # Install Selenium server files
 npm run webdriver-manager-update
 
@@ -357,6 +352,18 @@ npm test
 # If you are on Windows, please use
 # npm run test-windows
 ```
+
+##### Attribution
+We have an automatic build setup on Travis CI that will run every day to catch changes made by Google as quick as possible. These tests make use of BrowserStack's services to remotely run Selenium tests, huge thanks to [BrowserStack][] for the support of Open Source projects like this one!  
+
+[BrowserStack]: https://www.browserstack.com/
+
+<img src="https://cdn.rawgit.com/gilbarbara/logos/081a89a93b6af2bba5cf4eeace7a5c430785c003/logos/browserstack.svg" height="100px" alt="BrowserStack Logo">
+
+##### Nightlies
+Nightly builds are triggered on Travis CI by a third party service service [Nightli.es][]
+
+[Nightli.es]: http://nightli.es/
 
 #### Debugging
 Finnicky tests can be debugged by a few methods

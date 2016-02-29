@@ -1,12 +1,14 @@
 // Load in dependencies
-var Asserter = require('wd/lib/asserters').Asserter;
+var asserters = require('wd/lib/asserters');
+var Asserter = asserters.Asserter;
 
 // Define our helpers
 exports.playAnything = function () {
   before(function playAnythingFn (done) {
     // Find and click the I'm Feeling Lucky mix
     var browser = this.browser;
-    browser.waitForElementByCssSelector('[data-id=shuffle-my-library]', 2000, 100, function handleElement (err, el) {
+    browser.waitForElementByCssSelector('[data-id=shuffle-my-library]', asserters.isDisplayed,
+        10000, 100, function handleElement (err, el) {
       // If there was an error, callback with it
       if (err) {
         return done(err);
@@ -47,7 +49,7 @@ exports.waitForPlaybackStart = function () {
           return cb(null, false);
         });
       });
-    }), 2000, 100, done);
+    }), 10000, 100, done);
   });
 };
 
@@ -79,6 +81,6 @@ exports.waitForPlaybackPause = function () {
           return cb(null, false);
         });
       });
-    }), 2000, 100, done);
+    }), 10000, 100, done);
   });
 };
