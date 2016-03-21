@@ -186,9 +186,9 @@ Set the rating for the current track
 Removes existing rating from the current track
 
 ### Extras
-`gmusic.Extras` is a collection of utility functions for Google Music
+`gmusic.extras` is a collection of utility functions for Google Music
 
-#### `Extras.getSongURL()`
+#### `extras.getSongURL()`
 Retrieve the URL of the current song for sharing
 
 **This is an untested method**
