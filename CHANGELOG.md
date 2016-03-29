@@ -1,4 +1,8 @@
 # gmusic.js changelog
+4.1.1 - Added CHANGELOG update verification
+
+4.1.0 - Integrated Browserstack to test suite, added `resetRating`, and fixed up failing one-offs
+
 4.0.4 - Corrected documentation of the `change:playback-time` event
 
 4.0.3 - Corrected license in package.json to SPDX
