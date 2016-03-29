@@ -176,7 +176,7 @@ describe('A Google Music instance', function () {
       });
 
       it('was triggered', function () {
-        expect(this.result).to.be.at.least(2);
+        expect(this.result).to.be.at.least(1);
       });
     });
   });
