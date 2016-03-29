@@ -392,26 +392,40 @@ proto.hooks = {
       });
     });
 
+    var lastShuffle;
     var shuffleObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
+      var shuffleTouched = mutations.some(function (m) {
         var target = m.target;
-        var id = target.dataset.id;
-
-        if (id === SELECTORS.shuffle.dataId) {
-          that.emit('change:shuffle', target.value);
-        }
+        return target.dataset.id === SELECTORS.shuffle.dataId;
       });
+
+      if (!shuffleTouched) {
+        return;
+      }
+
+      var newShuffle = that.playback.getShuffle();
+      if (lastShuffle !== newShuffle) {
+        lastShuffle = newShuffle;
+        that.emit('change:shuffle', newShuffle);
+      }
     });
 
+    var lastRepeat;
     var repeatObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
+      var repeatTouched = mutations.some(function (m) {
         var target = m.target;
-        var id = target.dataset.id;
-
-        if (id === SELECTORS.repeat.dataId) {
-          that.emit('change:repeat', target.value);
-        }
+        return target.dataset.id === SELECTORS.repeat.dataId;
       });
+
+      if (!repeatTouched) {
+        return;
+      }
+
+      var newRepeat = that.playback.getRepeat();
+      if (lastRepeat !== newRepeat) {
+        lastRepeat = newRepeat;
+        that.emit('change:repeat', newRepeat);
+      }
     });
 
     var lastMode;
@@ -464,23 +478,32 @@ proto.hooks = {
       });
     });
 
+    var lastRating;
     var ratingObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
+      // If we are looking at a rating button and it's selected, emit a notification
+      // DEV: Prevent selection of container and "remove-circle-outline" button
+      // jscs:disable maximumLineLength
+      // Good:
+      //   <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Thumb-up" aria-label="Thumb-up"></paper-icon-button>
+      // Bad:
+      //   <div id="playerSongInfo" style=""></div>
+      //   <paper-icon-button icon="remove-circle-outline" data-rating="0" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0"></paper-icon-button>
+      // jscs:enable maximumLineLength
+      var ratingsTouched = mutations.some(function (m) {
+        // Determine if our ratings were touched
         var target = m.target;
-        // If we are looking at a rating button and it's selected, emit a notification
-        // DEV: Prevent selection of container and "remove-circle-outline" button
-        // jscs:disable maximumLineLength
-        // Good:
-        //   <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Thumb-up" aria-label="Thumb-up"></paper-icon-button>
-        // Bad:
-        //   <div id="playerSongInfo" style=""></div>
-        //   <paper-icon-button icon="remove-circle-outline" data-rating="0" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0"></paper-icon-button>
-        // jscs:enable maximumLineLength
-        if (target.dataset && target.dataset.rating !== undefined && target.hasAttribute('aria-label') &&
-            that.rating._isElSelected(target)) {
-          that.emit('change:rating', target.dataset.rating);
-        }
+        return target.dataset && target.dataset.rating && target.hasAttribute('aria-label');
       });
+
+      if (!ratingsTouched) {
+        return;
+      }
+
+      var newRating = that.rating.getRating();
+      if (lastRating !== newRating) {
+        lastRating = newRating;
+        that.emit('change:rating', newRating);
+      }
     });
 
     // Find our target elements
@@ -531,7 +554,7 @@ GMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GMusic;
 
-},{"assert":3,"events":4,"inherits":9}],3:[function(require,module,exports){
+},{"assert":3,"events":4,"inherits":5}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -1257,6 +1280,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -1876,6 +1900,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}]},{},[1]);
+},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);

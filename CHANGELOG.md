@@ -1,4 +1,6 @@
 # gmusic.js changelog
+4.2.0 - Adjusted hooks to only fire when actual changes occur
+
 4.1.1 - Added CHANGELOG update verification
 
 4.1.0 - Integrated Browserstack to test suite, added `resetRating`, and fixed up failing one-offs
