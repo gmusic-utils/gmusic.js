@@ -201,13 +201,12 @@ proto.playback = {
   },
 
   // PlayPause element states:
-  //   PLAYING: {classList: ['active'], __data__: {icon: 'av:pause-circle-filled'}}
-  //   PAUSED: {classList: ['active'], __data__: {icon: 'av:sj:pause-circle-fill'}}
-  //   STOPPED: {classList: [], __data__: {icon: 'av:sj:play-circle-fill'}}
+  //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
+  //   PAUSED: {__data__: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
+  //   STOPPED: {__data__: {icon: 'av:sj:play-circle-fill'}, disabled: true}
   getPlaybackState: function () {
-    var el = this.playback._playPauseEl;
-    if (el.classList.contains('active')) {
-      if (el.__data__icon === 'av:pause-circle-filled') {
+    if (!this.playback._playPauseEl.disabled) {
+      if (this.playback._playPauseEl.__data__.icon === 'av:pause-circle-filled') {
         return GMusic.Playback.PLAYING;
       } else {
         return GMusic.Playback.PAUSED;
@@ -222,8 +221,13 @@ proto.playback = {
     songInfo.title = this.doc.getElementById(SELECTORS.info.titleId).textContent;
     songInfo.artist = this.doc.getElementById(SELECTORS.info.artistId).textContent;
     songInfo.album = this.doc.querySelector(SELECTORS.info.albumSelector).textContent;
-    songInfo.art = this.doc.getElementById(SELECTORS.info.albumArtId).textContent;
+    songInfo.art = this.doc.getElementById(SELECTORS.info.albumArtId);
     songInfo.duration = this.doc.getElementById(SELECTORS.playback.sliderId).max;
+
+    songInfo.title = (songInfo.title) ? songInfo.title : 'Unknown';
+    songInfo.artist = (songInfo.artist) ? songInfo.artist : 'Unknown';
+    songInfo.album = (songInfo.album) ? songInfo.album : 'Unknown';
+    songInfo.art = (songInfo.art) ? songInfo.art.src : null;
 
     // The art may be a protocol-relative URL, so normalize it to HTTPS
     if (songInfo.art && songInfo.art.slice(0, 2) === '//') {
@@ -245,8 +249,12 @@ proto.playback = {
     }
   },
   setShuffle: function (mode) {
-    while (this.playback.getShuffle() !== mode) {
-      this.toggleShuffle();
+    if (mode === GMusic.Playback.NO_SHUFFLE || mode === GMusic.Playback.ALL_SHUFFLE) {
+      while (this.playback.getShuffle() !== mode) {
+        this.playback.toggleShuffle();
+      }
+    } else {
+      console.warn('Invalid shuffle mode supplied');
     }
   },
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
@@ -265,12 +273,23 @@ proto.playback = {
     }
   },
   setRepeat: function (mode) {
-    while (this.playback.getRepeat() !== mode) {
-      this.toggleRepeat();
+    if (mode === GMusic.Playback.SINGLE_REPEAT ||
+        mode === GMusic.Playback.LIST_REPEAT ||
+        mode === GMusic.Playback.NO_REPEAT) {
+      while (this.playback.getRepeat() !== mode) {
+        this.playback.toggleRepeat();
+      }
+    } else {
+      console.warn('Invalid repeat mode supplied');
     }
   },
   toggleRepeat: function () {
-    this.playback._repeatEl.click();
+    if (arguments.length > 0) {
+      console.warn('toggleRepeat mode argument has been deprecated. Use setRepeat instead.');
+      this.playback.setRepeat.call(GMusic, arguments);
+    } else {
+      this.playback._repeatEl.click();
+    }
   },
 
   // Taken from the Google Play Music page
