@@ -137,7 +137,7 @@ proto.volume = {
     }
   },
 
-  // Decrease the volume by an amount (default of 1)
+  // Decrease the volume by an amount (default of 5)
   decreaseVolume: function (amount) {
     if (amount === undefined) {
       amount = 5;
@@ -201,8 +201,7 @@ proto.playback = {
   rewind: function () { this.playback._rewindEl.click(); },
 
   getShuffle: function () {
-    var title = this.playback._shuffleEl.getAttribute('title').toLowerCase();
-    if (title.indexOf('off') !== -1) {
+    if (this.playback._shuffleEl.classList.contains('active')) {
       return GMusic.Playback.ALL_SHUFFLE;
     } else {
       return GMusic.Playback.NO_SHUFFLE;
@@ -211,13 +210,16 @@ proto.playback = {
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
 
   getRepeat: function () {
-    var title = this.playback._repeatEl.getAttribute('title').toLowerCase();
-    if (title.indexOf('repeat off') !== -1) {
-      return GMusic.Playback.NO_REPEAT;
-    } else if (title.indexOf('repeating all') !== -1) {
+    // Repeat element states:
+    //   SINGLE_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat-one'}}
+    //   LIST_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat'}}
+    //   NO_REPEAT: {classList: [], __data__: {icon: 'av:repeat'}}
+    if (this.playback._repeatEl.__data__.icon === 'av:repeat-one') {
+      return GMusic.Playback.SINGLE_REPEAT;
+    } else if (this.playback._repeatEl.classList.contains('active')) {
       return GMusic.Playback.LIST_REPEAT;
     } else {
-      return GMusic.Playback.SINGLE_REPEAT;
+      return GMusic.Playback.NO_REPEAT;
     }
   },
 
