@@ -1,5 +1,4 @@
 # gmusic.js [![Build Status](https://travis-ci.org/gmusic-utils/gmusic.js.svg?branch=master)](https://travis-ci.org/gmusic-utils/gmusic.js)
-
 Browser-side JS library for controlling [Google Music][].
 
 [Google Music]: https://play.google.com/music/
@@ -13,6 +12,9 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 [radiant-player-mac@v1.3.1]: https://github.com/kbhomes/radiant-player-mac/tree/v1.3.1
 [Sajid Anwar]: https://github.com/kbhomes/
 [James Fator]: http://jamesfator.com/
+
+## Breaking changes in 5.0.0
+The method `toggleRepeat()` no longer accepts arguments and `setRepeat(mode)` has replaced its functionality.
 
 ## Breaking changes in 3.0.0
 On Thursday May 14, 2015 Google launched a Material redesign of the site. This broke a lot of selectors/functionality. In 3.0.0, we updated our integration to handle those changes. The developer-facing interface has not changed but the underlying system was a breaking change so we decided to make it a major release.
@@ -110,10 +112,32 @@ Jump the current song to a time
 
 - milliseconds `Number` - Integer representing milliseconds to jump the current track to
 
+#### `playback.getSongInfo()`
+Retrieve current song's metadata
+
+**Returns:**
+
+- song `Object` - Container for song info
+    - title `String` - Name of the song
+    - artist `String` - Artist of the song
+    - album `String` - Album of the song
+    - art `String` - URL for album art of the song
+    - duration `Number` - Milliseconds that the track will last for
+
 #### `playback.playPause()`
 Toggle between play and pause for the current song
 
 **This will not work if there are no songs in the queue.**
+
+### `playback.getPlaybackState()`
+
+**Returns:**
+
+- retVal `Number` - Current status of music playback (e.g. 0, 1, 2)
+    - 0 - Playback is stopped
+    - 1 - Song is paused
+    - 2 - Song is playing
+    - Values are available via `GMusic.Playback.STOPPED`, `GMusic.Playback.PAUSED`, and `GMusic.Playback.PLAYING`
 
 #### `playback.forward()`
 Move to the next song
@@ -131,6 +155,12 @@ Retrieve the status of shuffle
     - `NO_SHUFFLE` will play the tracks in the order they were added
     - We created constants named `GMusic.Playback.ALL_SHUFFLE` or `GMusic.Playback.NO_SHUFFLE`
 
+#### `playback.setShuffle(mode)`
+Set the shuffle mode
+
+- mode `String` - Value to change shuffle to
+  - Valid values are `ALL_SHUFFLE` and `NO_SHUFFLE`
+
 #### `playback.toggleShuffle()`
 Toggle to between shuffle being active or inactive
 
@@ -145,14 +175,17 @@ Retrieve the current setting for repeat
     - `NO_REPEAT` will not repeat the queue
     - We created constants named `GMusic.Playback.LIST_REPEAT`, `GMusic.Playback.SINGLE_REPEAT`, `GMusic.Playback.NO_REPEAT`
 
-#### `playback.toggleRepeat(mode)`
+#### `playback.setRepeat(mode)`
 Change the current setting for repeat
 
-- mode `String` - Optional mode to change repeat to
-    - If not specified, we will toggle to the next mode
-        - The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
+- mode `String` - Value to change repeat to
     - Valid values are `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
         - See `playback.getRepeat()` for meaning
+
+#### `playback.toggleRepeat()`
+Toggle through the modes for repeat.
+
+- The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
 
 #### `playback.toggleVisualization()`
 Trigger a visualization for the track. This is typically album art.
@@ -215,12 +248,7 @@ gmusic.on('change:song', function (song) {
 });
 ```
 
-- song `Object` - Container for song info
-    - title `String` - Name of the song
-    - artist `String` - Artist of the song
-    - album `String` - Album of the song
-    - art `String` - URL for album art of the song
-    - duration `Number` - Milliseconds that the track will last for
+- song `Object` - Same as return value of `playback.getSongInfo()`
 
 #### `.on('change:shuffle')`
 Triggers when shuffle is toggled
@@ -252,11 +280,7 @@ gmusic.on('change:playback', function (mode) {
 });
 ```
 
-- mode `String` - Phase that a song is in (e.g. 0, 1, 2)
-    - 0 - Song is stopped
-    - 1 - Song is paused
-    - 2 - Song is playing
-    - Values are available via `GMusic.Playback.STOPPED`, `GMusic.Playback.PAUSED`, and `GMusic.Playback.PLAYING`
+- mode `String` - Same as return value of `playback.getPlaybackState()`
 
 #### `.on('change:playback-time')`
 Triggers when playback shifts

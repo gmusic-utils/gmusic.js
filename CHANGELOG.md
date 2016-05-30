@@ -1,4 +1,6 @@
 # gmusic.js changelog
+5.0.0 - Added new methods `playback.setShuffle`, `playback.setRepeat`, `playback.getSongInfo`, and `playback.getPlaybackState`. Also modified `setRepeat` to handle the old functionality of `toggleRepeat` which now only toggles states. Added new documentation for methods.
+
 4.2.1 - Repaired i18n support by removing English only strings via @ jostrander in #39 and #40
 
 4.2.0 - Adjusted hooks to only fire when actual changes occur

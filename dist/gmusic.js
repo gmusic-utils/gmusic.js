@@ -165,6 +165,15 @@ GMusic.Playback = {
   ALL_SHUFFLE: 'ALL_SHUFFLE',
   NO_SHUFFLE: 'NO_SHUFFLE'
 };
+GMusic.Playback.SHUFFLE_MODES = [
+    GMusic.Playback.ALL_SHUFFLE,
+    GMusic.Playback.NO_SHUFFLE
+];
+GMusic.Playback.REPEAT_MODES = [
+  GMusic.Playback.LIST_REPEAT,
+  GMusic.Playback.SINGLE_REPEAT,
+  GMusic.Playback.NO_REPEAT
+];
 proto.playback = {
   // Query references to the media playback elements
   init: function () {
@@ -195,6 +204,39 @@ proto.playback = {
     this.playback._sliderEl.dispatchEvent(evt);
   },
 
+  getPlaybackState: function () {
+    // Play/Pause element states:
+    //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
+    //   PAUSED: {__data__: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
+    //   STOPPED: {__data__: {icon: 'av:sj:play-circle-fill'}, disabled: true}
+    if (!this.playback._playPauseEl.disabled) {
+      if (this.playback._playPauseEl.__data__.icon === 'av:pause-circle-filled') {
+        return GMusic.Playback.PLAYING;
+      } else {
+        return GMusic.Playback.PAUSED;
+      }
+    } else {
+      return GMusic.Playback.STOPPED;
+    }
+  },
+
+  getSongInfo: function () {
+    var songInfo = {
+      title: this.doc.getElementById(SELECTORS.info.titleId).textContent || 'Unknown',
+      artist: this.doc.getElementById(SELECTORS.info.artistId).textContent || 'Unknown',
+      album: this.doc.querySelector(SELECTORS.info.albumSelector).textContent || 'Unknown',
+      art: this.doc.getElementById(SELECTORS.info.albumArtId) || null,
+      duration: this.doc.getElementById(SELECTORS.playback.sliderId).max
+    };
+    songInfo.art = (songInfo.art) ? songInfo.art.src : null;
+
+    // The art may be a protocol-relative URL, so normalize it to HTTPS
+    if (songInfo.art && songInfo.art.slice(0, 2) === '//') {
+      songInfo.art = 'https:' + songInfo.art;
+    }
+    return songInfo;
+  },
+
   // Playback functions
   playPause: function () { this.playback._playPauseEl.click(); },
   forward: function () { this.playback._forwardEl.click(); },
@@ -205,6 +247,14 @@ proto.playback = {
       return GMusic.Playback.ALL_SHUFFLE;
     } else {
       return GMusic.Playback.NO_SHUFFLE;
+    }
+  },
+  setShuffle: function (mode) {
+    assert(GMusic.Playback.SHUFFLE_MODES.indexOf(mode) !== -1,
+      'Expected shuffle mode "' + mode + '" to be inside ' +
+      JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t');
+    while (this.playback.getShuffle() !== mode) {
+      this.playback.toggleShuffle();
     }
   },
   toggleShuffle: function () { this.playback._shuffleEl.click(); },
@@ -222,18 +272,15 @@ proto.playback = {
       return GMusic.Playback.NO_REPEAT;
     }
   },
-
-  toggleRepeat: function (mode) {
-    if (!mode) {
-      // Toggle between repeat modes once
-      this.playback._repeatEl.click();
-    } else {
-      // Toggle between repeat modes until the desired mode is activated
-      while (this.playback.getRepeat() !== mode) {
-        this.playback._repeatEl.click();
-      }
+  setRepeat: function (mode) {
+    assert(GMusic.Playback.REPEAT_MODES.indexOf(mode) !== -1,
+      'Expected repeat mode "' + mode + '" to be inside ' +
+      JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t');
+    while (this.playback.getRepeat() !== mode) {
+      this.playback.toggleRepeat();
     }
   },
+  toggleRepeat: function () { this.playback._repeatEl.click(); },
 
   // Taken from the Google Play Music page
   toggleVisualization: function () {
@@ -359,37 +406,15 @@ proto.hooks = {
           // DEV: We can encounter a text node, verify we have a `classList` to assert against
           var target = m.addedNodes[i];
           if (target.classList && target.classList.contains(SELECTORS.info.infoWrapperClass)) {
-            var title = that.doc.getElementById(SELECTORS.info.titleId);
-            var artist = that.doc.getElementById(SELECTORS.info.artistId);
-            var album = that.doc.querySelector(SELECTORS.info.albumSelector);
-            var art = that.doc.getElementById(SELECTORS.info.albumArtId);
-            var durationStr = that.doc.getElementById(SELECTORS.playback.sliderId).getAttribute('aria-valuemax');
-            var duration = parseInt(durationStr, 10);
-
-            title = (title) ? title.textContent : 'Unknown';
-            artist = (artist) ? artist.textContent : 'Unknown';
-            album = (album) ? album.textContent : 'Unknown';
-            art = (art) ? art.src : null;
-
-            // The art may be a protocol-relative URL, so normalize it to HTTPS
-            if (art && art.slice(0, 2) === '//') {
-              art = 'https:' + art;
-            }
-
+            var songInfo = that.playback.getSongInfo();
             // Make sure that this is the first of the notifications for the
             // insertion of the song information elements.
-            if (lastTitle !== title || lastArtist !== artist || lastAlbum !== album) {
-              that.emit('change:song', {
-                title: title,
-                artist: artist,
-                album: album,
-                art: art,
-                duration: duration
-              });
+            if (lastTitle !== songInfo.title || lastArtist !== songInfo.artist || lastAlbum !== songInfo.album) {
+              that.emit('change:song', songInfo);
 
-              lastTitle = title;
-              lastArtist = artist;
-              lastAlbum = album;
+              lastTitle = songInfo.title;
+              lastArtist = songInfo.artist;
+              lastAlbum = songInfo.album;
             }
           }
         }
@@ -558,7 +583,7 @@ GMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GMusic;
 
-},{"assert":3,"events":4,"inherits":9}],3:[function(require,module,exports){
+},{"assert":3,"events":4,"inherits":5}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -1284,6 +1309,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -1903,6 +1929,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}]},{},[1]);
+},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);
