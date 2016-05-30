@@ -1,4 +1,6 @@
 # gmusic.js changelog
+4.2.1 - Repaired i18n support by removing English only strings via @ jostrander in #39 and #40
+
 4.2.0 - Adjusted hooks to only fire when actual changes occur
 
 4.1.1 - Added CHANGELOG update verification
