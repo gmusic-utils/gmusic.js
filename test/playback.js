@@ -101,7 +101,7 @@ describe('A Google Music instance not playing music', function () {
       return window.gmusic.playback.getSongDuration();
     });
 
-    it('is a number great than 0', function () {
+    it('has a duration greater than 0', function () {
       expect(this.result).to.be.a('number');
       expect(this.result).to.be.at.least(0);
     });
