@@ -63,7 +63,7 @@ describe('A new session with Google Music', function () {
           expect(this.result).to.equal(1 /* PAUSED */);
         });
 
-        describe('and when called via API', function () {
+        describe('and when retreving playback state', function () {
           browserUtils.execute(function getPlaybackState () {
             return window.gmusic.playback.getPlaybackState();
           });
@@ -116,7 +116,7 @@ describe('A new session with Google Music', function () {
               expect(this.result).to.equal(0 /* STOPPED */);
             });
 
-            describe('and when called via API', function () {
+            describe('and when retreving playback state', function () {
               browserUtils.execute(function getPlaybackState () {
                 return window.gmusic.playback.getPlaybackState();
               });

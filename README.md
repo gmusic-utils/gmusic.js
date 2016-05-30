@@ -158,7 +158,7 @@ Retrieve the status of shuffle
 #### `playback.setShuffle(mode)`
 Set the shuffle mode
 
-- mode `String` - Required mode to change shuffle to
+- mode `String` - Value to change shuffle to
   - Valid values are `ALL_SHUFFLE` and `NO_SHUFFLE`
 
 #### `playback.toggleShuffle()`
@@ -178,7 +178,7 @@ Retrieve the current setting for repeat
 #### `playback.setRepeat(mode)`
 Change the current setting for repeat
 
-- mode `String` - Required mode to change repeat to
+- mode `String` - Value to change repeat to
     - Valid values are `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
         - See `playback.getRepeat()` for meaning
 
@@ -248,7 +248,7 @@ gmusic.on('change:song', function (song) {
 });
 ```
 
-- song `Object` - Same as return of `playback.getSongInfo()`
+- song `Object` - Same as return value of `playback.getSongInfo()`
 
 #### `.on('change:shuffle')`
 Triggers when shuffle is toggled
@@ -280,7 +280,7 @@ gmusic.on('change:playback', function (mode) {
 });
 ```
 
-- mode `String` - Same as return value from `playback.getPlaybackState()`
+- mode `String` - Same as return value of `playback.getPlaybackState()`
 
 #### `.on('change:playback-time')`
 Triggers when playback shifts

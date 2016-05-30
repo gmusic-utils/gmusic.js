@@ -221,12 +221,13 @@ proto.playback = {
   },
 
   getSongInfo: function () {
-    var songInfo = {};
-    songInfo.title = this.doc.getElementById(SELECTORS.info.titleId).textContent || 'Unknown';
-    songInfo.artist = this.doc.getElementById(SELECTORS.info.artistId).textContent || 'Unknown';
-    songInfo.album = this.doc.querySelector(SELECTORS.info.albumSelector).textContent || 'Unknown';
-    songInfo.art = this.doc.getElementById(SELECTORS.info.albumArtId) || null;
-    songInfo.duration = this.doc.getElementById(SELECTORS.playback.sliderId).max;
+    var songInfo = {
+      title: this.doc.getElementById(SELECTORS.info.titleId).textContent || 'Unknown',
+      artist: this.doc.getElementById(SELECTORS.info.artistId).textContent || 'Unknown',
+      album: this.doc.querySelector(SELECTORS.info.albumSelector).textContent || 'Unknown',
+      art: this.doc.getElementById(SELECTORS.info.albumArtId) || null,
+      duration: this.doc.getElementById(SELECTORS.playback.sliderId).max
+    };
     songInfo.art = (songInfo.art) ? songInfo.art.src : null;
 
     // The art may be a protocol-relative URL, so normalize it to HTTPS
