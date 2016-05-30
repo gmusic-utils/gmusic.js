@@ -31,7 +31,7 @@ describe('A new session with Google Music', function () {
       expect(this.result).to.equal(2 /* PLAYING */);
     });
 
-    describe('and when called via API', function () {
+    describe('and when retreiving the playback state', function () {
       browserUtils.execute(function getPlaybackState () {
         return window.gmusic.playback.getPlaybackState();
       });

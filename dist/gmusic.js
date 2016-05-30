@@ -204,11 +204,6 @@ proto.playback = {
     this.playback._sliderEl.dispatchEvent(evt);
   },
 
-  // Return song duration in milliseconds
-  getSongDuration: function () {
-    return this.playback._sliderEl.max;
-  },
-
   getPlaybackState: function () {
     // Play/Pause element states:
     //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
@@ -227,15 +222,11 @@ proto.playback = {
 
   getSongInfo: function () {
     var songInfo = {};
-    songInfo.title = this.doc.getElementById(SELECTORS.info.titleId).textContent;
-    songInfo.artist = this.doc.getElementById(SELECTORS.info.artistId).textContent;
-    songInfo.album = this.doc.querySelector(SELECTORS.info.albumSelector).textContent;
-    songInfo.art = this.doc.getElementById(SELECTORS.info.albumArtId);
+    songInfo.title = this.doc.getElementById(SELECTORS.info.titleId).textContent || 'Unknown';
+    songInfo.artist = this.doc.getElementById(SELECTORS.info.artistId).textContent || 'Unknown';
+    songInfo.album = this.doc.querySelector(SELECTORS.info.albumSelector).textContent || 'Unknown';
+    songInfo.art = this.doc.getElementById(SELECTORS.info.albumArtId) || null;
     songInfo.duration = this.doc.getElementById(SELECTORS.playback.sliderId).max;
-
-    songInfo.title = (songInfo.title) ? songInfo.title : 'Unknown';
-    songInfo.artist = (songInfo.artist) ? songInfo.artist : 'Unknown';
-    songInfo.album = (songInfo.album) ? songInfo.album : 'Unknown';
     songInfo.art = (songInfo.art) ? songInfo.art.src : null;
 
     // The art may be a protocol-relative URL, so normalize it to HTTPS
@@ -260,8 +251,7 @@ proto.playback = {
   setShuffle: function (mode) {
     assert(GMusic.Playback.SHUFFLE_MODES.indexOf(mode) !== -1,
       'Expected shuffle mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t'
-    );
+      JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t');
     while (this.playback.getShuffle() !== mode) {
       this.playback.toggleShuffle();
     }
@@ -284,15 +274,12 @@ proto.playback = {
   setRepeat: function (mode) {
     assert(GMusic.Playback.REPEAT_MODES.indexOf(mode) !== -1,
       'Expected repeat mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t'
-    );
+      JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t');
     while (this.playback.getRepeat() !== mode) {
       this.playback.toggleRepeat();
     }
   },
-  toggleRepeat: function () {
-    this.playback._repeatEl.click();
-  },
+  toggleRepeat: function () { this.playback._repeatEl.click(); },
 
   // Taken from the Google Play Music page
   toggleVisualization: function () {
@@ -595,7 +582,7 @@ GMusic.SELECTORS = SELECTORS;
 // Export our constructor
 module.exports = GMusic;
 
-},{"assert":3,"events":4,"inherits":9}],3:[function(require,module,exports){
+},{"assert":3,"events":4,"inherits":5}],3:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -1321,6 +1308,7 @@ process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
 
 function noop() {}
 
@@ -1940,6 +1928,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}],9:[function(require,module,exports){
-arguments[4][5][0].apply(exports,arguments)
-},{"dup":5}]},{},[1]);
+},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);

@@ -114,11 +114,6 @@ Jump the current song to a time
 
 - milliseconds `Number` - Integer representing milliseconds to jump the current track to
 
-#### `playback.getSongDuration()`
-
-**Returns:**
-- milliseconds `Number` - Integer in milliseconds of track duration
-
 #### `playback.getSongInfo()`
 
 **Returns:**

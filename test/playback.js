@@ -96,16 +96,6 @@ describe('A Google Music instance not playing music', function () {
   describe('playing music', function () {
     browserMusicUtils.playAnything();
     browserMusicUtils.waitForPlaybackStart();
-
-    browserUtils.execute(function getPlaybackDuration () {
-      return window.gmusic.playback.getSongDuration();
-    });
-
-    it('has a duration greater than 0', function () {
-      expect(this.result).to.be.a('number');
-      expect(this.result).to.be.at.least(0);
-    });
-
     browserUtils.execute(function getPlaybackStart () {
       return window.gmusic.playback.getPlaybackTime();
     });
@@ -195,13 +185,11 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function setToNoShuffle () {
       window.gmusic.playback.setShuffle(window.GMusic.Playback.NO_SHUFFLE);
     });
-    describe('via API call', function () {
-      browserUtils.execute(function getShuffleMode () {
-        return window.gmusic.playback.getShuffle();
-      });
-      it('was set to no shuffle', function () {
-        expect(this.result).to.be.equal('NO_SHUFFLE');
-      });
+    browserUtils.execute(function getShuffleMode () {
+      return window.gmusic.playback.getShuffle();
+    });
+    it('was set to no shuffle', function () {
+      expect(this.result).to.be.equal('NO_SHUFFLE');
     });
   });
 
@@ -209,13 +197,11 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function setToNoShuffle () {
       window.gmusic.playback.setShuffle(window.GMusic.Playback.ALL_SHUFFLE);
     });
-    describe('via API call', function () {
-      browserUtils.execute(function getShuffleMode () {
-        return window.gmusic.playback.getShuffle();
-      });
-      it('was set to all', function () {
-        expect(this.result).to.be.equal('ALL_SHUFFLE');
-      });
+    browserUtils.execute(function getShuffleMode () {
+      return window.gmusic.playback.getShuffle();
+    });
+    it('was set to all', function () {
+      expect(this.result).to.be.equal('ALL_SHUFFLE');
     });
   });
 
@@ -258,13 +244,11 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function setToRepeatList () {
       window.gmusic.playback.setRepeat(window.GMusic.Playback.LIST_REPEAT);
     });
-    describe('via API call', function () {
-      browserUtils.execute(function getRepeatMode () {
-        return window.gmusic.playback.getRepeat();
-      });
-      it('was set to repeat list', function () {
-        expect(this.result).to.be.equal('LIST_REPEAT');
-      });
+    browserUtils.execute(function getRepeatMode () {
+      return window.gmusic.playback.getRepeat();
+    });
+    it('was set to repeat list', function () {
+      expect(this.result).to.be.equal('LIST_REPEAT');
     });
   });
 
@@ -272,13 +256,11 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function setToRepeatOne () {
       window.gmusic.playback.setRepeat(window.GMusic.Playback.SINGLE_REPEAT);
     });
-    describe('via API call', function () {
-      browserUtils.execute(function getRepeatMode () {
-        return window.gmusic.playback.getRepeat();
-      });
-      it('was set to repeat one', function () {
-        expect(this.result).to.be.equal('SINGLE_REPEAT');
-      });
+    browserUtils.execute(function getRepeatMode () {
+      return window.gmusic.playback.getRepeat();
+    });
+    it('was set to repeat one', function () {
+      expect(this.result).to.be.equal('SINGLE_REPEAT');
     });
   });
 
@@ -286,13 +268,11 @@ describe('A Google Music instance', function () {
     browserUtils.execute(function setToNoRepeat () {
       window.gmusic.playback.setRepeat(window.GMusic.Playback.NO_REPEAT);
     });
-    describe('via API call', function () {
-      browserUtils.execute(function getRepeatMode () {
-        return window.gmusic.playback.getRepeat();
-      });
-      it('was set to no repeat', function () {
-        expect(this.result).to.be.equal('NO_REPEAT');
-      });
+    browserUtils.execute(function getRepeatMode () {
+      return window.gmusic.playback.getRepeat();
+    });
+    it('was set to no repeat', function () {
+      expect(this.result).to.be.equal('NO_REPEAT');
     });
   });
 });

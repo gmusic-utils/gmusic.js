@@ -41,7 +41,7 @@ describe('A Google Music instance playing no music', function () {
       expect(this.result).to.have.property('duration');
       expect(this.result.duration).to.be.a('number');
     });
-    describe('via api', function () {
+    describe('via API', function () {
       browserUtils.execute(function getInfoFromApi () {
         return window.gmusic.playback.getSongInfo();
       });
