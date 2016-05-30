@@ -1,5 +1,4 @@
 # gmusic.js [![Build Status](https://travis-ci.org/gmusic-utils/gmusic.js.svg?branch=master)](https://travis-ci.org/gmusic-utils/gmusic.js)
-
 Browser-side JS library for controlling [Google Music][].
 
 [Google Music]: https://play.google.com/music/
@@ -15,7 +14,6 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 [James Fator]: http://jamesfator.com/
 
 ## Breaking changes in 5.0.0
-
 The method `toggleRepeat()` no longer accepts arguments and `setRepeat(mode)` has replaced its functionality.
 
 ## Breaking changes in 3.0.0
@@ -115,6 +113,7 @@ Jump the current song to a time
 - milliseconds `Number` - Integer representing milliseconds to jump the current track to
 
 #### `playback.getSongInfo()`
+Retrieve current song's metadata
 
 **Returns:**
 
@@ -134,8 +133,8 @@ Toggle between play and pause for the current song
 
 **Returns:**
 
-- retVal `Number` - Phase that a song is in (e.g. 0, 1, 2)
-    - 0 - Song is stopped
+- retVal `Number` - Current status of music playback (e.g. 0, 1, 2)
+    - 0 - Playback is stopped
     - 1 - Song is paused
     - 2 - Song is playing
     - Values are available via `GMusic.Playback.STOPPED`, `GMusic.Playback.PAUSED`, and `GMusic.Playback.PLAYING`
@@ -160,7 +159,7 @@ Retrieve the status of shuffle
 Set the shuffle mode
 
 - mode `String` - Required mode to change shuffle to
-  - Valid value are `ALL_SHUFFLE` and `NO_SHUFFLE`
+  - Valid values are `ALL_SHUFFLE` and `NO_SHUFFLE`
 
 #### `playback.toggleShuffle()`
 Toggle to between shuffle being active or inactive
@@ -185,6 +184,7 @@ Change the current setting for repeat
 
 #### `playback.toggleRepeat()`
 Toggle through the modes for repeat.
+
 - The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
 
 #### `playback.toggleVisualization()`
@@ -248,7 +248,7 @@ gmusic.on('change:song', function (song) {
 });
 ```
 
-See `playback.getSongInfo()` for return value.
+- song `Object` - Same as return of `playback.getSongInfo()`
 
 #### `.on('change:shuffle')`
 Triggers when shuffle is toggled
@@ -280,7 +280,7 @@ gmusic.on('change:playback', function (mode) {
 });
 ```
 
-See `playback.getPlaybackState()` for parameter info.
+- mode `String` - Same as return value from `playback.getPlaybackState()`
 
 #### `.on('change:playback-time')`
 Triggers when playback shifts
