@@ -1,8 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
 // Expose our constructor to the world
 window.GMusic = require('./main');
 
 },{"./main":2}],2:[function(require,module,exports){
+'use strict';
+
 // Load in dependencies
 var assert = require('assert');
 var EventEmitter = require('events').EventEmitter;
@@ -53,20 +57,15 @@ var SELECTORS = {
   }
 };
 
-// Define bind method
-function bind(context, fn) {
-  return function bindFn () {
-    return fn.apply(context, arguments);
-  };
-}
-
 // Define getTextContent method to safely fetch textContent from unknown elements
 function getTextContent(elem, defaultText) {
-  return elem ? (elem.textContent || defaultText) : defaultText;
+  return elem ? elem.textContent || defaultText : defaultText;
 }
 
 // Define our constructor
 function GMusic(win) {
+  var _this = this;
+
   // If win was not provided, complain
   if (!win) {
     throw new Error('`win` was not provided to the `GMusic` constructor');
@@ -81,25 +80,21 @@ function GMusic(win) {
 
   // For each of the prototype sections
   var proto = GMusic._protoObj;
-  for (var protoKey in proto) {
-    if (proto.hasOwnProperty(protoKey)) {
-      // Define a key on our object
-      this[protoKey] = {};
+  Object.keys(proto).forEach(function (protoKey) {
+    // Define a key on our object
+    _this[protoKey] = {};
 
-      // For each of the keys on the section, define a function that invokes on this original context
-      var section = proto[protoKey];
-      for (var sectionKey in section) {
-        if (section.hasOwnProperty(sectionKey)) {
-          this[protoKey][sectionKey] = bind(this, section[sectionKey]);
-        }
-      }
+    // For each of the keys on the section, define a function that invokes on this original context
+    var section = proto[protoKey];
+    Object.keys(section).forEach(function (sectionKey) {
+      _this[protoKey][sectionKey] = section[sectionKey].bind(_this);
+    });
 
-      // If there was an `init` method, run it
-      if (this[protoKey].init) {
-        this[protoKey].init();
-      }
+    // If there was an `init` method, run it
+    if (_this[protoKey].init) {
+      _this[protoKey].init();
     }
-  }
+  });
 }
 // Inherit from EventEmitter normally
 inherits(GMusic, EventEmitter);
@@ -110,18 +105,20 @@ var proto = GMusic._protoObj = {};
 // Create a volume API
 proto.volume = {
   // Query required elements
-  init: function () {
+  init: function init() {
     this.volume._sliderEl = this.doc.getElementById(SELECTORS.volume.sliderId);
     assert(this.volume._sliderEl, 'Failed to find slider element for volume "#' + SELECTORS.volume.sliderId + '"');
   },
 
+
   // Get the current volume level.
-  getVolume: function () {
+  getVolume: function getVolume() {
     return parseInt(this.volume._sliderEl.getAttribute('aria-valuenow'), 10);
   },
 
+
   // Set the volume level (0 - 100).
-  setVolume: function (vol) {
+  setVolume: function setVolume(vol) {
     var current = this.volume.getVolume();
 
     if (vol > current) {
@@ -131,22 +128,20 @@ proto.volume = {
     }
   },
 
+
   // Increase the volume by an amount (default of 5)
-  increaseVolume: function (amount) {
-    if (amount === undefined) {
-      amount = 5;
-    }
+  increaseVolume: function increaseVolume() {
+    var amount = arguments.length <= 0 || arguments[0] === undefined ? 5 : arguments[0];
 
     for (var i = 0; i < amount; i += 5) {
       this.volume._sliderEl.increment();
     }
   },
 
+
   // Decrease the volume by an amount (default of 5)
-  decreaseVolume: function (amount) {
-    if (amount === undefined) {
-      amount = 5;
-    }
+  decreaseVolume: function decreaseVolume() {
+    var amount = arguments.length <= 0 || arguments[0] === undefined ? 5 : arguments[0];
 
     for (var i = 0; i < amount; i += 5) {
       this.volume._sliderEl.decrement();
@@ -170,18 +165,11 @@ GMusic.Playback = {
   ALL_SHUFFLE: 'ALL_SHUFFLE',
   NO_SHUFFLE: 'NO_SHUFFLE'
 };
-GMusic.Playback.SHUFFLE_MODES = [
-    GMusic.Playback.ALL_SHUFFLE,
-    GMusic.Playback.NO_SHUFFLE
-];
-GMusic.Playback.REPEAT_MODES = [
-  GMusic.Playback.LIST_REPEAT,
-  GMusic.Playback.SINGLE_REPEAT,
-  GMusic.Playback.NO_REPEAT
-];
+GMusic.Playback.SHUFFLE_MODES = [GMusic.Playback.ALL_SHUFFLE, GMusic.Playback.NO_SHUFFLE];
+GMusic.Playback.REPEAT_MODES = [GMusic.Playback.LIST_REPEAT, GMusic.Playback.SINGLE_REPEAT, GMusic.Playback.NO_REPEAT];
 proto.playback = {
   // Query references to the media playback elements
-  init: function () {
+  init: function init() {
     var _sliderEl = this.playback._sliderEl = this.doc.getElementById(SELECTORS.playback.sliderId);
     var _playPauseEl = this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
     var _forwardEl = this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
@@ -197,19 +185,18 @@ proto.playback = {
     assert(_repeatEl, 'Failed to find repeat element for playback "' + SELECTORS.repeat.buttonSelector + '"');
   },
 
+
   // Time functions
-  getPlaybackTime: function () {
+  getPlaybackTime: function getPlaybackTime() {
     return parseInt(this.playback._sliderEl.getAttribute('aria-valuenow'), 10);
   },
-
-  setPlaybackTime: function (milliseconds) {
+  setPlaybackTime: function setPlaybackTime(milliseconds) {
     // Set playback value on the element and trigger a change event
     this.playback._sliderEl.value = milliseconds;
     var evt = new this.win.UIEvent('change');
     this.playback._sliderEl.dispatchEvent(evt);
   },
-
-  getPlaybackState: function () {
+  getPlaybackState: function getPlaybackState() {
     // Play/Pause element states:
     //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
     //   PAUSED: {__data__: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
@@ -217,15 +204,12 @@ proto.playback = {
     if (!this.playback._playPauseEl.disabled) {
       if (this.playback._playPauseEl.__data__.icon === 'av:pause-circle-filled') {
         return GMusic.Playback.PLAYING;
-      } else {
-        return GMusic.Playback.PAUSED;
       }
-    } else {
-      return GMusic.Playback.STOPPED;
+      return GMusic.Playback.PAUSED;
     }
+    return GMusic.Playback.STOPPED;
   },
-
-  getSongInfo: function () {
+  getSongInfo: function getSongInfo() {
     var songInfo = {
       title: getTextContent(this.doc.getElementById(SELECTORS.info.titleId), 'Unknown Title'),
       artist: getTextContent(this.doc.getElementById(SELECTORS.info.artistId), 'Unknown Artist'),
@@ -233,7 +217,7 @@ proto.playback = {
       art: this.doc.getElementById(SELECTORS.info.albumArtId) || null,
       duration: this.doc.getElementById(SELECTORS.playback.sliderId).max
     };
-    songInfo.art = (songInfo.art) ? songInfo.art.src : null;
+    songInfo.art = songInfo.art ? songInfo.art.src : null;
 
     // The art may be a protocol-relative URL, so normalize it to HTTPS
     if (songInfo.art && songInfo.art.slice(0, 2) === '//') {
@@ -242,29 +226,33 @@ proto.playback = {
     return songInfo;
   },
 
-  // Playback functions
-  playPause: function () { this.playback._playPauseEl.click(); },
-  forward: function () { this.playback._forwardEl.click(); },
-  rewind: function () { this.playback._rewindEl.click(); },
 
-  getShuffle: function () {
+  // Playback functions
+  playPause: function playPause() {
+    this.playback._playPauseEl.click();
+  },
+  forward: function forward() {
+    this.playback._forwardEl.click();
+  },
+  rewind: function rewind() {
+    this.playback._rewindEl.click();
+  },
+  getShuffle: function getShuffle() {
     if (this.playback._shuffleEl.classList.contains('active')) {
       return GMusic.Playback.ALL_SHUFFLE;
-    } else {
-      return GMusic.Playback.NO_SHUFFLE;
     }
+    return GMusic.Playback.NO_SHUFFLE;
   },
-  setShuffle: function (mode) {
-    assert(GMusic.Playback.SHUFFLE_MODES.indexOf(mode) !== -1,
-      'Expected shuffle mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t');
+  setShuffle: function setShuffle(mode) {
+    assert(GMusic.Playback.SHUFFLE_MODES.indexOf(mode) !== -1, 'Expected shuffle mode "' + mode + '" to be inside ' + JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t');
     while (this.playback.getShuffle() !== mode) {
       this.playback.toggleShuffle();
     }
   },
-  toggleShuffle: function () { this.playback._shuffleEl.click(); },
-
-  getRepeat: function () {
+  toggleShuffle: function toggleShuffle() {
+    this.playback._shuffleEl.click();
+  },
+  getRepeat: function getRepeat() {
     // Repeat element states:
     //   SINGLE_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat-one'}}
     //   LIST_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat'}}
@@ -273,30 +261,30 @@ proto.playback = {
       return GMusic.Playback.SINGLE_REPEAT;
     } else if (this.playback._repeatEl.classList.contains('active')) {
       return GMusic.Playback.LIST_REPEAT;
-    } else {
-      return GMusic.Playback.NO_REPEAT;
     }
+    return GMusic.Playback.NO_REPEAT;
   },
-  setRepeat: function (mode) {
-    assert(GMusic.Playback.REPEAT_MODES.indexOf(mode) !== -1,
-      'Expected repeat mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t');
+  setRepeat: function setRepeat(mode) {
+    assert(GMusic.Playback.REPEAT_MODES.indexOf(mode) !== -1, 'Expected repeat mode "' + mode + '" to be inside ' + JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t');
     while (this.playback.getRepeat() !== mode) {
       this.playback.toggleRepeat();
     }
   },
-  toggleRepeat: function () { this.playback._repeatEl.click(); },
+  toggleRepeat: function toggleRepeat() {
+    this.playback._repeatEl.click();
+  },
+
 
   // Taken from the Google Play Music page
-  toggleVisualization: function () {
-    this.win.SJBpost('toggleVisualization');
+  toggleVisualization: function toggleVisualization() {
+    this.win.SJBpost('toggleVisualization'); // eslint-disable-line new-cap
   }
 };
 
 // Create a rating API
 proto.rating = {
   // Determine if a thumb is selected or not
-  _isElSelected: function (el) {
+  _isElSelected: function _isElSelected(el) {
     // jscs:disable maximumLineLength
     // Unselected thumbs down:
     // <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Thumb-up" aria-label="Thumb-up"></paper-icon-button>
@@ -308,8 +296,9 @@ proto.rating = {
     // DEV: We don't use English only strings (e.g. "Undo") to support i18n
     return el.__data__.icon === 'thumb-up' || el.__data__.icon === 'thumb-down';
   },
+
   // Get current rating
-  getRating: function () {
+  getRating: function getRating() {
     var thumbEls = this.doc.querySelectorAll(SELECTORS.rating.thumbsSelector);
     assert(thumbEls.length, 'Failed to find thumb elements for rating "' + SELECTORS.rating.thumbsSelector + '"');
     var i = 0;
@@ -323,8 +312,9 @@ proto.rating = {
     return '0';
   },
 
+
   // Thumbs up
-  toggleThumbsUp: function () {
+  toggleThumbsUp: function toggleThumbsUp() {
     var el = this.doc.querySelector(SELECTORS.rating.thumbsUpSelector);
 
     if (el) {
@@ -332,8 +322,9 @@ proto.rating = {
     }
   },
 
+
   // Thumbs down
-  toggleThumbsDown: function () {
+  toggleThumbsDown: function toggleThumbsDown() {
     var el = this.doc.querySelector(SELECTORS.rating.thumbsDownSelector);
 
     if (el) {
@@ -341,8 +332,9 @@ proto.rating = {
     }
   },
 
+
   // Set a rating
-  setRating: function (rating) {
+  setRating: function setRating(rating) {
     var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', rating);
     var el = this.doc.querySelector(selector);
 
@@ -351,8 +343,9 @@ proto.rating = {
     }
   },
 
+
   // Reset the rating
-  resetRating: function () {
+  resetRating: function resetRating() {
     var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', this.rating.getRating());
     var el = this.doc.querySelector(selector);
 
@@ -365,14 +358,14 @@ proto.rating = {
 // Miscellaneous functions
 proto.extras = {
   // Get a shareable URL of the song on Google Play Music
-  getSongURL: function () {
+  getSongURL: function getSongURL() {
     var albumEl = this.doc.querySelector('.player-album');
     var artistEl = this.doc.querySelector('.player-artist');
 
     var urlTemplate = 'https://play.google.com/music/m/';
     var url = null;
 
-    var parseID = function (id) {
+    var parseID = function parseID(id) {
       return id.substring(0, id.indexOf('/'));
     };
 
@@ -394,9 +387,8 @@ proto.extras = {
 };
 
 proto.hooks = {
-  init: function () {
-    // Save context for bindings
-    var that = this;
+  init: function init() {
+    var _this2 = this;
 
     // Define mutation observer for reuse
     var MutationObserver = this.win.MutationObserver || this.win.WebKitMutationObserver;
@@ -412,12 +404,11 @@ proto.hooks = {
           // DEV: We can encounter a text node, verify we have a `classList` to assert against
           var target = m.addedNodes[i];
           if (target.classList && target.classList.contains(SELECTORS.info.infoWrapperClass)) {
-            var songInfo = that.playback.getSongInfo();
+            var songInfo = _this2.playback.getSongInfo();
             // Make sure that this is the first of the notifications for the
             // insertion of the song information elements.
-            if (lastTitle !== songInfo.title || lastArtist !== songInfo.artist ||
-                lastAlbum !== songInfo.album || lastArt !== songInfo.art) {
-              that.emit('change:song', songInfo);
+            if (lastTitle !== songInfo.title || lastArtist !== songInfo.artist || lastAlbum !== songInfo.album || lastArt !== songInfo.art) {
+              _this2.emit('change:song', songInfo);
 
               lastTitle = songInfo.title;
               lastArtist = songInfo.artist;
@@ -429,7 +420,7 @@ proto.hooks = {
       });
     });
 
-    var lastShuffle;
+    var lastShuffle = void 0;
     var shuffleObserver = new MutationObserver(function (mutations) {
       var shuffleTouched = mutations.some(function (m) {
         var target = m.target;
@@ -440,14 +431,14 @@ proto.hooks = {
         return;
       }
 
-      var newShuffle = that.playback.getShuffle();
+      var newShuffle = _this2.playback.getShuffle();
       if (lastShuffle !== newShuffle) {
         lastShuffle = newShuffle;
-        that.emit('change:shuffle', newShuffle);
+        _this2.emit('change:shuffle', newShuffle);
       }
     });
 
-    var lastRepeat;
+    var lastRepeat = void 0;
     var repeatObserver = new MutationObserver(function (mutations) {
       var repeatTouched = mutations.some(function (m) {
         var target = m.target;
@@ -458,14 +449,14 @@ proto.hooks = {
         return;
       }
 
-      var newRepeat = that.playback.getRepeat();
+      var newRepeat = _this2.playback.getRepeat();
       if (lastRepeat !== newRepeat) {
         lastRepeat = newRepeat;
-        that.emit('change:repeat', newRepeat);
+        _this2.emit('change:repeat', newRepeat);
       }
     });
 
-    var lastMode;
+    var lastMode = void 0;
     var playbackObserver = new MutationObserver(function (mutations) {
       mutations.forEach(function (m) {
         var target = m.target;
@@ -473,21 +464,20 @@ proto.hooks = {
 
         if (id === SELECTORS.playPause.dataId) {
           // If the play/pause button is disabled
-          var mode;
+          var mode = void 0;
           if (target.disabled === true) {
             // If there is song info, then we are transitioning songs and do nothing
-            if (that.doc.getElementById(SELECTORS.info.containerId).style.display !== 'none') {
+            if (_this2.doc.getElementById(SELECTORS.info.containerId).style.display !== 'none') {
               return;
-            // Otherwise, we are stopped
-            } else {
-              mode = GMusic.Playback.STOPPED;
             }
-          // Otherwise (the play/pause button is enabled)
+            // Otherwise, we are stopped
+            mode = GMusic.Playback.STOPPED;
+            // Otherwise (the play/pause button is enabled)
           } else {
             var playing = target.classList.contains(SELECTORS.playPause.playingClass);
             if (playing) {
               mode = GMusic.Playback.PLAYING;
-            // DEV: If this fails to catch stopped cases, then maybe move "no song info" check to top level
+              // DEV: If this fails to catch stopped cases, then maybe move "no song info" check to top level
             } else {
               mode = GMusic.Playback.PAUSED;
             }
@@ -495,7 +485,7 @@ proto.hooks = {
 
           // If the mode has changed, then update it
           if (mode !== lastMode) {
-            that.emit('change:playback', mode);
+            _this2.emit('change:playback', mode);
             lastMode = mode;
           }
         }
@@ -510,12 +500,12 @@ proto.hooks = {
         if (id === SELECTORS.playback.sliderId) {
           var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
           var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
-          that.emit('change:playback-time', {current: currentTime, total: totalTime});
+          _this2.emit('change:playback-time', { current: currentTime, total: totalTime });
         }
       });
     });
 
-    var lastRating;
+    var lastRating = void 0;
     var ratingObserver = new MutationObserver(function (mutations) {
       // If we are looking at a rating button and it's selected, emit a notification
       // DEV: Prevent selection of container and "remove-circle-outline" button
@@ -536,10 +526,10 @@ proto.hooks = {
         return;
       }
 
-      var newRating = that.rating.getRating();
+      var newRating = _this2.rating.getRating();
       if (lastRating !== newRating) {
         lastRating = newRating;
-        that.emit('change:rating', newRating);
+        _this2.emit('change:rating', newRating);
       }
     });
 
