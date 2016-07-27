@@ -33,6 +33,7 @@ export default class Track {
   }
 
   equals(other) {
+    if (!other) return false;
     return this.id === other.id &&
       this.title === other.title &&
       this.albumArt === other.albumArt &&

@@ -23,6 +23,10 @@ export default class GMusicNamespace {
     this.prototype[methodName] = this[methodName].bind(this);
   }
 
+  addMethods(methodNames) {
+    methodNames.forEach((methodName) => this.addMethod(methodName));
+  }
+
   getPrototype() {
     return this.prototype;
   }

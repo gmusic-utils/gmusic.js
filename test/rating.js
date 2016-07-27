@@ -17,7 +17,7 @@ describe('A track in Google Music', function () {
   });
   browserUtils.execute(function playViaApi () {
     window.gmusic.playback.playPause();
-    window.gmusic.playback.setRepeat(window.GMusic.Playback.SINGLE_REPEAT);
+    window.gmusic.playback.setRepeat(window.GMusic.RepeatStatus.SINGLE_REPEAT);
   });
   browserMusicUtils.waitForPlaybackStart();
 

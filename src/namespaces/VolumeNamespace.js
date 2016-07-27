@@ -8,24 +8,14 @@ export default class VolumeNamespace extends GMusicNamespace {
     super(...args);
 
     this._mapSelectors(volumeSelectors);
-
     this._hookEvents();
 
-    this.addMethod('getVolume');
-    this.addMethod('setVolume');
-    this.addMethod('increaseVolume');
-    this.addMethod('decreaseVolume');
+    this.addMethods(['getVolume', 'setVolume', 'increaseVolume', 'decreaseVolume']);
   }
 
   _assertVolume(vol) {
     assert(vol >= 0, `Expected target volume (${vol}) to be >= 0`);
     assert(vol <= 100, `Expected target volume (${vol}) to be <= 100`);
-  }
-
-  _hookEvents() {
-    this._volumeSliderEl.addEventListener('value-change', () => {
-      this.emit('change:volume', this.getVolume());
-    });
   }
 
   getVolume() {
@@ -45,5 +35,11 @@ export default class VolumeNamespace extends GMusicNamespace {
   decreaseVolume(amount) {
     this._assertVolume(this._volumeSliderEl.value - amount);
     this._volumeSliderEl.value -= amount;
+  }
+
+  _hookEvents() {
+    this._volumeSliderEl.addEventListener('value-change', () => {
+      this.emit('change:volume', this.getVolume());
+    });
   }
 }

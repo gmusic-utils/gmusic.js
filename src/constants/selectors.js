@@ -2,6 +2,10 @@ export const volumeSelectors = {
   volumeSlider: '#material-vslider',
 };
 
+export const playbackSelectors = {
+  progress: '#material-player-progress',
+};
+
 export const nowPlayingSelectors = {
   albumArt: '#playerBarArt',
   albumName: '.player-album',
