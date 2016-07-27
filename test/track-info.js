@@ -37,7 +37,7 @@ describe('A Google Music instance playing no music', function () {
       expect(this.result).to.have.property('artist', 'this-is-an-artist');
       expect(this.result).to.have.property('album', 'this-is-an-album');
       expect(this.result).to.have.property('albumArt');
-      expect(this.result.art).to.have.match(/^https?:\/\//);
+      expect(this.result.albumArt).to.have.match(/^https?:\/\//);
       expect(this.result).to.have.property('duration');
       expect(this.result.duration).to.be.a('number');
     });
@@ -52,7 +52,7 @@ describe('A Google Music instance playing no music', function () {
         expect(this.result).to.have.property('artist', 'this-is-an-artist');
         expect(this.result).to.have.property('album', 'this-is-an-album');
         expect(this.result).to.have.property('albumArt');
-        expect(this.result.art).to.have.match(/^https?:\/\//);
+        expect(this.result.albumArt).to.have.match(/^https?:\/\//);
         expect(this.result).to.have.property('duration');
         expect(this.result.duration).to.be.a('number');
       });
