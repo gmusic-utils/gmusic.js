@@ -1,589 +1,207 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-// Expose our constructor to the world
-window.GMusic = require('./main');
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
 
-},{"./main":2}],2:[function(require,module,exports){
-// Load in dependencies
-var assert = require('assert');
-var EventEmitter = require('events').EventEmitter;
-var inherits = require('inherits');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-// Define selector constants
-var SELECTORS = {
-  info: {
-    albumArtId: 'playerBarArt',
-    albumSelector: '.player-album',
-    artistId: 'player-artist',
-    containerId: 'playerSongInfo',
-    infoWrapperClass: 'now-playing-info-wrapper',
-    titleId: 'currently-playing-title'
-  },
-  forward: {
-    buttonSelector: '[data-id="forward"]'
-  },
-  playPause: {
-    buttonSelector: '[data-id="play-pause"]',
-    dataId: 'play-pause',
-    playingClass: 'playing'
-  },
-  rating: {
-    // DEV: `.player-rating-container` doesn't exist until a song is playing
-    containerSelector: '#playerSongInfo',
-    thumbsSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating]',
-    thumbsUpSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="5"]',
-    thumbsDownSelector: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="1"]',
-    thumbSelectorFormat: '#player .player-rating-container [icon^="sj:thumb-"][data-rating="{rating}"]'
-  },
-  repeat: {
-    dataId: 'repeat',
-    buttonSelector: '[data-id="repeat"]'
-  },
-  rewind: {
-    buttonSelector: '[data-id="rewind"]'
-  },
-  shuffle: {
-    dataId: 'shuffle',
-    buttonSelector: '[data-id="shuffle"]'
-  },
-  playback: {
-    sliderId: 'material-player-progress'
-  },
-  volume: {
-    sliderId: 'material-vslider'
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GMusicNamespace = function () {
+  function GMusicNamespace(emit, on) {
+    _classCallCheck(this, GMusicNamespace);
+
+    this.emit = emit;
+    this.on = on;
+    this.prototype = {};
   }
+
+  _createClass(GMusicNamespace, [{
+    key: "addMethod",
+    value: function addMethod(methodName) {
+      this.prototype[methodName] = this[methodName].bind(this);
+    }
+  }, {
+    key: "getPrototype",
+    value: function getPrototype() {
+      return this.prototype;
+    }
+  }]);
+
+  return GMusicNamespace;
+}();
+
+exports.default = GMusicNamespace;
+},{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _assert = require('assert');
+
+var _assert2 = _interopRequireDefault(_assert);
+
+var _GMusicNamespace2 = require('./GMusicNamespace');
+
+var _GMusicNamespace3 = _interopRequireDefault(_GMusicNamespace2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var VolumeNamespace = function (_GMusicNamespace) {
+  _inherits(VolumeNamespace, _GMusicNamespace);
+
+  function VolumeNamespace() {
+    var _Object$getPrototypeO;
+
+    _classCallCheck(this, VolumeNamespace);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(VolumeNamespace)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    _this._sliderEl = document.querySelector(VolumeNamespace.selectors.volumeSlider);
+    (0, _assert2.default)(_this._sliderEl, 'Failed to find slider element for volume ' + VolumeNamespace.selectors.volumeSlider);
+
+    _this._hookEvents();
+
+    _this.addMethod('getVolume');
+    _this.addMethod('setVolume');
+    _this.addMethod('increaseVolume');
+    _this.addMethod('decreaseVolume');
+    return _this;
+  }
+
+  _createClass(VolumeNamespace, [{
+    key: '_assertVolume',
+    value: function _assertVolume(vol) {
+      (0, _assert2.default)(vol >= 0, 'Expected target volume (' + vol + ') to be >= 0');
+      (0, _assert2.default)(vol <= 100, 'Expected target volume (' + vol + ') to be <= 100');
+    }
+  }, {
+    key: '_hookEvents',
+    value: function _hookEvents() {
+      var _this2 = this;
+
+      this._sliderEl.addEventListener('value-change', function () {
+        _this2.emit('change:volume', _this2.getVolume());
+      });
+    }
+  }, {
+    key: 'getVolume',
+    value: function getVolume() {
+      return this._sliderEl.value;
+    }
+  }, {
+    key: 'setVolume',
+    value: function setVolume(vol) {
+      this._assertVolume(vol);
+      this._sliderEl.value = vol;
+    }
+  }, {
+    key: 'increaseVolume',
+    value: function increaseVolume(amount) {
+      this._assertVolume(this._sliderEl.value + amount);
+      this._sliderEl.value += amount;
+    }
+  }, {
+    key: 'decreaseVolume',
+    value: function decreaseVolume(amount) {
+      this._assertVolume(this._sliderEl.value - amount);
+      this._sliderEl.value -= amount;
+    }
+  }]);
+
+  return VolumeNamespace;
+}(_GMusicNamespace3.default);
+
+VolumeNamespace.selectors = {
+  volumeSlider: '#material-vslider'
 };
+exports.default = VolumeNamespace;
+},{"./GMusicNamespace":1,"assert":5}],3:[function(require,module,exports){
+'use strict';
 
-// Define bind method
-function bind(context, fn) {
-  return function bindFn () {
-    return fn.apply(context, arguments);
-  };
-}
+var _gmusic = require('./gmusic');
 
-// Define our constructor
-function GMusic(win) {
-  // If win was not provided, complain
-  if (!win) {
-    throw new Error('`win` was not provided to the `GMusic` constructor');
-  }
+var _gmusic2 = _interopRequireDefault(_gmusic);
 
-  // Inherit from EventEmitter
-  EventEmitter.call(this);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-  // Localize reference to window and document
-  this.win = win;
-  this.doc = win.document;
+window.GMusic = _gmusic2.default;
+},{"./gmusic":4}],4:[function(require,module,exports){
+'use strict';
 
-  // For each of the prototype sections
-  var proto = GMusic._protoObj;
-  for (var protoKey in proto) {
-    if (proto.hasOwnProperty(protoKey)) {
-      // Define a key on our object
-      this[protoKey] = {};
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-      // For each of the keys on the section, define a function that invokes on this original context
-      var section = proto[protoKey];
-      for (var sectionKey in section) {
-        if (section.hasOwnProperty(sectionKey)) {
-          this[protoKey][sectionKey] = bind(this, section[sectionKey]);
-        }
-      }
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-      // If there was an `init` method, run it
-      if (this[protoKey].init) {
-        this[protoKey].init();
-      }
-    }
-  }
-}
-// Inherit from EventEmitter normally
-inherits(GMusic, EventEmitter);
+var _events = require('events');
 
-// Define a "prototype" that will have magical invocation
-var proto = GMusic._protoObj = {};
+var _events2 = _interopRequireDefault(_events);
 
-// Create a volume API
-proto.volume = {
-  // Query required elements
-  init: function () {
-    this.volume._sliderEl = this.doc.getElementById(SELECTORS.volume.sliderId);
-    assert(this.volume._sliderEl, 'Failed to find slider element for volume "#' + SELECTORS.volume.sliderId + '"');
-  },
+var _VolumeNamespace = require('./VolumeNamespace');
 
-  // Get the current volume level.
-  getVolume: function () {
-    return parseInt(this.volume._sliderEl.getAttribute('aria-valuenow'), 10);
-  },
+var _VolumeNamespace2 = _interopRequireDefault(_VolumeNamespace);
 
-  // Set the volume level (0 - 100).
-  setVolume: function (vol) {
-    var current = this.volume.getVolume();
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-    if (vol > current) {
-      this.volume.increaseVolume(vol - current);
-    } else if (vol < current) {
-      this.volume.decreaseVolume(current - vol);
-    }
-  },
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  // Increase the volume by an amount (default of 5)
-  increaseVolume: function (amount) {
-    if (amount === undefined) {
-      amount = 5;
-    }
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-    for (var i = 0; i < amount; i += 5) {
-      this.volume._sliderEl.increment();
-    }
-  },
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-  // Decrease the volume by an amount (default of 5)
-  decreaseVolume: function (amount) {
-    if (amount === undefined) {
-      amount = 5;
-    }
+var namespaces = {};
 
-    for (var i = 0; i < amount; i += 5) {
-      this.volume._sliderEl.decrement();
-    }
-  }
-};
+var GMusic = function (_Emitter) {
+  _inherits(GMusic, _Emitter);
 
-// Create a playback API and constants
-GMusic.Playback = {
-  // Playback states
-  STOPPED: 0,
-  PAUSED: 1,
-  PLAYING: 2,
+  function GMusic() {
+    _classCallCheck(this, GMusic);
 
-  // Repeat modes
-  LIST_REPEAT: 'LIST_REPEAT',
-  SINGLE_REPEAT: 'SINGLE_REPEAT',
-  NO_REPEAT: 'NO_REPEAT',
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GMusic).call(this));
 
-  // Shuffle modes
-  ALL_SHUFFLE: 'ALL_SHUFFLE',
-  NO_SHUFFLE: 'NO_SHUFFLE'
-};
-GMusic.Playback.SHUFFLE_MODES = [
-    GMusic.Playback.ALL_SHUFFLE,
-    GMusic.Playback.NO_SHUFFLE
-];
-GMusic.Playback.REPEAT_MODES = [
-  GMusic.Playback.LIST_REPEAT,
-  GMusic.Playback.SINGLE_REPEAT,
-  GMusic.Playback.NO_REPEAT
-];
-proto.playback = {
-  // Query references to the media playback elements
-  init: function () {
-    var _sliderEl = this.playback._sliderEl = this.doc.getElementById(SELECTORS.playback.sliderId);
-    var _playPauseEl = this.playback._playPauseEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
-    var _forwardEl = this.playback._forwardEl = this.doc.querySelector(SELECTORS.forward.buttonSelector);
-    var _rewindEl = this.playback._rewindEl = this.doc.querySelector(SELECTORS.rewind.buttonSelector);
-    var _shuffleEl = this.playback._shuffleEl = this.doc.querySelector(SELECTORS.shuffle.buttonSelector);
-    var _repeatEl = this.playback._repeatEl = this.doc.querySelector(SELECTORS.repeat.buttonSelector);
-
-    assert(_sliderEl, 'Failed to find slider element for playback "#' + SELECTORS.playback.sliderId + '"');
-    assert(_playPauseEl, 'Failed to find playPause element for playback "' + SELECTORS.playPause.buttonSelector + '"');
-    assert(_forwardEl, 'Failed to find forward element for playback "' + SELECTORS.forward.buttonSelector + '"');
-    assert(_rewindEl, 'Failed to find rewind element for playback "' + SELECTORS.rewind.buttonSelector + '"');
-    assert(_shuffleEl, 'Failed to find shuffle element for playback "' + SELECTORS.shuffle.buttonSelector + '"');
-    assert(_repeatEl, 'Failed to find repeat element for playback "' + SELECTORS.repeat.buttonSelector + '"');
-  },
-
-  // Time functions
-  getPlaybackTime: function () {
-    return parseInt(this.playback._sliderEl.getAttribute('aria-valuenow'), 10);
-  },
-
-  setPlaybackTime: function (milliseconds) {
-    // Set playback value on the element and trigger a change event
-    this.playback._sliderEl.value = milliseconds;
-    var evt = new this.win.UIEvent('change');
-    this.playback._sliderEl.dispatchEvent(evt);
-  },
-
-  getPlaybackState: function () {
-    // Play/Pause element states:
-    //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
-    //   PAUSED: {__data__: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
-    //   STOPPED: {__data__: {icon: 'av:sj:play-circle-fill'}, disabled: true}
-    if (!this.playback._playPauseEl.disabled) {
-      if (this.playback._playPauseEl.__data__.icon === 'av:pause-circle-filled') {
-        return GMusic.Playback.PLAYING;
-      } else {
-        return GMusic.Playback.PAUSED;
-      }
-    } else {
-      return GMusic.Playback.STOPPED;
-    }
-  },
-
-  getSongInfo: function () {
-    var songInfo = {
-      title: this.doc.getElementById(SELECTORS.info.titleId).textContent || 'Unknown',
-      artist: this.doc.getElementById(SELECTORS.info.artistId).textContent || 'Unknown',
-      album: this.doc.querySelector(SELECTORS.info.albumSelector).textContent || 'Unknown',
-      art: this.doc.getElementById(SELECTORS.info.albumArtId) || null,
-      duration: this.doc.getElementById(SELECTORS.playback.sliderId).max
-    };
-    songInfo.art = (songInfo.art) ? songInfo.art.src : null;
-
-    // The art may be a protocol-relative URL, so normalize it to HTTPS
-    if (songInfo.art && songInfo.art.slice(0, 2) === '//') {
-      songInfo.art = 'https:' + songInfo.art;
-    }
-    return songInfo;
-  },
-
-  // Playback functions
-  playPause: function () { this.playback._playPauseEl.click(); },
-  forward: function () { this.playback._forwardEl.click(); },
-  rewind: function () { this.playback._rewindEl.click(); },
-
-  getShuffle: function () {
-    if (this.playback._shuffleEl.classList.contains('active')) {
-      return GMusic.Playback.ALL_SHUFFLE;
-    } else {
-      return GMusic.Playback.NO_SHUFFLE;
-    }
-  },
-  setShuffle: function (mode) {
-    assert(GMusic.Playback.SHUFFLE_MODES.indexOf(mode) !== -1,
-      'Expected shuffle mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.SHUFFLE_MODES) + ' but it wasn\'t');
-    while (this.playback.getShuffle() !== mode) {
-      this.playback.toggleShuffle();
-    }
-  },
-  toggleShuffle: function () { this.playback._shuffleEl.click(); },
-
-  getRepeat: function () {
-    // Repeat element states:
-    //   SINGLE_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat-one'}}
-    //   LIST_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat'}}
-    //   NO_REPEAT: {classList: [], __data__: {icon: 'av:repeat'}}
-    if (this.playback._repeatEl.__data__.icon === 'av:repeat-one') {
-      return GMusic.Playback.SINGLE_REPEAT;
-    } else if (this.playback._repeatEl.classList.contains('active')) {
-      return GMusic.Playback.LIST_REPEAT;
-    } else {
-      return GMusic.Playback.NO_REPEAT;
-    }
-  },
-  setRepeat: function (mode) {
-    assert(GMusic.Playback.REPEAT_MODES.indexOf(mode) !== -1,
-      'Expected repeat mode "' + mode + '" to be inside ' +
-      JSON.stringify(GMusic.Playback.REPEAT_MODES) + ' but it wasn\'t');
-    while (this.playback.getRepeat() !== mode) {
-      this.playback.toggleRepeat();
-    }
-  },
-  toggleRepeat: function () { this.playback._repeatEl.click(); },
-
-  // Taken from the Google Play Music page
-  toggleVisualization: function () {
-    this.win.SJBpost('toggleVisualization');
-  }
-};
-
-// Create a rating API
-proto.rating = {
-  // Determine if a thumb is selected or not
-  _isElSelected: function (el) {
-    // jscs:disable maximumLineLength
-    // Unselected thumbs down:
-    // <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Thumb-up" aria-label="Thumb-up"></paper-icon-button>
-    //   el.__data__.icon = 'sj:thumb-down-outline';
-    // Selected thumbs up:
-    // <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Undo thumb-up" aria-label="Undo thumb-up"></paper-icon-button>
-    //   el.__data__.icon = 'thumb-up';
-    // jscs:enable maximumLineLength
-    // DEV: We don't use English only strings (e.g. "Undo") to support i18n
-    return el.__data__.icon === 'thumb-up' || el.__data__.icon === 'thumb-down';
-  },
-  // Get current rating
-  getRating: function () {
-    var thumbEls = this.doc.querySelectorAll(SELECTORS.rating.thumbsSelector);
-    assert(thumbEls.length, 'Failed to find thumb elements for rating "' + SELECTORS.rating.thumbsSelector + '"');
-    var i = 0;
-    var len = thumbEls.length;
-    for (; i < len; i++) {
-      var el = thumbEls[i];
-      if (this.rating._isElSelected(el)) {
-        return el.dataset.rating;
-      }
-    }
-    return '0';
-  },
-
-  // Thumbs up
-  toggleThumbsUp: function () {
-    var el = this.doc.querySelector(SELECTORS.rating.thumbsUpSelector);
-
-    if (el) {
-      el.click();
-    }
-  },
-
-  // Thumbs down
-  toggleThumbsDown: function () {
-    var el = this.doc.querySelector(SELECTORS.rating.thumbsDownSelector);
-
-    if (el) {
-      el.click();
-    }
-  },
-
-  // Set a rating
-  setRating: function (rating) {
-    var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', rating);
-    var el = this.doc.querySelector(selector);
-
-    if (el && !this.rating._isElSelected(el)) {
-      el.click();
-    }
-  },
-
-  // Reset the rating
-  resetRating: function () {
-    var selector = SELECTORS.rating.thumbSelectorFormat.replace('{rating}', this.rating.getRating());
-    var el = this.doc.querySelector(selector);
-
-    if (el && this.rating._isElSelected(el)) {
-      el.click();
-    }
-  }
-};
-
-// Miscellaneous functions
-proto.extras = {
-  // Get a shareable URL of the song on Google Play Music
-  getSongURL: function () {
-    var albumEl = this.doc.querySelector('.player-album');
-    var artistEl = this.doc.querySelector('.player-artist');
-
-    var urlTemplate = 'https://play.google.com/music/m/';
-    var url = null;
-
-    var parseID = function (id) {
-      return id.substring(0, id.indexOf('/'));
-    };
-
-    if (albumEl === null && artistEl === null) {
-      return null;
-    }
-
-    var albumId = parseID(albumEl.dataset.id);
-    var artistId = parseID(artistEl.dataset.id);
-
-    if (albumId) {
-      url = urlTemplate + albumId;
-    } else if (artistId) {
-      url = urlTemplate + artistId;
-    }
-
-    return url;
-  }
-};
-
-proto.hooks = {
-  init: function () {
-    // Save context for bindings
-    var that = this;
-
-    // Define mutation observer for reuse
-    var MutationObserver = this.win.MutationObserver || this.win.WebKitMutationObserver;
-
-    var lastTitle = '';
-    var lastArtist = '';
-    var lastAlbum = '';
-
-    var addObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        for (var i = 0; i < m.addedNodes.length; i++) {
-          // DEV: We can encounter a text node, verify we have a `classList` to assert against
-          var target = m.addedNodes[i];
-          if (target.classList && target.classList.contains(SELECTORS.info.infoWrapperClass)) {
-            var songInfo = that.playback.getSongInfo();
-            // Make sure that this is the first of the notifications for the
-            // insertion of the song information elements.
-            if (lastTitle !== songInfo.title || lastArtist !== songInfo.artist || lastAlbum !== songInfo.album) {
-              that.emit('change:song', songInfo);
-
-              lastTitle = songInfo.title;
-              lastArtist = songInfo.artist;
-              lastAlbum = songInfo.album;
-            }
-          }
-        }
+    Object.keys(namespaces).forEach(function (namespaceName) {
+      var namespaceClasses = namespaces[namespaceName];
+      namespaceClasses.forEach(function (NamespaceClass) {
+        var namespace = new NamespaceClass(_this.emit.bind(_this), _this.on.bind(_this));
+        _this[namespaceName] = Object.assign(_this[namespaceName] || {}, namespace.getPrototype());
       });
     });
-
-    var lastShuffle;
-    var shuffleObserver = new MutationObserver(function (mutations) {
-      var shuffleTouched = mutations.some(function (m) {
-        var target = m.target;
-        return target.dataset.id === SELECTORS.shuffle.dataId;
-      });
-
-      if (!shuffleTouched) {
-        return;
-      }
-
-      var newShuffle = that.playback.getShuffle();
-      if (lastShuffle !== newShuffle) {
-        lastShuffle = newShuffle;
-        that.emit('change:shuffle', newShuffle);
-      }
-    });
-
-    var lastRepeat;
-    var repeatObserver = new MutationObserver(function (mutations) {
-      var repeatTouched = mutations.some(function (m) {
-        var target = m.target;
-        return target.dataset.id === SELECTORS.repeat.dataId;
-      });
-
-      if (!repeatTouched) {
-        return;
-      }
-
-      var newRepeat = that.playback.getRepeat();
-      if (lastRepeat !== newRepeat) {
-        lastRepeat = newRepeat;
-        that.emit('change:repeat', newRepeat);
-      }
-    });
-
-    var lastMode;
-    var playbackObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        var target = m.target;
-        var id = target.dataset.id;
-
-        if (id === SELECTORS.playPause.dataId) {
-          // If the play/pause button is disabled
-          var mode;
-          if (target.disabled === true) {
-            // If there is song info, then we are transitioning songs and do nothing
-            if (that.doc.getElementById(SELECTORS.info.containerId).style.display !== 'none') {
-              return;
-            // Otherwise, we are stopped
-            } else {
-              mode = GMusic.Playback.STOPPED;
-            }
-          // Otherwise (the play/pause button is enabled)
-          } else {
-            var playing = target.classList.contains(SELECTORS.playPause.playingClass);
-            if (playing) {
-              mode = GMusic.Playback.PLAYING;
-            // DEV: If this fails to catch stopped cases, then maybe move "no song info" check to top level
-            } else {
-              mode = GMusic.Playback.PAUSED;
-            }
-          }
-
-          // If the mode has changed, then update it
-          if (mode !== lastMode) {
-            that.emit('change:playback', mode);
-            lastMode = mode;
-          }
-        }
-      });
-    });
-
-    var playbackTimeObserver = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        var target = m.target;
-        var id = target.id;
-
-        if (id === SELECTORS.playback.sliderId) {
-          var currentTime = parseInt(target.getAttribute('aria-valuenow'), 10);
-          var totalTime = parseInt(target.getAttribute('aria-valuemax'), 10);
-          that.emit('change:playback-time', {current: currentTime, total: totalTime});
-        }
-      });
-    });
-
-    var lastRating;
-    var ratingObserver = new MutationObserver(function (mutations) {
-      // If we are looking at a rating button and it's selected, emit a notification
-      // DEV: Prevent selection of container and "remove-circle-outline" button
-      // jscs:disable maximumLineLength
-      // Good:
-      //   <paper-icon-button icon="sj:thumb-up-outline" data-rating="5" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0" title="Thumb-up" aria-label="Thumb-up"></paper-icon-button>
-      // Bad:
-      //   <div id="playerSongInfo" style=""></div>
-      //   <paper-icon-button icon="remove-circle-outline" data-rating="0" role="button" tabindex="0" aria-disabled="false" class="x-scope paper-icon-button-0"></paper-icon-button>
-      // jscs:enable maximumLineLength
-      var ratingsTouched = mutations.some(function (m) {
-        // Determine if our ratings were touched
-        var target = m.target;
-        return target.dataset && target.dataset.rating && target.hasAttribute('aria-label');
-      });
-
-      if (!ratingsTouched) {
-        return;
-      }
-
-      var newRating = that.rating.getRating();
-      if (lastRating !== newRating) {
-        lastRating = newRating;
-        that.emit('change:rating', newRating);
-      }
-    });
-
-    // Find our target elements
-    var addObserverEl = this.doc.getElementById(SELECTORS.info.containerId);
-    var shuffleObserverEl = this.doc.querySelector(SELECTORS.shuffle.buttonSelector);
-    var repeatObserverEl = this.doc.querySelector(SELECTORS.repeat.buttonSelector);
-    var playbackObserverEl = this.doc.querySelector(SELECTORS.playPause.buttonSelector);
-    var playbackTimeObserverEl = this.doc.getElementById(SELECTORS.playback.sliderId);
-    var ratingObserverEl = this.doc.querySelector(SELECTORS.rating.containerSelector);
-
-    // Verify they exist
-    // jscs:disable maximumLineLength
-    assert(addObserverEl, 'Failed to find addObserver element for hooks "#' + SELECTORS.info.containerId + '"');
-    assert(shuffleObserverEl, 'Failed to find shuffleObserver element for hooks "' + SELECTORS.shuffle.buttonSelector + '"');
-    assert(repeatObserverEl, 'Failed to find repeatObserver element for hooks "' + SELECTORS.repeat.buttonSelector + '"');
-    assert(playbackObserverEl, 'Failed to find playbackObserver element for hooks "' + SELECTORS.playPause.buttonSelector + '"');
-    assert(playbackTimeObserverEl, 'Failed to find playbackTimeObserver element for hooks "#' + SELECTORS.playback.sliderId + '"');
-    assert(ratingObserverEl, 'Failed to find ratingObserver element for hooks "' + SELECTORS.rating.containerSelector + '"');
-    // jscs:enable maximumLineLength
-
-    // Bind our elements
-    addObserver.observe(addObserverEl, {
-      childList: true,
-      subtree: true
-    });
-    shuffleObserver.observe(shuffleObserverEl, {
-      attributes: true
-    });
-    repeatObserver.observe(repeatObserverEl, {
-      attributes: true
-    });
-    playbackObserver.observe(playbackObserverEl, {
-      attributes: true
-    });
-    playbackTimeObserver.observe(playbackTimeObserverEl, {
-      attributes: true
-    });
-    ratingObserver.observe(ratingObserverEl, {
-      attributes: true,
-      subtree: true
-    });
+    return _this;
   }
-};
 
-// Expose selectors as a class property
-GMusic.SELECTORS = SELECTORS;
+  _createClass(GMusic, null, [{
+    key: 'addNamespace',
+    value: function addNamespace(namespaceName, namespaceClass) {
+      namespaces[namespaceName] = namespaces[namespaceName] || [];
+      namespaces[namespaceName].push(namespaceClass);
+    }
+  }]);
 
-// Export our constructor
-module.exports = GMusic;
+  return GMusic;
+}(_events2.default);
 
-},{"assert":3,"events":4,"inherits":5}],3:[function(require,module,exports){
+GMusic.addNamespace('volume', _VolumeNamespace2.default);
+
+exports.default = GMusic;
+},{"./VolumeNamespace":2,"events":6}],5:[function(require,module,exports){
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -672,7 +290,7 @@ function replacer(key, value) {
   if (util.isUndefined(value)) {
     return '' + value;
   }
-  if (util.isNumber(value) && !isFinite(value)) {
+  if (util.isNumber(value) && (isNaN(value) || !isFinite(value))) {
     return value.toString();
   }
   if (util.isFunction(value) || util.isRegExp(value)) {
@@ -811,22 +429,23 @@ function objEquiv(a, b) {
     return false;
   // an identical 'prototype' property.
   if (a.prototype !== b.prototype) return false;
-  // if one is a primitive, the other must be same
-  if (util.isPrimitive(a) || util.isPrimitive(b)) {
-    return a === b;
-  }
-  var aIsArgs = isArguments(a),
-      bIsArgs = isArguments(b);
-  if ((aIsArgs && !bIsArgs) || (!aIsArgs && bIsArgs))
-    return false;
-  if (aIsArgs) {
+  //~~~I've managed to break Object.keys through screwy arguments passing.
+  //   Converting to array solves the problem.
+  if (isArguments(a)) {
+    if (!isArguments(b)) {
+      return false;
+    }
     a = pSlice.call(a);
     b = pSlice.call(b);
     return _deepEqual(a, b);
   }
-  var ka = objectKeys(a),
-      kb = objectKeys(b),
-      key, i;
+  try {
+    var ka = objectKeys(a),
+        kb = objectKeys(b),
+        key, i;
+  } catch (e) {//happens when one is a string literal and the other isn't
+    return false;
+  }
   // having the same number of owned properties (keys incorporates
   // hasOwnProperty)
   if (ka.length != kb.length)
@@ -944,7 +563,7 @@ var objectKeys = Object.keys || function (obj) {
   return keys;
 };
 
-},{"util/":8}],4:[function(require,module,exports){
+},{"util/":10}],6:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1247,7 +866,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1272,44 +891,50 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
-var queue = [];
-var draining = false;
 
-function drainQueue() {
-    if (draining) {
-        return;
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
     }
-    draining = true;
-    var currentQueue;
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        var i = -1;
-        while (++i < len) {
-            currentQueue[i]();
-        }
-        len = queue.length;
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
     }
-    draining = false;
-}
-process.nextTick = function (fun) {
-    queue.push(fun);
-    if (!draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
 
 process.title = 'browser';
 process.browser = true;
 process.env = {};
 process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
 
 function noop() {}
 
@@ -1323,23 +948,22 @@ process.emit = noop;
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
-};
+}
 
 // TODO(shtylman)
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
-process.umask = function() { return 0; };
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1928,5 +1552,5 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":7,"_process":6,"inherits":5}]},{},[1]);
+}).call(this,require("qC859L"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":9,"inherits":7,"qC859L":8}]},{},[3])
