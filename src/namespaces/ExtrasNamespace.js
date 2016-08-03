@@ -5,14 +5,14 @@ export default class ExtrasNamespace extends GMusicNamespace {
   constructor(...args) {
     super(...args);
 
-    this.addMethods(['getSongURL']);
+    this.addMethods(['getTrackURL']);
   }
 
   _parseID(id) {
     return id.substring(0, id.indexOf('/'));
   }
 
-  getSongURL() {
+  getTrackURL() {
     const albumEl = document.querySelector(nowPlayingSelectors.albumName);
     const artistEl = document.querySelector(nowPlayingSelectors.artistName);
 

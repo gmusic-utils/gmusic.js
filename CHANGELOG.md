@@ -1,4 +1,6 @@
 # gmusic.js changelog
+6.0.0 - `playback.getPlaybackTime` renamed to `playback.getCurrentTime`, `playback.setPlaybackTime` renamed to `playback.setCurrentTime`, `playback.getSongInfo` renamed to `playback.getCurrentTrack`, `extras.getSongURL` renamed to `extras.getTrackURL`, `art` property has become `albumArt`, new method `playback.getTotalTime`, new method `playback.isPlaying`, SELECTORS might have changed a bit so be careful
+
 5.0.0 - Added new methods `playback.setShuffle`, `playback.setRepeat`, `playback.getSongInfo`, and `playback.getPlaybackState`. Also modified `setRepeat` to handle the old functionality of `toggleRepeat` which now only toggles states. Added new documentation for methods.
 
 4.2.1 - Repaired i18n support by removing English only strings via @ jostrander in #39 and #40

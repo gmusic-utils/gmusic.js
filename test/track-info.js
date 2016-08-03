@@ -20,7 +20,7 @@ describe('A Google Music instance playing no music', function () {
 
   describe('when we are playing music', function () {
     browserUtils.execute(function setupSongWatcher () {
-      window.gmusic.on('change:song', function saveSong (song) {
+      window.gmusic.on('change:track', function saveSong (song) {
         window.song = song;
       });
     });
