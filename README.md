@@ -210,6 +210,17 @@ Toggle through the modes for repeat.
 
 - The order is `NO_REPEAT`, `LIST_REPEAT`, `SINGLE_REPEAT`
 
+#### `playback.isPodcast()`
+Retrieve if the current track is a podcast.
+
+- retVal `Boolean` - True indicates the current track is a podcast.
+
+#### `playback.forwardThirty()` _PODCASTS ONLY_
+Moves the current track position thirty seconds ahead.
+
+#### `playback.rewindTen()` _PODCASTS ONLY_
+Moves the current track position 10 seconds back.
+
 #### `playback.toggleVisualization()`
 Trigger a visualization for the track. This is typically album art.
 
