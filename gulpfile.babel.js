@@ -18,7 +18,9 @@ gulp.task('transpile', () =>
 
 gulp.task('browserify', ['transpile'], () =>
   gulp.src('./build/main.js')
-    .pipe(browserify())
+    .pipe(browserify({
+      standalone: 'GMusic'
+    }))
     .pipe(rename('gmusic.js'))
     .pipe(gulp.dest('./dist'))
 );
