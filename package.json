@@ -24,6 +24,7 @@
     "build": "gulp build",
     "lint": "eslint src",
     "pretest": "npm run build",
+    "prepublish": "npm run build",
     "test": "npm run verify-webdriver && mocha --timeout 10000 --reporter dot && npm run lint",
     "test-browserstack": "npm run pretest && mocha --timeout 30000 --reporter dot && npm run lint",
     "test-windows": "npm run pretest && mocha --timeout 30000 --reporter dot && npm run lint",
