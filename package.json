@@ -16,7 +16,7 @@
     "url": "https://github.com/gmusic-utils/gmusic.js/issues"
   },
   "license": "Unlicense",
-  "main": "lib/main",
+  "main": "dist/gmusic.js",
   "engines": {
     "node": ">= 0.8.0"
   },
