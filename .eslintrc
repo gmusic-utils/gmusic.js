@@ -1,0 +1,12 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "rules": {
+    "max-len": [1, 160],
+    "no-param-reassign": 0,
+    "no-underscore-dangle": 0
+  }
+}

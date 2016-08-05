@@ -5,6 +5,8 @@ Browser-side JS library for controlling [Google Music][].
 
 This was built as part of [google-music-webkit][], a [node-webkit][] wrapper around [Google Music][]. It was forked from [radiant-player-mac@v1.3.1][], developed and created by [Sajid Anwar][] and [James Fator][] to make it reusable and well tested.
 
+It is now being maintained by the teams of [GPMDP][] and [Radiant Player][]
+
 `gmusic.js` is not created by, affiliated with, or supported by Google Inc.
 
 [google-music-webkit]: https://github.com/twolfson/google-music-webkit
@@ -12,6 +14,20 @@ This was built as part of [google-music-webkit][], a [node-webkit][] wrapper aro
 [radiant-player-mac@v1.3.1]: https://github.com/kbhomes/radiant-player-mac/tree/v1.3.1
 [Sajid Anwar]: https://github.com/kbhomes/
 [James Fator]: http://jamesfator.com/
+[GPMDP]: https://github.com/MarshallOfSound/Google-Play-Music-Desktop-Player-UNOFFICIAL-
+[Radiant Player]: https://github.com/radiant-player/radiant-player-mac
+
+## Breaking changes in 6.0.0
+* `playback.getPlaybackTime` renamed to `playback.getCurrentTime`
+* `playback.setPlaybackTime` renamed to `playback.setCurrentTime`
+* `playback.getSongInfo` renamed to `playback.getCurrentTrack`
+* `extras.getSongURL` renamed to `extras.getTrackURL`
+* `change:song` renamed to `change:track`
+* Track's now have an `albumArt` prop instead of `art`
+* New method `getTotalTime`
+* New method `isPlaying`
+* ENUMS might have moved a bit due to new bindings
+
 
 ## Breaking changes in 5.0.0
 The method `toggleRepeat()` no longer accepts arguments and `setRepeat(mode)` has replaced its functionality.
@@ -54,17 +70,15 @@ Then, add it to your HTML and access it via `window.GMusic`.
 ```html
 <script src="gmusic.min.js"></script>
 <script>
-  window.gmusic = new window.GMusic(window); // Our Google Music API
+  window.gmusic = new window.GMusic(); // Our Google Music API
 </script>
 ```
 
 ## Documentation
 `gmusic.js` exposes a constructor, `GMusic` as its `module.exports` (`window.GMusic` for `bower`/vanilla).
 
-### `new GMusic(window)`
-Constructor for a new Google Music API. For usage with `node-webkit`, we require `window` to be passed in rather than assumed from global scope.
-
-- window `Object` - Global `window` object for target browser window
+### `new GMusic()`
+Constructor for a new Google Music API
 
 ### Volume
 `gmusic.volume` exposes interfaces to the volume controls of Google Music. Volume can range from 0 to 100 in steps of 5 (e.g. 10, 15, 20).
@@ -100,34 +114,43 @@ Lower the volume by an amount
 ### Playback
 `gmusic.playback` exposes interfaces to the state of music playback and its behavior (e.g. shuffle).
 
-#### `playback.getPlaybackTime()`
-Retrieve the current progress in a song
+#### `playback.getCurrentTime()`
+Retrieve the current progress in a track
 
 **Returns:**
 
-- retVal `Number` - Integer representing milliseconds from the start of the song
+- retVal `Number` - Integer representing milliseconds from the start of the track
 
-#### `playback.setPlaybackTime(milliseconds)`
-Jump the current song to a time
+#### `playback.setCurrentTime(milliseconds)`
+Jump the current track to a time
 
 - milliseconds `Number` - Integer representing milliseconds to jump the current track to
 
-#### `playback.getSongInfo()`
-Retrieve current song's metadata
+#### `playback.getTotalTime()`
+Retrieve the length of the current track
 
 **Returns:**
 
-- song `Object` - Container for song info
-    - title `String` - Name of the song
-    - artist `String` - Artist of the song
-    - album `String` - Album of the song
-    - art `String` - URL for album art of the song
-    - duration `Number` - Milliseconds that the track will last for
+- retVal `Number` - Integer representing the length of the track in milliseconds
+
+#### `playback.isPlaying()`
+Determine if a track is current playing
+
+**Returns:**
+
+- retVal `Boolean` - True if the a track is currently playing, else false
+
+#### `playback.getCurrentTrack()`
+Retrieve current track's metadata
+
+**Returns:**
+
+- retVal `Track` - Container for track info
 
 #### `playback.playPause()`
-Toggle between play and pause for the current song
+Toggle between play and pause for the current track
 
-**This will not work if there are no songs in the queue.**
+**This will not work if there are no tracks in the queue.**
 
 ### `playback.getPlaybackState()`
 
@@ -135,15 +158,15 @@ Toggle between play and pause for the current song
 
 - retVal `Number` - Current status of music playback (e.g. 0, 1, 2)
     - 0 - Playback is stopped
-    - 1 - Song is paused
-    - 2 - Song is playing
-    - Values are available via `GMusic.Playback.STOPPED`, `GMusic.Playback.PAUSED`, and `GMusic.Playback.PLAYING`
+    - 1 - Track is paused
+    - 2 - Track is playing
+    - Values are available via `GMusic.PlaybackStatus.STOPPED`, `GMusic.PlaybackStatus.PAUSED`, and `GMusic.PlaybackStatus.PLAYING`
 
 #### `playback.forward()`
-Move to the next song
+Move to the next track
 
 #### `playback.rewind()`
-Move to the previous song
+Move to the previous
 
 #### `playback.getShuffle()`
 Retrieve the status of shuffle
@@ -153,7 +176,7 @@ Retrieve the status of shuffle
 - retVal `String` - Current state of shuffle (e.g. `ALL_SHUFFLE`, `NO_SHUFFLE`)
     - `ALL_SHUFFLE` will shuffle between all tracks
     - `NO_SHUFFLE` will play the tracks in the order they were added
-    - We created constants named `GMusic.Playback.ALL_SHUFFLE` or `GMusic.Playback.NO_SHUFFLE`
+    - We created constants named `GMusic.ShuffleStatus.ALL_SHUFFLE` or `GMusic.ShuffleStatus.NO_SHUFFLE`
 
 #### `playback.setShuffle(mode)`
 Set the shuffle mode
@@ -170,10 +193,10 @@ Retrieve the current setting for repeat
 **Returns:**
 
 - retVal `String` - Current setting for repeat (e.g. `LIST_REPEAT`, `SINGLE_REPEAT`, `NO_REPEAT`)
-    - `LIST_REPEAT` will repeat the queue when it reaches the last song
-    - `SINGLE_REPEAT` will repeat the current song indefinitely
+    - `LIST_REPEAT` will repeat the queue when it reaches the last track
+    - `SINGLE_REPEAT` will repeat the current track indefinitely
     - `NO_REPEAT` will not repeat the queue
-    - We created constants named `GMusic.Playback.LIST_REPEAT`, `GMusic.Playback.SINGLE_REPEAT`, `GMusic.Playback.NO_REPEAT`
+    - We created constants named `GMusic.RepeatStatus.LIST_REPEAT`, `GMusic.RepeatStatus.SINGLE_REPEAT`, `GMusic.RepeatStatus.NO_REPEAT`
 
 #### `playback.setRepeat(mode)`
 Change the current setting for repeat
@@ -193,14 +216,14 @@ Trigger a visualization for the track. This is typically album art.
 **This is an untested method.**
 
 ### Rating
-`gmusic.rating` exposes interfaces to the rating the current song.
+`gmusic.rating` exposes interfaces to the rating the current track.
 
 #### `rating.getRating()`
 Retrieve the rating for the current track.
 
 **Returns:**
 
-- retVal `String` - Rating for current song. This varies from 0 to 5
+- retVal `String` - Rating for current track. This varies from 0 to 5
     - If 0, then there has been no rating
     - On a thumbs system, thumbs down is 1 and thumbs up is 5
 
@@ -221,14 +244,14 @@ Removes existing rating from the current track
 ### Extras
 `gmusic.extras` is a collection of utility functions for Google Music
 
-#### `extras.getSongURL()`
-Retrieve the URL of the current song for sharing
+#### `extras.getTrackURL()`
+Retrieve the URL of the current track for sharing
 
 **This is an untested method**
 
 **Returns:**
 
-- retVal `String` - URL for current song
+- retVal `String` - URL for current track
 
 ### Hooks
 Hooks are currently bound via `.on` and other corresponding methods for [node's EventEmitter][EventEmitter]
@@ -236,19 +259,19 @@ Hooks are currently bound via `.on` and other corresponding methods for [node's 
 [EventEmitter]: http://nodejs.org/api/events.html
 
 ```js
-gmusic.on('change:song', function (song) {
+gmusic.on('change:track', function (track) {
 });
 ```
 
-#### `.on('change:song')`
-Triggers when a song changes
+#### `.on('change:track')`
+Triggers when a track changes
 
 ```js
-gmusic.on('change:song', function (song) {
+gmusic.on('change:track', function (track) {
 });
 ```
 
-- song `Object` - Same as return value of `playback.getSongInfo()`
+- track `Track` - Same as return value of `playback.getCurrentTrack()`
 
 #### `.on('change:shuffle')`
 Triggers when shuffle is toggled
@@ -273,7 +296,7 @@ gmusic.on('change:repeat', function (mode) {
     - Values are consistent with `playback.getRepeat()`
 
 #### `.on('change:playback')`
-Triggers when a song is started, paused, or stopped
+Triggers when a track is started, paused, or stopped
 
 ```js
 gmusic.on('change:playback', function (mode) {
@@ -295,21 +318,21 @@ gmusic.on('change:playback-time', function (playbackInfo) {
     - total `Number` - Milliseconds of how long a track is
 
 #### `.on('change:rating')`
-Triggers when the current song is rated
+Triggers when the current track is rated
 
 ```js
 gmusic.on('change:rating', function (rating) {
 });
 ```
 
-- rating `Number` - Rating the current song changed to
+- rating `Number` - Rating the current track changed to
     - Consistent with values provided by `rating.getRating()`
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
 ### Testing
-Currently, we require a personal Google account exclusively for testing. We will be rating tracks, changing repeat settings, and need predictable track titles. We are using the following songs (at least 3 required):
+Currently, we require a personal Google account exclusively for testing. We will be rating tracks, changing repeat settings, and need predictable track titles. We are using the following tracks (at least 3 required):
 
 > Credentials: musopen@mt2014.com / password
 
@@ -411,14 +434,6 @@ require('mocha/bin/_mocha');
 global.browser;
 browser;
 ```
-
-## Donating
-Support this project and [others by twolfson][gratipay] via [gratipay][].
-
-[![Support via Gratipay][gratipay-badge]][gratipay]
-
-[gratipay-badge]: https://cdn.rawgit.com/gratipay/gratipay-badge/2.x.x/dist/gratipay.png
-[gratipay]: https://www.gratipay.com/twolfson/
 
 ## License
 All files were originally licensed at `5ccfa7b3c7bc5231284f8e42c6a2f2e7fe1e1532` under the MIT license. This can be viewed its [`LICENSE.md`][]. It has been renamed to [LICENSE-MIT][] for ease of disambiguity.

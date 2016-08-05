@@ -20,7 +20,7 @@ describe('A Google Music instance playing no music', function () {
 
   describe('when we are playing music', function () {
     browserUtils.execute(function setupSongWatcher () {
-      window.gmusic.on('change:song', function saveSong (song) {
+      window.gmusic.on('change:track', function saveSong (song) {
         window.song = song;
       });
     });
@@ -36,23 +36,23 @@ describe('A Google Music instance playing no music', function () {
       expect(this.result).to.have.property('title', 'this-is-a-name');
       expect(this.result).to.have.property('artist', 'this-is-an-artist');
       expect(this.result).to.have.property('album', 'this-is-an-album');
-      expect(this.result).to.have.property('art');
-      expect(this.result.art).to.have.match(/^https?:\/\//);
+      expect(this.result).to.have.property('albumArt');
+      expect(this.result.albumArt).to.have.match(/^https?:\/\//);
       expect(this.result).to.have.property('duration');
       expect(this.result.duration).to.be.a('number');
     });
 
     describe('via API', function () {
       browserUtils.execute(function getSongInfoFromApi () {
-        return window.gmusic.playback.getSongInfo();
+        return window.gmusic.playback.getCurrentTrack();
       });
 
       it('has the artist/track info', function () {
         expect(this.result).to.have.property('title', 'this-is-a-name');
         expect(this.result).to.have.property('artist', 'this-is-an-artist');
         expect(this.result).to.have.property('album', 'this-is-an-album');
-        expect(this.result).to.have.property('art');
-        expect(this.result.art).to.have.match(/^https?:\/\//);
+        expect(this.result).to.have.property('albumArt');
+        expect(this.result.albumArt).to.have.match(/^https?:\/\//);
         expect(this.result).to.have.property('duration');
         expect(this.result.duration).to.be.a('number');
       });
