@@ -1,7 +1,7 @@
 {
   "name": "gmusic.js",
   "description": "Browser-side JS library for controlling Google Music",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "homepage": "https://github.com/gmusic-utils/gmusic.js",
   "author": {
     "name": "Todd Wolfson",
