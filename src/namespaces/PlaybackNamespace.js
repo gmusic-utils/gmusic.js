@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import GMusicNamespace from '../GMusicNamespace';
 import Track from '../structs/Track';
-import { controlsSelectors, playbackSelectors, nowPlayingSelectors } from '../constants/selectors';
+import { controlsSelectors, playbackSelectors, nowPlayingSelectors, podcastSelectors } from '../constants/selectors';
 
 export default class PlaybackNamespace extends GMusicNamespace {
   static ENUMS = {
@@ -31,6 +31,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
     this.addMethods([
       'getCurrentTime', 'setCurrentTime', 'getTotalTime', 'getCurrentTrack', 'isPlaying', 'getPlaybackState', 'playPause',
       'rewind', 'forward', 'getShuffle', 'setShuffle', 'toggleShuffle', 'getRepeat', 'setRepeat', 'toggleRepeat', 'toggleVisualization',
+      'isPodcast', 'forwardThirty', 'rewindTen',
     ]);
   }
 
@@ -148,6 +149,18 @@ export default class PlaybackNamespace extends GMusicNamespace {
 
   toggleRepeat() {
     document.querySelector(controlsSelectors.repeat).click();
+  }
+
+  isPodcast() {
+    return document.querySelector(podcastSelectors.podcast).classList.contains('podcast');
+  }
+
+  rewindTen() {
+    document.querySelector(controlsSelectors.rewindTen).click();
+  }
+
+  forwardThirty() {
+    document.querySelector(controlsSelectors.forwardThirty).click();
   }
 
   // Taken from the Google Play Music page
