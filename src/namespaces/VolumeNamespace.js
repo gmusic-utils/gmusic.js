@@ -27,12 +27,12 @@ export default class VolumeNamespace extends GMusicNamespace {
     this._volumeSliderEl.value = vol;
   }
 
-  increaseVolume(amount) {
+  increaseVolume(amount = 5) {
     this._assertVolume(this._volumeSliderEl.value + amount);
     this._volumeSliderEl.value += amount;
   }
 
-  decreaseVolume(amount) {
+  decreaseVolume(amount = 5) {
     this._assertVolume(this._volumeSliderEl.value - amount);
     this._volumeSliderEl.value -= amount;
   }
