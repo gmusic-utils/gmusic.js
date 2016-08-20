@@ -22,6 +22,8 @@ export default class Track {
     index = 1,
     duration,
     playCount = 0,
+    artistId,
+    artistImage,
   }) {
     this.id = id;
     this.title = title;
@@ -29,6 +31,9 @@ export default class Track {
     this.artist = artist;
     this.album = album;
     this.index = index;
+
+    this.artistId = artistId;
+    this.artistImage = artistImage;
 
     this.duration = duration;
     this.playCount = playCount;
