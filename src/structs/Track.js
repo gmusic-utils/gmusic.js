@@ -6,9 +6,11 @@ export default class Track {
       albumArt: trackArr[2],
       artist: trackArr[3],
       album: trackArr[4],
-      index,
+      index: index || trackArr[14],
       duration: trackArr[13],
       playCount: trackArr[22],
+      artistId: trackArr[33],
+      artistImage: trackArr[36],
     });
 
   constructor({
