@@ -10,6 +10,7 @@ export default class Track {
       index: index || trackArr[14],
       duration: trackArr[13],
       playCount: trackArr[22],
+      albumId: trackArr[32],
       artistId: trackArr[33],
       artistImage: trackArr[36],
     });
@@ -26,6 +27,7 @@ export default class Track {
     artistId,
     artistImage,
     albumArtist,
+    albumId,
   }) {
     this.id = id;
     this.title = title;
@@ -37,6 +39,7 @@ export default class Track {
     this.artistId = artistId;
     this.artistImage = artistImage;
     this.albumArtist = albumArtist || '';
+    this.albumId = albumId;
 
     this.duration = duration;
     this.playCount = playCount;
