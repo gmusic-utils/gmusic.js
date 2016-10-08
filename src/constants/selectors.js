@@ -20,7 +20,7 @@ export const controlsSelectors = {
   playPause: '[data-id="play-pause"]',
   repeat: '[data-id="repeat"]',
   rewind: '[data-id="rewind"]',
-  shuffle: '[data-id="shuffle"]',
+  shuffle: '#player [data-id="shuffle"]',
   progress: '#material-player-progress',
 };
 
