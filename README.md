@@ -152,7 +152,7 @@ Toggle between play and pause for the current track
 
 **This will not work if there are no tracks in the queue.**
 
-### `playback.getPlaybackState()`
+#### `playback.getPlaybackState()`
 
 **Returns:**
 
@@ -401,7 +401,7 @@ npm test
 ```
 
 ##### Attribution
-We have an automatic build setup on Travis CI that will run every day to catch changes made by Google as quick as possible. These tests make use of BrowserStack's services to remotely run Selenium tests, huge thanks to [BrowserStack][] for the support of Open Source projects like this one!  
+We have an automatic build setup on Travis CI that will run every day to catch changes made by Google as quick as possible. These tests make use of BrowserStack's services to remotely run Selenium tests, huge thanks to [BrowserStack][] for the support of Open Source projects like this one!
 
 [BrowserStack]: https://www.browserstack.com/
 
@@ -416,7 +416,6 @@ Nightly builds are triggered on Travis CI by a third party service service [Nigh
 Finnicky tests can be debugged by a few methods
 
 - Use `describe.only` and `it.only` to limit test suite to only run 1 at a time
-    -
 - Use the following script to control
 
 ```
