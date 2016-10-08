@@ -233,7 +233,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
       attributes: true,
     });
 
-
+    // Play/Pause Event
     let lastMode;
     new MutationObserver((mutations) => {
       mutations.forEach((m) => {
@@ -248,6 +248,24 @@ export default class PlaybackNamespace extends GMusicNamespace {
         }
       });
     }).observe(document.querySelector(controlsSelectors.playPause), {
+      attributes: true,
+    });
+
+    // Podcast Event
+    let lastIsPodcast;
+    new MutationObserver((mutations) => {
+      mutations.forEach((m) => {
+        if (m.target.dataset.id === 'forward-30') {
+          const currentIsPodcast = this.isPodcast();
+
+          // If the mode has changed, then update it
+          if (currentIsPodcast !== lastIsPodcast) {
+            this.emit('change:podcast', currentIsPodcast);
+            lastIsPodcast = currentIsPodcast;
+          }
+        }
+      });
+    }).observe(document.querySelector(controlsSelectors.forwardThirty), {
       attributes: true,
     });
   }

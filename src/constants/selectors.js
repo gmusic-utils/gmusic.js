@@ -26,8 +26,8 @@ export const controlsSelectors = {
   rewind: '[data-id="rewind"]',
   shuffle: '[data-id="shuffle"]',
   progress: '#material-player-progress',
-  forwardThirty: '[data-id="remind-10"]',
-  rewindTen: '[data-id="forward-30"]',
+  forwardThirty: '[data-id="forward-30"]',
+  rewindTen: '[data-id="rewind-10"]',
 };
 
 export const ratingSelectors = {
