@@ -196,6 +196,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
             // insertion of the song information elements.
             if (!currentTrack.equals(lastTrack)) {
               this.emit('change:track', currentTrack);
+
               lastTrack = currentTrack;
             }
           }
