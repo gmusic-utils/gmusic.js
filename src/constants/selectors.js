@@ -6,6 +6,10 @@ export const playbackSelectors = {
   progress: '#material-player-progress',
 };
 
+export const podcastSelectors = {
+  podcast: '.now-playing-actions',
+};
+
 export const nowPlayingSelectors = {
   albumArt: '#playerBarArt',
   albumName: '.player-album',
@@ -22,6 +26,8 @@ export const controlsSelectors = {
   rewind: '[data-id="rewind"]',
   shuffle: '#player [data-id="shuffle"]',
   progress: '#material-player-progress',
+  forwardThirty: '[data-id="forward-30"]',
+  rewindTen: '[data-id="rewind-10"]',
 };
 
 export const ratingSelectors = {

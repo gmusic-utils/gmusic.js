@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import GMusicNamespace from '../GMusicNamespace';
 import Track from '../structs/Track';
-import { controlsSelectors, playbackSelectors, nowPlayingSelectors } from '../constants/selectors';
+import { controlsSelectors, playbackSelectors, nowPlayingSelectors, podcastSelectors } from '../constants/selectors';
 
 export default class PlaybackNamespace extends GMusicNamespace {
   static ENUMS = {
@@ -31,6 +31,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
     this.addMethods([
       'getCurrentTime', 'setCurrentTime', 'getTotalTime', 'getCurrentTrack', 'isPlaying', 'getPlaybackState', 'playPause',
       'rewind', 'forward', 'getShuffle', 'setShuffle', 'toggleShuffle', 'getRepeat', 'setRepeat', 'toggleRepeat', 'toggleVisualization',
+      'isPodcast', 'forwardThirty', 'rewindTen',
     ]);
   }
 
@@ -150,6 +151,24 @@ export default class PlaybackNamespace extends GMusicNamespace {
     document.querySelector(controlsSelectors.repeat).click();
   }
 
+  isPodcast() {
+    return document.querySelector(podcastSelectors.podcast).classList.contains('podcast');
+  }
+
+  rewindTen() {
+    const elPodcastRwd = document.querySelector(controlsSelectors.rewindTen);
+    if (elPodcastRwd) {
+      elPodcastRwd.click();
+    }
+  }
+
+  forwardThirty() {
+    const elPodcastFwd = document.querySelector(controlsSelectors.forwardThirty);
+    if (elPodcastFwd) {
+      elPodcastFwd.click();
+    }
+  }
+
   // Taken from the Google Play Music page
   toggleVisualization() {
     window.SJBpost('toggleVisualization'); // eslint-disable-line
@@ -220,7 +239,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
       attributes: true,
     });
 
-
+    // Play/Pause Event
     let lastMode;
     new MutationObserver((mutations) => {
       mutations.forEach((m) => {
@@ -237,5 +256,26 @@ export default class PlaybackNamespace extends GMusicNamespace {
     }).observe(document.querySelector(controlsSelectors.playPause), {
       attributes: true,
     });
+
+    // Podcast Event
+    const elPodcastFwd = document.querySelector(controlsSelectors.forwardThirty);
+    if (elPodcastFwd) {
+      let lastIsPodcast;
+      new MutationObserver((mutations) => {
+        mutations.forEach((m) => {
+          if (m.target.dataset.id === 'forward-30') {
+            const currentIsPodcast = this.isPodcast();
+
+            // If the mode has changed, then update it
+            if (currentIsPodcast !== lastIsPodcast) {
+              this.emit('change:podcast', currentIsPodcast);
+              lastIsPodcast = currentIsPodcast;
+            }
+          }
+        });
+      }).observe(elPodcastFwd, {
+        attributes: true,
+      });
+    }
   }
 }
