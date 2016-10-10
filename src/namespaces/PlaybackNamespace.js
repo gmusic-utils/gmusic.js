@@ -156,11 +156,17 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   rewindTen() {
-    document.querySelector(controlsSelectors.rewindTen).click();
+    const elPodcastRwd = document.querySelector(controlsSelectors.rewindTen);
+    if (elPodcastRwd) {
+      elPodcastRwd.click();
+    }
   }
 
   forwardThirty() {
-    document.querySelector(controlsSelectors.forwardThirty).click();
+    const elPodcastFwd = document.querySelector(controlsSelectors.forwardThirty);
+    if (elPodcastFwd) {
+      elPodcastFwd.click();
+    }
   }
 
   // Taken from the Google Play Music page
@@ -252,21 +258,24 @@ export default class PlaybackNamespace extends GMusicNamespace {
     });
 
     // Podcast Event
-    let lastIsPodcast;
-    new MutationObserver((mutations) => {
-      mutations.forEach((m) => {
-        if (m.target.dataset.id === 'forward-30') {
-          const currentIsPodcast = this.isPodcast();
+    const elPodcastFwd = document.querySelector(controlsSelectors.forwardThirty);
+    if (elPodcastFwd) {
+      let lastIsPodcast;
+      new MutationObserver((mutations) => {
+        mutations.forEach((m) => {
+          if (m.target.dataset.id === 'forward-30') {
+            const currentIsPodcast = this.isPodcast();
 
-          // If the mode has changed, then update it
-          if (currentIsPodcast !== lastIsPodcast) {
-            this.emit('change:podcast', currentIsPodcast);
-            lastIsPodcast = currentIsPodcast;
+            // If the mode has changed, then update it
+            if (currentIsPodcast !== lastIsPodcast) {
+              this.emit('change:podcast', currentIsPodcast);
+              lastIsPodcast = currentIsPodcast;
+            }
           }
-        }
+        });
+      }).observe(elPodcastFwd, {
+        attributes: true,
       });
-    }).observe(document.querySelector(controlsSelectors.forwardThirty), {
-      attributes: true,
-    });
+    }
   }
 }
