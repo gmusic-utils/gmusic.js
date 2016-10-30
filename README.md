@@ -60,20 +60,6 @@ Once installed, add it to your HTML and access it via `window.GMusic`.
 </script>
 ```
 
-### Vanilla
-If you are not using a package manager, download the latest script at:
-
-https://raw.githubusercontent.com/gmusic-utils/gmusic.js/master/dist/gmusic.min.js
-
-Then, add it to your HTML and access it via `window.GMusic`.
-
-```html
-<script src="gmusic.min.js"></script>
-<script>
-  window.gmusic = new window.GMusic(); // Our Google Music API
-</script>
-```
-
 ## Documentation
 `gmusic.js` exposes a constructor, `GMusic` as its `module.exports` (`window.GMusic` for `bower`/vanilla).
 
