@@ -339,6 +339,17 @@ gmusic.on('change:rating', function (rating) {
 - rating `Number` - Rating the current track changed to
     - Consistent with values provided by `rating.getRating()`
 
+#### `.on('change:podcast')`
+Triggers when switching between listening to music and podcasts
+
+```js
+gmusic.on('change:podcast', function (isPodcast) {
+});
+```
+
+- isPodcast `Boolean` - Whether a podcast is currently being played
+    - Consistent with values provided by `playback.isPodcast()`
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint via `npm run lint` and test via `npm test`.
 
