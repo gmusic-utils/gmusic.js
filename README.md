@@ -36,7 +36,6 @@ The method `toggleRepeat()` no longer accepts arguments and `setRepeat(mode)` ha
 On Thursday May 14, 2015 Google launched a Material redesign of the site. This broke a lot of selectors/functionality. In 3.0.0, we updated our integration to handle those changes. The developer-facing interface has not changed but the underlying system was a breaking change so we decided to make it a major release.
 
 ## Getting Started
-### npm
 Install the module with: `npm install gmusic.js`
 
 ```js
@@ -46,18 +45,6 @@ window.gmusic = new GMusic(window);
 
 // Access volume
 window.gmusic.volume.getVolume(); // 50 (ranges from 0 to 100)
-```
-
-### bower
-Install the module with: `bower install gmusic.js`
-
-Once installed, add it to your HTML and access it via `window.GMusic`.
-
-```html
-<script src="bower_components/gmusic.js/dist/gmusic.min.js"></script>
-<script>
-  window.gmusic = new window.GMusic(window); // Our Google Music API
-</script>
 ```
 
 ## Documentation
