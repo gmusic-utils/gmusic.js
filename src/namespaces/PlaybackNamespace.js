@@ -26,14 +26,21 @@ export default class PlaybackNamespace extends GMusicNamespace {
     super(...args);
 
     this._audioElem = document.querySelectorAll('audio')[1];
+    this._setupExtraFeelingLuckyButton();
     this._mapSelectors(playbackSelectors);
     this._hookEvents();
 
     this.addMethods([
       'getCurrentTime', 'setCurrentTime', 'getTotalTime', 'getCurrentTrack', 'isPlaying', 'getPlaybackState', 'playPause',
       'rewind', 'forward', 'getShuffle', 'setShuffle', 'toggleShuffle', 'getRepeat', 'setRepeat', 'toggleRepeat', 'toggleVisualization',
-      'isPodcast', 'forwardThirty', 'rewindTen',
+      'isPodcast', 'forwardThirty', 'rewindTen', 'startFeelingLucky',
     ]);
+  }
+
+  _setupExtraFeelingLuckyButton() {
+    this.iflButton = document.createElement('gpm-ifl-button');
+    this.iflButton.style.display = 'none';
+    document.body.append(this.iflButton);
   }
 
   _textContent(el, defaultText) {
@@ -176,6 +183,10 @@ export default class PlaybackNamespace extends GMusicNamespace {
   // Taken from the Google Play Music page
   toggleVisualization() {
     window.SJBpost('toggleVisualization'); // eslint-disable-line
+  }
+
+  startFeelingLucky() {
+    this.iflButton.click();
   }
 
   _hookEvents() {
