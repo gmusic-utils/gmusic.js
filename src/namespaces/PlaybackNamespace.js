@@ -25,7 +25,6 @@ export default class PlaybackNamespace extends GMusicNamespace {
   constructor(...args) {
     super(...args);
 
-    this._audioElem = document.querySelectorAll('audio')[1];
     this._setupExtraFeelingLuckyButton();
     this._mapSelectors(playbackSelectors);
     this._hookEvents();
@@ -48,20 +47,17 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   getCurrentTime() {
-    return Math.round(this._audioElem.currentTime * 1000);
+    return this._progressEl.value;
   }
 
   setCurrentTime(milliseconds) {
-    this._audioElem.currentTime = milliseconds / 1000;
-
-    // Update the UI as well
     this._progressEl.value = milliseconds;
     // DEV: Dispatch a new change event to simulate user interaction
     this._progressEl.dispatchEvent(new window.UIEvent('change'));
   }
 
   getTotalTime() {
-    return Math.round(this._audioElem.duration * 1000);
+    return this._progressEl.max;
   }
 
   getCurrentTrack() {
@@ -191,7 +187,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
 
   _hookEvents() {
     // Playback Time Event
-    this._audioElem.addEventListener('timeupdate', () => {
+    this._progressEl.addEventListener('value-change', () => {
       this.emit('change:playback-time', {
         current: this.getCurrentTime(),
         total: this.getTotalTime(),
