@@ -61,7 +61,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   getTotalTime() {
-    return this._progressEl.max;
+    return Math.round(this._audioElem.duration * 1000);
   }
 
   getCurrentTrack() {
