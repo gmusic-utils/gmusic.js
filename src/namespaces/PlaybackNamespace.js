@@ -187,7 +187,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
 
   _hookEvents() {
     // Playback Time Event
-    this._progressEl.addEventListener('value-change', () => {
+    this._progressEl.addEventListener('value-changed', () => {
       this.emit('change:playback-time', {
         current: this.getCurrentTime(),
         total: this.getTotalTime(),
