@@ -3,6 +3,7 @@ import assert from 'assert';
 import GMusicNamespace from '../GMusicNamespace';
 import Track from '../structs/Track';
 import { controlsSelectors, playbackSelectors, nowPlayingSelectors, podcastSelectors } from '../constants/selectors';
+import click from '../utils/click';
 
 export default class PlaybackNamespace extends GMusicNamespace {
   static ENUMS = {
@@ -102,15 +103,15 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   playPause() {
-    document.querySelector(controlsSelectors.playPause).click();
+    click(document.querySelector(controlsSelectors.playPause));
   }
 
   forward() {
-    document.querySelector(controlsSelectors.forward).click();
+    click(document.querySelector(controlsSelectors.forward));
   }
 
   rewind() {
-    document.querySelector(controlsSelectors.rewind).click();
+    click(document.querySelector(controlsSelectors.rewind));
   }
 
   getShuffle() {
@@ -129,7 +130,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   toggleShuffle() {
-    document.querySelector(controlsSelectors.shuffle).click();
+    click(document.querySelector(controlsSelectors.shuffle));
   }
 
   getRepeat() {
@@ -155,7 +156,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   toggleRepeat() {
-    document.querySelector(controlsSelectors.repeat).click();
+    click(document.querySelector(controlsSelectors.repeat));
   }
 
   isPodcast() {
@@ -163,17 +164,11 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   rewindTen() {
-    const elPodcastRwd = document.querySelector(controlsSelectors.rewindTen);
-    if (elPodcastRwd) {
-      elPodcastRwd.click();
-    }
+    click(document.querySelector(controlsSelectors.rewindTen));
   }
 
   forwardThirty() {
-    const elPodcastFwd = document.querySelector(controlsSelectors.forwardThirty);
-    if (elPodcastFwd) {
-      elPodcastFwd.click();
-    }
+    click(document.querySelector(controlsSelectors.forwardThirty));
   }
 
   // Taken from the Google Play Music page
@@ -182,7 +177,7 @@ export default class PlaybackNamespace extends GMusicNamespace {
   }
 
   startFeelingLucky() {
-    this.iflButton.click();
+    click(this.iflButton);
   }
 
   _hookEvents() {

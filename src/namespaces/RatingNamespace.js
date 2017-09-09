@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import GMusicNamespace from '../GMusicNamespace';
 import { ratingSelectors } from '../constants/selectors';
+import click from '../utils/click';
 
 export default class RatingNamespace extends GMusicNamespace {
   constructor(...args) {
@@ -31,22 +32,18 @@ export default class RatingNamespace extends GMusicNamespace {
   }
 
   toggleThumbsUp() {
-    if (this._thumbsUpEl) {
-      this._thumbsUpEl.click();
-    }
+    click(this._thumbsUpEl);
   }
 
   toggleThumbsDown() {
-    if (this._thumbsDownEl) {
-      this._thumbsDownEl.click();
-    }
+    click(this._thumbsDownEl);
   }
 
   setRating(rating) {
     const ratingEl = document.querySelector(ratingSelectors.thumbsFormat.replace('{rating}', rating));
 
     if (ratingEl && !this._isElSelected(ratingEl)) {
-      ratingEl.click();
+      click(ratingEl);
     }
   }
 
@@ -54,7 +51,7 @@ export default class RatingNamespace extends GMusicNamespace {
     const ratingEl = document.querySelector(ratingSelectors.thumbsFormat.replace('{rating}', this.getRating()));
 
     if (ratingEl && this._isElSelected(ratingEl)) {
-      ratingEl.click();
+      click(ratingEl);
     }
   }
 
