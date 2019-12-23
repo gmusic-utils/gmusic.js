@@ -16,7 +16,7 @@ export default class RatingNamespace extends GMusicNamespace {
 
   _isElSelected(el) {
     // DEV: We don't use English only strings (e.g. "Undo") to support i18n
-    return el.__data__.icon === 'thumb-up' || el.__data__.icon === 'thumb-down';
+    return el.__data.icon === 'thumb-up' || el.__data.icon === 'thumb-down';
   }
 
   getRating() {

@@ -90,11 +90,11 @@ export default class PlaybackNamespace extends GMusicNamespace {
       return PlaybackNamespace.ENUMS.PlaybackStatus.PLAYING;
     }
     // Play/Pause element states:
-    //   PLAYING: {__data__: {icon: 'av:pause-circle-filled'}, disabled: false}
-    //   PAUSED: {__data__: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
-    //   STOPPED: {__data__: {icon: 'av:sj:play-circle-fill'}, disabled: true}
+    //   PLAYING: {__data: {icon: 'av:pause-circle-filled'}, disabled: false}
+    //   PAUSED: {__data: {icon: 'av:sj:pause-circle-fill'}, disabled: false}
+    //   STOPPED: {__data: {icon: 'av:sj:play-circle-fill'}, disabled: true}
     if (!playButton.disabled) {
-      if (playButton.__data__.icon === 'av:pause-circle-filled') {
+      if (playButton.__data.icon === 'av:pause-circle-filled') {
         return PlaybackNamespace.ENUMS.PlaybackStatus.PLAYING;
       }
       return PlaybackNamespace.ENUMS.PlaybackStatus.PAUSED;
@@ -136,10 +136,10 @@ export default class PlaybackNamespace extends GMusicNamespace {
   getRepeat() {
     const repeatEl = document.querySelector(controlsSelectors.repeat);
     // Repeat element states:
-    //   SINGLE_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat-one'}}
-    //   LIST_REPEAT: {classList: ['active'], __data__: {icon: 'av:repeat'}}
-    //   NO_REPEAT: {classList: [], __data__: {icon: 'av:repeat'}}
-    if (repeatEl.__data__.icon === 'av:repeat-one') {
+    //   SINGLE_REPEAT: {classList: ['active'], __data: {icon: 'av:repeat-one'}}
+    //   LIST_REPEAT: {classList: ['active'], __data: {icon: 'av:repeat'}}
+    //   NO_REPEAT: {classList: [], __data: {icon: 'av:repeat'}}
+    if (repeatEl.__data.icon === 'av:repeat-one') {
       return PlaybackNamespace.ENUMS.RepeatStatus.SINGLE_REPEAT;
     } else if (repeatEl.classList.contains('active')) {
       return PlaybackNamespace.ENUMS.RepeatStatus.LIST_REPEAT;
